@@ -1,0 +1,15 @@
+# More on data cleaning and wrangling
+
+In this case... 
+
+## Preliminary modules
+
+```{python}
+import base64
+import datetime
+import json
+import os
+import numpy as np
+import pandas as pd
+from geopy.geocoders import Nominatim
+```

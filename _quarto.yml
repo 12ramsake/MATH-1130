@@ -1,0 +1,34 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "MATH 1130 Companion Manual"
+  author: "Kelly Ramsay"
+  date: "2024-07-03"
+  chapters:
+    - index.qmd
+    - Case_1.qmd
+    - Case_2.qmd
+    - Case_3.qmd
+    - Case_4.qmd
+    - Case_5.qmd
+    - Case_6.qmd
+    - Case_7.qmd
+    - Case_8.qmd
+    - Case_9.qmd
+    - Case_10.qmd
+    - Case_11.qmd
+    - Case_12.qmd
+    - Case_13.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

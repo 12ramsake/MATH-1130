@@ -1,0 +1,3 @@
+# Introduction {.unnumbered}
+
+This is a short companion manual for the course MATH 1130. It contains a brief overview of the major topics and some of the Python methods covered in each case. It is not a replacement for the cases, which are the main content of the course. It is meant to be used as a reference manual and as supplementary material to aid you in your understanding of the material. Please report any typos to <kramsay2@yorku.ca> . 
