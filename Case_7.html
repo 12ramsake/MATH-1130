@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; More on data cleaning and wrangling – MATH 1130 Companion Manual</title>
+<title>7&nbsp; Data cleaning/wrangling – MATH 1130 Companion Manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Case_7.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">More on data cleaning and wrangling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Case_7.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Case_7.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">More on data cleaning and wrangling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -235,6 +235,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#preliminary-modules" id="toc-preliminary-modules" class="nav-link active" data-scroll-target="#preliminary-modules"><span class="header-section-number">7.1</span> Preliminary modules</a></li>
+  <li><a href="#handling-missing-data" id="toc-handling-missing-data" class="nav-link" data-scroll-target="#handling-missing-data"><span class="header-section-number">7.2</span> Handling missing data</a>
+  <ul class="collapse">
+  <li><a href="#interpolate" id="toc-interpolate" class="nav-link" data-scroll-target="#interpolate"><span class="header-section-number">7.2.1</span> Interpolate</a></li>
+  </ul></li>
+  <li><a href="#handling-string-formats" id="toc-handling-string-formats" class="nav-link" data-scroll-target="#handling-string-formats"><span class="header-section-number">7.3</span> Handling string formats</a></li>
+  <li><a href="#unique-ids" id="toc-unique-ids" class="nav-link" data-scroll-target="#unique-ids"><span class="header-section-number">7.4</span> Unique IDs</a></li>
+  <li><a href="#more-on-datetime-objects" id="toc-more-on-datetime-objects" class="nav-link" data-scroll-target="#more-on-datetime-objects"><span class="header-section-number">7.5</span> More on <code>datetime</code> objects</a></li>
+  <li><a href="#adding-new-data" id="toc-adding-new-data" class="nav-link" data-scroll-target="#adding-new-data"><span class="header-section-number">7.6</span> Adding new data</a></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">More on data cleaning and wrangling</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></h1>
 </div>
 
 
@@ -260,18 +268,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>In this case…</p>
+<p>In this case we learnt the steps we must take to clean a dataset. We also learnt several ways to handle missing data.</p>
 <section id="preliminary-modules" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">7.1</span> Preliminary modules</h2>
-<div id="04293e45" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> base64</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a6d99298" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> base64</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="handling-missing-data" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="handling-missing-data"><span class="header-section-number">7.2</span> Handling missing data</h2>
+<p>One of the first steps in data cleaning is to deal with null or missing values. First, one should determine how missing values are labelled in the dataset, as this can vary widely. Some common encodings for missing data are as follows:</p>
+<ol type="1">
+<li><strong>NaN or nan</strong>: This is the most common representation of missing values, especially in Python.</li>
+<li><strong>None</strong>: In some programming languages, <code>None</code> is used to indicate the absence of a value.</li>
+<li><strong>Null or NULL</strong>: Common in SQL databases.</li>
+<li><strong>Empty strings (““)</strong>: Often used in text data.</li>
+<li><strong>Special values</strong>: Sometimes a special value, like <code>-9999</code> or <code>9999</code>, is used to represent missing data.</li>
+<li><strong>NA or N/A</strong>: These are often used in spreadsheets and text files to denote missing values.</li>
+<li><strong>0 or -1</strong>: Occasionally used in cases where 0 or -1 are not valid values in the context of the data.</li>
+<li><strong>Blanks or Whitespaces</strong>: Spaces or tabs might be used to signify missing values in some text data.</li>
+<li><strong>Placeholders like “missing” or “unknown”</strong>: Textual placeholders indicating the data is not available.</li>
+<li><strong>INF or -INF</strong>: Infinity values, sometimes used to denote missing values.</li>
+</ol>
+<p><strong>Before moving forward, it is important to convert the missing values to either ‘NaN’ or ‘nan’, as this is what python functions built for missing values will expect to see.</strong></p>
+<p>Previous cases only gave a passing treatment of missing data and resulted in dropping the rows containing null values entirely. Here, we will be more nuanced and look at ways that missing values can be replaced appropriately. As always, domain knowledge is crucial in selecting what method to go forward with.</p>
+<p><strong>The goal of filling in missing data is to not neccessarily to recover the exact values of the missing values, but rather to ensure that the conclusions of the analysis are not overtly impacted by the missing values.</strong></p>
+<p>When dealing with missing data, it is important not to just use generic pandas/Python functions without thinking to fill them in. This can drastically corrupt your analysis.</p>
+<p>Instead, a first step is to find the source of the missing data. Why is it missing? and/or how did it go missing? If we can answer these questions, then this will help us in determining how to fill in the missing values.</p>
+<p>One way to handle missing values is to simply remove any row which contains a missing value from the dataset. This is known as <strong>complete case analysis</strong>. Complete case analysis is desirable when there are not that many rows with missing values, and we do not lose any critical sub-populations as a results of dropping those rows. For instance, a rule of thumb is that if &lt;1% of the rows are missing, then it might be desirable to do a complete case analysis. It is fast and easy, and does not require extensive statistical knowledge. This also depends on the size of the dataset. If you have 10 million observations, and 1 million within each subpopulation, then removing even 5% of the rows should not impact the analysis too much. On the other hand, if we have only 20 observations, we should try not to remove any rows.</p>
+<p>Another approach is to fill in the missing values - this is known as <strong>imputation</strong>. Usually, we use the other observations or rows to fill in the missing values.</p>
+<p>Note that a once population method of imputation which you <strong>should not</strong> use is replacing missing values with the mean/median of the available values in the column. The reason for this is that it lowers the sample standard deviation of the resulting column and can bias the resulting analysis.</p>
+<p>Some other methods of imputation are given below:</p>
+<ul>
+<li><p><strong>Forward/Backward Fill:</strong> Use the next or previous value to fill in the missing value. Forward/backward filling may make sense when there is a relationship between the rows. Example: In a time series dataset where stock prices are recorded daily, you might use forward fill to propagate the last known price to the days when the market data is missing.</p></li>
+<li><p><strong>Interpolation:</strong> Estimate missing values using interpolation techniques. Example: In a climate dataset with daily temperature readings, you could use linear interpolation to estimate the temperature on days when data is missing by averaging the temperatures of the surrounding days.</p></li>
+<li><p><strong>K-Nearest Neighbors (KNN):</strong> The KNN algorithm uses points that are similar to the points with missing data (called nearest neighbors) to impute missing values. Example: In a survey dataset where some participants skipped a few questions, KNN can impute their missing responses by considering the responses of the most similar participants (neighbors).</p></li>
+<li><p><strong>Domain-Specific Imputation:</strong> Depending on the domain, you might use specific rules or external datasets to impute missing values. Example: In an educational dataset where some students’ test scores are missing, you might impute the missing scores using the average scores from other tests taken by the same student or from other students in the same class or grade level. This method leverages the relationship between students’ performance across different tests or the performance of their peers.</p></li>
+<li><p><strong>Regression/Machine Learning Models:</strong> Use models, such as regression models or Neural Networks to predict and fill in missing values. Example: In a housing dataset where some houses are missing the number of bedrooms, you could use a regression model that predicts the number of bedrooms based on the house’s size, location, and price. In a complex dataset with multiple features about customer behavior, a Random Forest model can be used to predict and fill in missing values by leveraging the patterns and interactions between the different features.</p></li>
+</ul>
+<section id="interpolate" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="interpolate"><span class="header-section-number">7.2.1</span> Interpolate</h3>
+<p>The <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.interpolate.html"><code>.interpolate()</code></a> function allows us to interpolate numerical values, based on the surrounding values. Interpolation is a method of estimating unknown values based on values that are close to in (in terms of rows). In this case, we know that the rate of change in riders is probably similar to the rate of change on the surrounding days. If we think that it falls between the values of the preceding and following days, and the rows are evenly spaced in time, then we can use the default parameters, which uses linear interpolation. There are a number of other methods of intperolation that can be specified via the <code>method</code> parameter. Be sure to read and understand each method carefully before using it. Otherwise, you could just be filling in the values with nonsense.</p>
+<p>Parameters of <code>.interpolate()</code></p>
+<ol type="1">
+<li><strong><code>method</code></strong>: Specifies the interpolation method to use.
+<ul>
+<li><code>'linear'</code> (default): Linear interpolation.</li>
+<li><code>'time'</code>: Interpolation for time-series data.</li>
+<li><code>'index'</code>: Uses the index for interpolation.</li>
+<li>Other methods like <code>'polynomial'</code>, <code>'spline'</code>, <code>'barycentric'</code>, etc. see the documentation.</li>
+</ul></li>
+<li><strong><code>axis</code></strong>: Specifies the axis along which to interpolate.
+<ul>
+<li><code>0</code> or <code>'index'</code>: Interpolates along the index (default for DataFrame).</li>
+<li><code>1</code> or <code>'columns'</code>: Interpolates along the columns.</li>
+</ul></li>
+</ol>
+<p>Example:</p>
+<p>Here’s a basic example demonstrating the use of <code>.interpolate()</code>:</p>
+<div id="2282a788" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a sample DataFrame with NaN values</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: [<span class="dv">1</span>, np.nan, <span class="dv">3</span>, np.nan, <span class="dv">5</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'B'</span>: [np.nan, <span class="dv">2</span>, np.nan, <span class="dv">4</span>, np.nan]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolating missing values</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>df_interpolated <span class="op">=</span> df.interpolate()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Interpolated DataFrame:"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_interpolated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Original DataFrame:
+     A    B
+0  1.0  NaN
+1  NaN  2.0
+2  3.0  NaN
+3  NaN  4.0
+4  5.0  NaN
+
+Interpolated DataFrame:
+     A    B
+0  1.0  NaN
+1  2.0  2.0
+2  3.0  3.0
+3  4.0  4.0
+4  5.0  4.0</code></pre>
+</div>
+</div>
+<p>Output:</p>
+<pre><code>Original DataFrame:
+     A    B
+0  1.0  NaN
+1  NaN  2.0
+2  3.0  NaN
+3  NaN  4.0
+4  5.0  NaN
+
+Interpolated DataFrame:
+     A    B
+0  1.0  NaN
+1  2.0  2.0
+2  3.0  3.0
+3  4.0  4.0
+4  5.0  NaN</code></pre>
+<p>Interpolation is particularly useful for time-series data and datasets where you want to estimate missing values based on the surrounding data.</p>
+</section>
+</section>
+<section id="handling-string-formats" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="handling-string-formats"><span class="header-section-number">7.3</span> Handling string formats</h2>
+<p>It is important to print the unique values of a string variable, in order to check for spaces, mixed case and spelling mistakes. If the variable has many entries, we may not be able to check all unique values. In that case, it is a good idea to use <code>.strip()</code> and <code>str.lower()</code>/<code>str.upper()</code> to remove extra spaces and convert all characters to lower case. In the natural language processing lesson, we will learn more about manipulating strings.</p>
+</section>
+<section id="unique-ids" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="unique-ids"><span class="header-section-number">7.4</span> Unique IDs</h2>
+<p>When generating IDs, it is important to make sure the generation process is idempotent (i.e.&nbsp;the same ID should be generated for each trip no matter how many times you run the script). The idempotency is required because there may be chances that the same trip is input into this tool multiple times. For example, the customer first uploads the data set for the first week of the month (may be for testing purposes, or based on data availability, etc.) and then uploads the data for the entire month. Now if the same trip is assigned different IDs on each run, then it might result in the analytics platform interpreting this as two different trips and this will corrupt the analysis.</p>
+</section>
+<section id="more-on-datetime-objects" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="more-on-datetime-objects"><span class="header-section-number">7.5</span> More on <code>datetime</code> objects</h2>
+<p>We have learnt about <code>datetime</code> objects in the past. In this case, we covered some new functionalities of these objects. We should almost always convert dates and times to <code>datetime</code> objects.</p>
+<p>Here’s an overview of some new attributes:</p>
+<ol type="1">
+<li><strong><code>.year</code></strong>: Returns the year.</li>
+<li><strong><code>.month</code></strong>: Returns the month (1-12).</li>
+<li><strong><code>.day</code></strong>: Returns the day of the month (1-31).</li>
+<li><strong><code>.hour</code></strong>: Returns the hour (0-23).</li>
+<li><strong><code>.minute</code></strong>: Returns the minute (0-59).</li>
+<li><strong><code>.second</code></strong>: Returns the second (0-59).</li>
+<li><strong><code>.microsecond</code></strong>: Returns the microsecond (0-999999).</li>
+<li><strong><code>.tzinfo</code></strong>: Returns the timezone information.</li>
+</ol>
+<p>In addition, you can use the following methods to get week-related information:</p>
+<ol type="1">
+<li><strong><code>.weekday()</code></strong>: Returns the day of the week as an integer, where Monday is 0 and Sunday is 6.</li>
+<li><strong><code>.isoweekday()</code></strong>: Returns the day of the week as an integer, where Monday is 1 and Sunday is 7.</li>
+<li><strong><code>.isocalendar()</code></strong>: Returns a tuple containing the ISO year, ISO week number, and ISO weekday.</li>
+</ol>
+<p>Example:</p>
+<div id="47b12104" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a datetime object</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Year, month, day, etc.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Year:"</span>, dt.year)          <span class="co"># Output: 2023</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Month:"</span>, dt.month)        <span class="co"># Output: 7</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Day:"</span>, dt.day)            <span class="co"># Output: 5</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hour:"</span>, dt.hour)          <span class="co"># Output: 14</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minute:"</span>, dt.minute)      <span class="co"># Output: 30</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Second:"</span>, dt.second)      <span class="co"># Output: 0</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday (Monday = 0, Sunday = 6)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weekday:"</span>, dt.weekday())  <span class="co"># Output: 2 (Wednesday)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Weekday (Monday = 1, Sunday = 7)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Weekday:"</span>, dt.isoweekday())  <span class="co"># Output: 3 (Wednesday)</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Calendar (Year, Week number, Weekday)</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>iso_calendar <span class="op">=</span> dt.isocalendar()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Calendar:"</span>, iso_calendar)    <span class="co"># Output: (2023, 27, 3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Year: 2023
+Month: 7
+Day: 5
+Hour: 14
+Minute: 30
+Second: 0
+Weekday: 2
+ISO Weekday: 3
+ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pre>
+</div>
+</div>
+<p>Additional operations:</p>
+<ol type="1">
+<li><p><strong>Current Date and Time</strong>:</p>
+<div id="b14411d9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.now()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(now)  <span class="co"># Output: current date and time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2024-07-07 21:08:54.025988</code></pre>
+</div>
+</div></li>
+<li><p><strong>Parsing Dates</strong>:</p>
+<div id="a315a750" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">"2023-07-05"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>parsed_date <span class="op">=</span> datetime.strptime(date_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(parsed_date)  <span class="co"># Output: 2023-07-05 00:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2023-07-05 00:00:00</code></pre>
+</div>
+</div></li>
+<li><p><strong>Formatting Dates</strong>:</p>
+<div id="4f25465f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(formatted_date)  <span class="co"># Output: 2023-07-05 14:30:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2023-07-05 14:30:00</code></pre>
+</div>
+</div></li>
+<li><p><strong>Date Arithmetic</strong>:</p>
+<div id="45f4e4c2" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> dt2 <span class="op">-</span> dt1</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(delta)  <span class="co"># Output: 5 days, 0:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5 days, 0:00:00</code></pre>
+</div>
+</div></li>
+<li><p><strong>Handling Time Zones</strong>:</p>
+<div id="0a48dd04" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> timezone, timedelta</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>utc_dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>, tzinfo<span class="op">=</span>timezone.utc)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>local_tz <span class="op">=</span> timezone(timedelta(hours<span class="op">=-</span><span class="dv">5</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>local_dt <span class="op">=</span> utc_dt.astimezone(local_tz)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(local_dt)  <span class="co"># Output: 2023-07-05 09:30:00-05:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2023-07-05 09:30:00-05:00</code></pre>
+</div>
+</div></li>
+</ol>
+</section>
+<section id="adding-new-data" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="adding-new-data"><span class="header-section-number">7.6</span> Adding new data</h2>
+<p>Often, you will have to add data from other datasets, websites or sources to your dataset. For instance, in Case 7, we showed how to get address data using <code>geopy</code>.</p>
+<p>The function <code>geolocator.geocode()</code> can be used to obtain longitude and latitude from a string which contains the address. To learn more about <code>geopy</code>, you can follow the functions and tutorials <a href="https://geopy.readthedocs.io/en/stable/">here</a>. In general, you can use <code>geopy</code> to obtain coordinates and other location data, given data like address, postal code etc. You can use this in conjunction with the <code>folium</code> package to create some nice visualizations.</p>
 
 
 </section>

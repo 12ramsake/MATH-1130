@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Case_7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">More on data cleaning and wrangling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -344,14 +344,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Note that writing a program involves typing out the correct code, and then running, or executing that code:</li>
 </ul>
 <p>The <code>print()</code> function allows you to print an object. Placing a python object in the round brackets and running the code makes the compute print the object. Example:</p>
-<div id="84095b70" class="cell" data-execution_count="1">
+<div id="7fb79a48" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hello World</code></pre>
 </div>
 </div>
 <p>The simplest use of Python is as a calculator. We can use the <strong>operators</strong> +, -, /, and * perform addition, subtraction, division and multiplication. We can use ** for exponentiation. See the following examples:</p>
-<div id="e484652e" class="cell" data-execution_count="2">
+<div id="83e0ce33" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">40</span> <span class="op">+</span> <span class="dv">2</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">43</span> <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">6</span> <span class="op">*</span> <span class="dv">7</span>)</span>
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>These <strong>values</strong> belong to different <strong>types</strong>: 2 is an integer, 5.0 is a floating-point number, and ‘Hello, World!’ is a string, so-called because the letters it contains are strung together.</li>
 </ul>
 <p>Use <code>type()</code> to determine the type of a value. Example:</p>
-<div id="1b11114b" class="cell" data-execution_count="3">
+<div id="9c50af64" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(<span class="dv">2</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(<span class="fl">42.0</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(<span class="st">'Hello, World!'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>In this case, <code>my_int</code> is a variable, much like you might find in algebra, but the <code>=</code> sign is for <em>assignment</em> not <em>equality</em> .</li>
 <li>So <code>my_int = 5</code> should be taken to mean something more like <code>Let my_int be equal to 5</code> rather than <code>my_int is equal to 5</code>.</li>
 </ul>
-<div id="c78a55c3" class="cell" data-execution_count="4">
+<div id="9d9e556c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_int<span class="op">=</span><span class="dv">5</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -417,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Strings, type <code>str</code>: <code>my_string = 'Hello'</code></li>
 </ol>
 <p>Note that the names <code>my_int</code>, <code>my_float</code> and <code>my_string</code> are arbitrary here. While it is useful to name your variables so that the names contain some information about what they are used for, this code would be functionally identical to if we had used <code>x</code>, <code>xrtqp2</code> and <code>my_very_long_variable_name</code>, respectively.</p>
-<div id="64db1910" class="cell" data-execution_count="5">
+<div id="a63c3128" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>my_int<span class="op">=</span><span class="dv">5</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_int)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>country<span class="op">=</span><span class="st">"Canada"</span></span>
@@ -428,7 +428,7 @@ Canada</code></pre>
 </div>
 </div>
 <p>We mentioned before that variables can change value. Let’s take a look at how this works, and also introduce a few more Python operations:</p>
-<div id="43b5be38" class="cell" data-execution_count="6">
+<div id="a3004767" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span></span>
@@ -460,7 +460,7 @@ Canada</code></pre>
 <p>Notes:</p>
 <p>In Python, the dictionary type has built-in methods to access the dictionary keys and values. - These methods are called by typing <code>.keys()</code> or <code>.values()</code> after the dictionary object. - We will change the return type of calling <code>.keys()</code> and <code>.values()</code> to a list by using the <code>list()</code> method. Below when we print the unconverted keys, the first thing you see is <code>dict_keys</code>, indicating the <strong>type</strong> of the data. Convert it to a list which is a simpler and more common data type. We can do this by passing the data into the <code>list(...)</code> function.</p>
 <p>Example:</p>
-<div id="d34891f6" class="cell" data-execution_count="7">
+<div id="8139b913" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a dictionary</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>person <span class="op">=</span> {</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"name"</span>: <span class="st">"Alice"</span>,</span>
@@ -541,7 +541,7 @@ New York
 <p>Syntax:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>user_list <span class="op">=</span> [Value1, Value2, Value3]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Example:</p>
-<div id="2045e48e" class="cell" data-execution_count="8">
+<div id="702b7406" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a list</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="op">=</span> [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>, <span class="st">"date"</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -615,7 +615,7 @@ date</code></pre>
 </div>
 </div>
 <p>List computations example:</p>
-<div id="9a07b3f8" class="cell" data-execution_count="9">
+<div id="de54a7e1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a list of numbers</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="fl">3.5</span>, <span class="fl">1.2</span>, <span class="fl">6.8</span>, <span class="fl">2.4</span>, <span class="fl">5.1</span>]</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -646,7 +646,7 @@ Rounded numbers: [4, 1, 7, 2, 5]</code></pre>
 <h3 data-number="1.5.3" class="anchored" data-anchor-id="the-in-operator"><span class="header-section-number">1.5.3</span> The <code>in</code> operator</h3>
 <p>The <code>in</code> operator in Python is used to check for the presence of an element within a collection, such as a list, tuple, set, or dictionary. When used with lists or other sequences, it checks if a specific value is contained in the sequence and returns <code>True</code> if it is, and <code>False</code> otherwise. When used with dictionaries, the <code>in</code> operator checks for the presence of a specified key. If the key exists in the dictionary, it returns <code>True</code>; otherwise, it returns <code>False</code>. This operator provides a simple and readable way to perform membership tests in various data structures.</p>
 <p>Example:</p>
-<div id="d445d1ad" class="cell" data-execution_count="10">
+<div id="76604045" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a dictionary</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>person <span class="op">=</span> {</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"name"</span>: <span class="st">"Alice"</span>,</span>
@@ -700,7 +700,7 @@ False</code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    statements(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>for</code> loop iterates over <code>some_sequence</code> and performs <code>statements(s)</code> at each iteration. - That is, at each iteration the <code>iterator_variable</code> is updated to the next value in <code>some_sequence</code>. - As a concrete example, consider the loop:</p>
 <p>Example:</p>
-<div id="e3477fbc" class="cell" data-execution_count="11">
+<div id="720a9378" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]:</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i<span class="op">*</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -722,7 +722,7 @@ False</code></pre>
 <h3 data-number="1.5.6" class="anchored" data-anchor-id="list-comprehensions"><span class="header-section-number">1.5.6</span> List comprehensions</h3>
 <p>A list comprehension is a concise way to create a new list by applying an expression to each element of an existing list while optionally filtering elements based on a condition. It combines loops and conditional statements into a single line of code, making it efficient and readable for creating lists with specific transformations or filters. It can be used to replace a for loop with shorter code.</p>
 <p>Example:</p>
-<div id="a15e28c0" class="cell" data-execution_count="12">
+<div id="ec87a626" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using a for loop</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>squared_numbers <span class="op">=</span> []</span>
@@ -768,7 +768,7 @@ Even numbers (using list comprehension): [2, 4, 6, 8, 10]</code></pre>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    block3_statement(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Example:</p>
-<div id="68102576" class="cell" data-execution_count="13">
+<div id="3683ec3c" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 0: A boolean</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span><span class="dv">2</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span><span class="dv">7</span></span>
@@ -840,7 +840,7 @@ Grade is C</code></pre>
 </ul>
 <p>Differences: - f-strings are more concise and readable. - .format() method offers more flexibility, such as specifying formatting options or reusing values.</p>
 <p>Examples:</p>
-<div id="91b09698" class="cell" data-execution_count="14">
+<div id="c76648e0" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using .format() method</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Bob"</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">25</span></span>

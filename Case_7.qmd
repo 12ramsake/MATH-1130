@@ -1,10 +1,13 @@
-# More on data cleaning and wrangling
+# Data cleaning/wrangling
 
-In this case... 
+In this case we learnt the steps we must take to clean a dataset. We also learnt several ways to handle missing data. 
+
 
 ## Preliminary modules
 
 ```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
 import base64
 import datetime
 import json
@@ -13,3 +16,226 @@ import numpy as np
 import pandas as pd
 from geopy.geocoders import Nominatim
 ```
+
+
+## Handling missing data
+
+One of the first steps in data cleaning is to deal with null or missing values. 
+First, one should determine how missing values are labelled in the dataset, as this can vary widely. Some common encodings for missing data are as follows: 
+
+1. **NaN or nan**: This is the most common representation of missing values, especially in Python. 
+2. **None**: In some programming languages, `None` is used to indicate the absence of a value.
+3. **Null or NULL**: Common in SQL databases.
+4. **Empty strings ("")**: Often used in text data.
+5. **Special values**: Sometimes a special value, like `-9999` or `9999`, is used to represent missing data.
+6. **NA or N/A**: These are often used in spreadsheets and text files to denote missing values.
+7. **0 or -1**: Occasionally used in cases where 0 or -1 are not valid values in the context of the data.
+8. **Blanks or Whitespaces**: Spaces or tabs might be used to signify missing values in some text data.
+9. **Placeholders like "missing" or "unknown"**: Textual placeholders indicating the data is not available.
+10. **INF or -INF**: Infinity values, sometimes used to denote missing values.
+
+**Before moving forward, it is important to convert the missing values to either 'NaN' or 'nan', as this is what python functions built for missing values will expect to see.**
+
+Previous cases only gave a passing treatment of missing data and resulted in dropping the rows containing null values entirely. Here, we will be more nuanced and look at ways that missing values can be replaced appropriately. As always, domain knowledge is crucial in selecting what method to go forward with. 
+
+**The goal of filling in missing data is to not neccessarily to recover the exact values of the missing values, but rather to ensure that the conclusions of the analysis are not overtly impacted by the missing values.**
+
+When dealing with missing data, it is important not to just use generic pandas/Python functions without thinking to fill them in. This can drastically corrupt your analysis. 
+
+Instead, a first step is to find the source of the missing data. Why is it missing? and/or how did it go missing? If we can answer these questions, then this will help us in determining how to fill in the missing values. 
+
+
+One way to handle missing values is to simply remove any row which contains a missing value from the dataset. This is known as **complete case analysis**. Complete case analysis is desirable when there are not that many rows with missing values, and we do not lose any critical sub-populations as a results of dropping those rows. For instance, a rule of thumb is that if <1% of the rows are missing, then it might be desirable to do a complete case analysis. It is fast and easy, and does not require extensive statistical knowledge. This also depends on the size of the dataset. If you have 10 million observations, and 1 million within each subpopulation, then removing even 5% of the rows should not impact the analysis too much. On the other hand, if we have only 20 observations, we should try not to remove any rows. 
+
+Another approach is to fill in the missing values - this is known as **imputation**. Usually, we use the other observations or rows to fill in the missing values. 
+
+Note that a once population method of imputation which you **should not** use is replacing missing values with the mean/median of the available values in the column. 
+The reason for this is that it lowers the sample standard deviation of the resulting column and can bias the resulting analysis. 
+
+Some other methods of imputation are given below: 
+
+- **Forward/Backward Fill:** Use the next or previous value to fill in the missing value. Forward/backward filling may make sense when there is a relationship between the rows. Example: In a time series dataset where stock prices are recorded daily, you might use forward fill to propagate the last known price to the days when the market data is missing.
+
+- **Interpolation:** Estimate missing values using interpolation techniques. Example: In a climate dataset with daily temperature readings, you could use linear interpolation to estimate the temperature on days when data is missing by averaging the temperatures of the surrounding days. 
+
+- **K-Nearest Neighbors (KNN):** The KNN algorithm uses points that are similar to the points with missing data (called nearest neighbors) to impute missing values. Example: In a survey dataset where some participants skipped a few questions, KNN can impute their missing responses by considering the responses of the most similar participants (neighbors).
+
+- **Domain-Specific Imputation:** Depending on the domain, you might use specific rules or external datasets to impute missing values. Example: In an educational dataset where some students' test scores are missing, you might impute the missing scores using the average scores from other tests taken by the same student or from other students in the same class or grade level. This method leverages the relationship between students' performance across different tests or the performance of their peers.
+
+- **Regression/Machine Learning Models:** Use models, such as regression models or Neural Networks to predict and fill in missing values. Example: In a housing dataset where some houses are missing the number of bedrooms, you could use a regression model that predicts the number of bedrooms based on the house's size, location, and price. In a complex dataset with multiple features about customer behavior, a Random Forest model can be used to predict and fill in missing values by leveraging the patterns and interactions between the different features.
+
+
+
+### Interpolate
+
+The [`.interpolate()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.interpolate.html) function allows us to interpolate numerical values, based on the surrounding values. Interpolation is a method of estimating unknown values based on values that are close to in (in terms of rows). In this case, we know that the rate of change in riders is probably similar to the rate of change on the surrounding days. If we think that it falls between the values of the preceding and following days, and the rows are evenly spaced in time, then we can use the default parameters, which uses linear interpolation. There are a number of other methods of intperolation that can be specified via the `method` parameter. Be sure to read and understand each method carefully before using it. Otherwise, you could just be filling in the values with nonsense. 
+
+Parameters of `.interpolate()`
+
+1. **`method`**: Specifies the interpolation method to use.
+   - `'linear'` (default): Linear interpolation.
+   - `'time'`: Interpolation for time-series data.
+   - `'index'`: Uses the index for interpolation.
+   - Other methods like `'polynomial'`, `'spline'`, `'barycentric'`, etc. see the documentation. 
+
+2. **`axis`**: Specifies the axis along which to interpolate.
+   - `0` or `'index'`: Interpolates along the index (default for DataFrame).
+   - `1` or `'columns'`: Interpolates along the columns.
+
+
+Example:
+
+Here's a basic example demonstrating the use of `.interpolate()`:
+
+```{python}
+import pandas as pd
+import numpy as np
+
+# Creating a sample DataFrame with NaN values
+df = pd.DataFrame({
+    'A': [1, np.nan, 3, np.nan, 5],
+    'B': [np.nan, 2, np.nan, 4, np.nan]
+})
+
+print("Original DataFrame:")
+print(df)
+
+# Interpolating missing values
+df_interpolated = df.interpolate()
+
+print("\nInterpolated DataFrame:")
+print(df_interpolated)
+```
+
+Output:
+```
+Original DataFrame:
+     A    B
+0  1.0  NaN
+1  NaN  2.0
+2  3.0  NaN
+3  NaN  4.0
+4  5.0  NaN
+
+Interpolated DataFrame:
+     A    B
+0  1.0  NaN
+1  2.0  2.0
+2  3.0  3.0
+3  4.0  4.0
+4  5.0  NaN
+```
+
+Interpolation is particularly useful for time-series data and datasets where you want to estimate missing values based on the surrounding data.
+
+## Handling string formats
+
+It is important to print the unique values of a string variable, in order to check for spaces, mixed case and spelling mistakes. If the variable has many entries, we may not be able to check all unique values. In that case, it is a good idea to use `.strip()` and `str.lower()`/`str.upper()` to remove extra spaces and convert all characters to lower case. In the natural language processing lesson, we will learn more about manipulating strings. 
+
+## Unique IDs
+
+When generating IDs, it is important to make sure the generation process is idempotent (i.e. the same ID should be generated for each trip no matter how many times you run the script). The idempotency is required because there may be chances that the same trip is input into this tool multiple times. For example, the customer first uploads the data set for the first week of the month (may be for testing purposes, or based on data availability, etc.) and then uploads the data for the entire month. Now if the same trip is assigned different IDs on each run, then it might result in the analytics platform interpreting this as two different trips and this will corrupt the analysis.
+
+## More on `datetime` objects
+
+We have learnt about `datetime` objects in the past. 
+In this case, we covered some new functionalities of these objects. 
+We should almost always convert dates and times to `datetime` objects. 
+
+Here’s an overview of some new attributes:
+
+1. **`.year`**: Returns the year.
+2. **`.month`**: Returns the month (1-12).
+3. **`.day`**: Returns the day of the month (1-31).
+4. **`.hour`**: Returns the hour (0-23).
+5. **`.minute`**: Returns the minute (0-59).
+6. **`.second`**: Returns the second (0-59).
+7. **`.microsecond`**: Returns the microsecond (0-999999).
+8. **`.tzinfo`**: Returns the timezone information.
+
+In addition, you can use the following methods to get week-related information:
+
+1. **`.weekday()`**: Returns the day of the week as an integer, where Monday is 0 and Sunday is 6.
+2. **`.isoweekday()`**: Returns the day of the week as an integer, where Monday is 1 and Sunday is 7.
+3. **`.isocalendar()`**: Returns a tuple containing the ISO year, ISO week number, and ISO weekday.
+
+Example:
+
+```{python}
+from datetime import datetime
+
+# Create a datetime object
+dt = datetime(2023, 7, 5, 14, 30, 0)
+
+# Year, month, day, etc.
+print("Year:", dt.year)          # Output: 2023
+print("Month:", dt.month)        # Output: 7
+print("Day:", dt.day)            # Output: 5
+print("Hour:", dt.hour)          # Output: 14
+print("Minute:", dt.minute)      # Output: 30
+print("Second:", dt.second)      # Output: 0
+
+# Weekday (Monday = 0, Sunday = 6)
+print("Weekday:", dt.weekday())  # Output: 2 (Wednesday)
+
+# ISO Weekday (Monday = 1, Sunday = 7)
+print("ISO Weekday:", dt.isoweekday())  # Output: 3 (Wednesday)
+
+# ISO Calendar (Year, Week number, Weekday)
+iso_calendar = dt.isocalendar()
+print("ISO Calendar:", iso_calendar)    # Output: (2023, 27, 3)
+```
+
+
+
+
+Additional operations:
+
+1. **Current Date and Time**:
+   ```{python}
+   now = datetime.now()
+   print(now)  # Output: current date and time
+   ```
+
+2. **Parsing Dates**:
+   ```{python}
+   date_str = "2023-07-05"
+   parsed_date = datetime.strptime(date_str, "%Y-%m-%d")
+   print(parsed_date)  # Output: 2023-07-05 00:00:00
+   ```
+
+3. **Formatting Dates**:
+   ```{python}
+   dt = datetime(2023, 7, 5, 14, 30, 0)
+   formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
+   print(formatted_date)  # Output: 2023-07-05 14:30:00
+   ```
+
+4. **Date Arithmetic**:
+   ```{python}
+   dt1 = datetime(2023, 7, 5)
+   dt2 = datetime(2023, 7, 10)
+   delta = dt2 - dt1
+   print(delta)  # Output: 5 days, 0:00:00
+   ```
+
+5. **Handling Time Zones**:
+   ```{python}
+   from datetime import timezone, timedelta
+
+   utc_dt = datetime(2023, 7, 5, 14, 30, 0, tzinfo=timezone.utc)
+   local_tz = timezone(timedelta(hours=-5))
+   local_dt = utc_dt.astimezone(local_tz)
+   print(local_dt)  # Output: 2023-07-05 09:30:00-05:00
+   ```
+
+## Adding new data
+
+Often, you will have to add data from other datasets, websites or sources to your dataset. For instance, in Case 7, we showed how to get address data using `geopy`. 
+
+The function `geolocator.geocode()` can be used to obtain longitude and latitude from a string which contains the address. To learn more about `geopy`, you can follow the functions and tutorials [here](https://geopy.readthedocs.io/en/stable/). In general, you can use `geopy` to obtain coordinates and other location data, given data like address, postal code etc. 
+You can use this in conjunction with the `folium` package to create some nice visualizations. 
+
+
+
+
