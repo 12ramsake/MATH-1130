@@ -255,17 +255,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#aggregating-dataframes" id="toc-aggregating-dataframes" class="nav-link" data-scroll-target="#aggregating-dataframes"><span class="header-section-number">2.4.1</span> Aggregating DataFrames</a></li>
   <li><a href="#filtering-dataframes" id="toc-filtering-dataframes" class="nav-link" data-scroll-target="#filtering-dataframes"><span class="header-section-number">2.4.2</span> Filtering DataFrames</a></li>
-  <li><a href="#example-dataframe" id="toc-example-dataframe" class="nav-link" data-scroll-target="#example-dataframe"><span class="header-section-number">2.4.3</span> Example DataFrame:</a></li>
-  <li><a href="#filtering-the-dataframe" id="toc-filtering-the-dataframe" class="nav-link" data-scroll-target="#filtering-the-dataframe"><span class="header-section-number">2.4.4</span> Filtering the DataFrame:</a></li>
-  <li><a href="#sorting" id="toc-sorting" class="nav-link" data-scroll-target="#sorting"><span class="header-section-number">2.4.5</span> Sorting</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">2.4.6</span> Parameters:</a></li>
-  <li><a href="#groupby" id="toc-groupby" class="nav-link" data-scroll-target="#groupby"><span class="header-section-number">2.4.7</span> Groupby</a></li>
-  <li><a href="#numpys-where" id="toc-numpys-where" class="nav-link" data-scroll-target="#numpys-where"><span class="header-section-number">2.4.8</span> Numpy’s <code>where()</code></a></li>
+  <li><a href="#sorting" id="toc-sorting" class="nav-link" data-scroll-target="#sorting"><span class="header-section-number">2.4.3</span> Sorting</a></li>
+  <li><a href="#groupby" id="toc-groupby" class="nav-link" data-scroll-target="#groupby"><span class="header-section-number">2.4.4</span> Groupby</a></li>
   </ul></li>
-  <li><a href="#plotting-with-matplotlib" id="toc-plotting-with-matplotlib" class="nav-link" data-scroll-target="#plotting-with-matplotlib"><span class="header-section-number">2.5</span> Plotting with <code>Matplotlib</code></a>
+  <li><a href="#numpys-where" id="toc-numpys-where" class="nav-link" data-scroll-target="#numpys-where"><span class="header-section-number">2.5</span> <code>Numpy</code>’s <code>where()</code></a></li>
+  <li><a href="#plotting-with-matplotlib" id="toc-plotting-with-matplotlib" class="nav-link" data-scroll-target="#plotting-with-matplotlib"><span class="header-section-number">2.6</span> Plotting with <code>Matplotlib</code></a>
   <ul class="collapse">
-  <li><a href="#datetime-objects" id="toc-datetime-objects" class="nav-link" data-scroll-target="#datetime-objects"><span class="header-section-number">2.5.1</span> Datetime objects</a></li>
-  <li><a href="#parameters-1" id="toc-parameters-1" class="nav-link" data-scroll-target="#parameters-1"><span class="header-section-number">2.5.2</span> Parameters:</a></li>
+  <li><a href="#datetime-objects" id="toc-datetime-objects" class="nav-link" data-scroll-target="#datetime-objects"><span class="header-section-number">2.6.1</span> Datetime objects</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -308,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If your machine uses Anaconda</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>conda install pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Before using a package in each notebook or session, it must be imported. Unlike installation, importing must be done every time you use python.</strong> Let’s import both packages using the <code>import</code> keyword. We will rename <code>pandas</code> to <code>pd</code> and <code>numpy</code> to <code>np</code> using the <code>as</code> keyword. This allows us to use the short name abbreviation when we want to reference any function that is inside either package. The abbreviations we chose are standard across the data science industry and should be followed unless there is a very good reason not to.</p>
-<div id="304a695e" class="cell" data-execution_count="1">
+<div id="87f5a939" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the Pandas package</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -326,16 +322,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Scripts written using <code>pandas</code> will often run faster than scripts written in pure Python</li>
 <li>Scripts written using <code>pandas</code> will often contain far fewer lines of code than the equivalent script written in pure Python.</li>
 </ul>
-<p>At the core of the <code>pandas</code> library are two fundamental data structures/objects: 1. <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html">Series</a> 2. <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">DataFrame</a></p>
-<p>A <code>Series</code> object stores single-column data along with an <strong>index</strong>. An index is just a way of “numbering” the <code>Series</code> object. For example, in this case study, the indices will be dates, while the single-column data may be stock prices or daily trading volume.</p>
+<p>At the core of the <code>pandas</code> library are two fundamental data structures/objects:</p>
+<ol type="1">
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html">Series</a></li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">DataFrame</a></li>
+</ol>
+<p>A <code>Series</code> object stores single-column data along with an <strong>index</strong>. An index is just a way of “numbering” the <code>Series</code> object. For example, in Case 2, the indices were dates, while the single-column data was stock prices or daily trading volume.</p>
 <p>A <code>DataFrame</code> object is a two-dimensional tabular data structure with labeled axes. It is conceptually helpful to think of a DataFrame object as a collection of Series objects. Namely, think of each column in a DataFrame as a single Series object, where each of these Series objects shares a common index - the index of the DataFrame object.</p>
 <p>Below is the syntax for creating a Series object, followed by the syntax for creating a DataFrame object. Note that DataFrame objects can also have a single-column – think of this as a DataFrame consisting of a single Series object:</p>
 <ul>
 <li><p>Series: A one-dimensional labeled array capable of holding data of any type (integer, string, float, etc.). Created using <code>pd.Series(data, index=index)</code>, where data can be a list, dictionary, or scalar value.</p></li>
-<li><p>DataFrame: A two-dimensional labeled data structure with columns of potentially different types. Created using pd.<code>DataFrame(data, index=index, columns=columns)</code>, where data can be a dictionary of lists, list of dictionaries, or 2D array-like object.</p></li>
+<li><p>DataFrame: A two-dimensional labeled data structure with columns of potentially different types. Created using <code>pd.DataFrame(data, index=index, columns=columns)</code>, where data can be a dictionary of lists, list of dictionaries, or 2D array-like object.</p></li>
 </ul>
 <p>Example:</p>
-<div id="bec4df79" class="cell" data-execution_count="2">
+<div id="78482691" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple Series object</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>simple_series <span class="op">=</span> pd.Series(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], name<span class="op">=</span><span class="st">"Volume"</span>, data<span class="op">=</span>[<span class="dv">1000</span>, <span class="dv">2600</span>, <span class="dv">1524</span>, <span class="dv">98000</span>]</span>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>DataFrame objects are more general than Series objects, and one DataFrame can hold many Series objects, each as a different column. Let’s create a two-column DataFrame object:</p>
-<div id="ea256c83" class="cell" data-execution_count="3">
+<div id="1848e0eb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create another DataFrame object</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>another_df <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
@@ -437,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>pandas</code> allows easy loading of CSV files through the use of the method <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html">pd.read_csv()</a>.</p>
 <p>Syntax:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(File name <span class="cf">with</span> path <span class="im">as</span> a string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Before loading the CSV file, you need to specify its location on your computer. The file path is the address that tells Python where to find the file. You cna use one of the following ways to specify the location</p>
+<p>Before loading the CSV file, you need to specify its location on your computer. The file path is the address that tells Python where to find the file. You can use one of the following ways to specify the location</p>
 <ul>
 <li>Absolute Path: This is the complete path to the file starting from the root directory (e.g., C:/Users/username/Documents/data.csv or /Users/YourUsername/Documents/data.csv).</li>
 <li>Relative Path: This is the path relative to the current working directory where your Python script or Jupyter notebook is located (e.g., data/data.csv). If your CSV file is in the same directory as your Python script or Jupyter notebook, you can just provide the file name.</li>
@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Absolute path: Here the full path starting from my hardrive, C:, to the file D.csv is stated. </span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># On mac, it will look like: /Users/YourUsername/Documents/data.csv</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"C:\Users\OneDrive - York University\Teaching\Courses\Math1130\D.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"C:\Users\Teaching\Courses\Math1130\D.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To find out which folder your relative path starts from, use the command <code>getcwd()</code> from the <code>os</code> module.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -476,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In your spare time please check the <a href="https://pandas.pydata.org/pandas-docs/stable/">pandas documentation</a> and explore the parameters of these methods as well as other methods. Familiarity with this library will dramatically improve your productivity as a data scientist.</p>
 <p>Using <code>df.head()</code> and <code>df.tail()</code> we can take a look at the data contents. Unless specified otherwise, Series and DataFrame objects have indices starting at 0 and increase monotonically upward along the integers.</p>
 <p>Example:</p>
-<div id="bb06db32" class="cell" data-execution_count="4">
+<div id="f44061dd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -555,7 +555,7 @@ df.index attribute: RangeIndex(start=0, stop=5, step=1)</code></pre>
 <section id="creating-new-columns-and-variables" class="level3" data-number="2.2.4">
 <h3 data-number="2.2.4" class="anchored" data-anchor-id="creating-new-columns-and-variables"><span class="header-section-number">2.2.4</span> Creating new columns and variables</h3>
 <p>We can create new columns by adding new columns to the DataFrame or creating a new column based on existing columns:</p>
-<div id="31810969" class="cell" data-execution_count="5">
+<div id="7f3b6ac9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -676,7 +676,7 @@ DataFrame with new 'Salary_over_Age' column:
 </section>
 <section id="summary-statistics-example" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="summary-statistics-example"><span class="header-section-number">2.3.3</span> Summary statistics example:</h3>
-<div id="f2241403" class="cell" data-execution_count="6">
+<div id="5a624e85" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -798,7 +798,7 @@ Standard Deviation: 5.70087712549569
 </div>
 </div>
 <p>In addition to describe, there is a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.value_counts.html">value_counts() method</a> for checking the frequency of elements in categorical data. When applied to a DataFrame class, <code>value_counts()</code> will return the frequency of each row in the DataFrame. In other words, for each unique row it returns how many instances of that row are in the DataFrame. When applied to a Series class <code>value_counts()</code> will return the frequency of each unique value in the given Series class:</p>
-<div id="beb3f9fc" class="cell" data-execution_count="7">
+<div id="e881d104" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dict_data <span class="op">=</span> {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numbers"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>,<span class="dv">1</span>],</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"color"</span>: [<span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>,<span class="st">"red"</span>],</span>
@@ -827,8 +827,8 @@ Name: count, dtype: int64</code></pre>
 <section id="aggregating-dataframes" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="aggregating-dataframes"><span class="header-section-number">2.4.1</span> Aggregating DataFrames</h3>
 <p>One way to combined multiple DataFrames is through the use of the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.concat.html">pd.concat()</a> method from <code>pandas</code>. We can input a list of DataFrames into <code>pd.concat()</code> that we’d like to concatenate. The <code>pd.concat()</code> function is used to concatenate (combine) two or more DataFrames or Series along a particular axis (rows or columns).</p>
-<p>Examples:</p>
-<div id="8d5bfb8d" class="cell" data-execution_count="8">
+<p>Example:</p>
+<div id="785cac01" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two example DataFrames</span></span>
@@ -860,8 +860,9 @@ Name: count, dtype: int64</code></pre>
 3    David   40      Houston</code></pre>
 </div>
 </div>
-<p>Explanation: Two DataFrames (df1 and df2) are created with identical columns. The pd.concat([df1, df2]) function concatenates df1 and df2 along the rows (default behavior). The <code>ignore_index=True</code> argument reindexes the resulting DataFrame to have a continuous index.</p>
-<div id="74db5422" class="cell" data-execution_count="9">
+<p>Explanation: Two DataFrames (df1 and df2) are created with identical columns. The <code>pd.concat([df1, df2])</code> call concatenates df1 and df2 along the rows (default behavior). The <code>ignore_index=True</code> argument reindexes the resulting DataFrame to have a continuous index.</p>
+<p>Example:</p>
+<div id="8e393501" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two example DataFrames</span></span>
@@ -893,58 +894,37 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="filtering-dataframes" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="filtering-dataframes"><span class="header-section-number">2.4.2</span> Filtering DataFrames</h3>
-<p>Sure! Filtering a pandas DataFrame means selecting rows that meet certain criteria. This is often done using conditions on one or more columns. Here’s a simple example to illustrate how filtering works:</p>
-</section>
-<section id="example-dataframe" class="level3" data-number="2.4.3">
-<h3 data-number="2.4.3" class="anchored" data-anchor-id="example-dataframe"><span class="header-section-number">2.4.3</span> Example DataFrame:</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>],</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'New York'</span>, <span class="st">'Los Angeles'</span>, <span class="st">'Chicago'</span>, <span class="st">'Houston'</span>, <span class="st">'Miami'</span>]</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="filtering-the-dataframe" class="level3" data-number="2.4.4">
-<h3 data-number="2.4.4" class="anchored" data-anchor-id="filtering-the-dataframe"><span class="header-section-number">2.4.4</span> Filtering the DataFrame:</h3>
 <p>Filtering a DataFrame means selecting rows that meet certain criteria. This is often done using conditions on one or more columns. Here’s a simple example to illustrate how filtering works:</p>
-<div id="57f3b755" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>],</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'New York'</span>, <span class="st">'Los Angeles'</span>, <span class="st">'Chicago'</span>, <span class="st">'Houston'</span>, <span class="st">'Miami'</span>]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where Age is greater than 30</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'Age'</span>] <span class="op">&gt;</span> <span class="dv">30</span>]</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (Age &gt; 30):"</span>)</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df)</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where City is 'Chicago'</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>filtered_df_city <span class="op">=</span> df[df[<span class="st">'City'</span>] <span class="op">==</span> <span class="st">'Chicago'</span>]</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (City is Chicago):"</span>)</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df_city)</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where Age is between 30 and 40 (inclusive)</span></span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>filtered_df_age_range <span class="op">=</span> df[(df[<span class="st">'Age'</span>] <span class="op">&gt;=</span> <span class="dv">30</span>) <span class="op">&amp;</span> (df[<span class="st">'Age'</span>] <span class="op">&lt;=</span> <span class="dv">40</span>)]</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (30 &lt;= Age &lt;= 40):"</span>)</span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df_age_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6eaa9601" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>],</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'New York'</span>, <span class="st">'Los Angeles'</span>, <span class="st">'Chicago'</span>, <span class="st">'Houston'</span>, <span class="st">'Miami'</span>]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where Age is greater than 30</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'Age'</span>] <span class="op">&gt;</span> <span class="dv">30</span>]</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (Age &gt; 30):"</span>)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where City is 'Chicago'</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>filtered_df_city <span class="op">=</span> df[df[<span class="st">'City'</span>] <span class="op">==</span> <span class="st">'Chicago'</span>]</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (City is Chicago):"</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df_city)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where Age is between 30 and 40 (inclusive)</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>filtered_df_age_range <span class="op">=</span> df[(df[<span class="st">'Age'</span>] <span class="op">&gt;=</span> <span class="dv">30</span>) <span class="op">&amp;</span> (df[<span class="st">'Age'</span>] <span class="op">&lt;=</span> <span class="dv">40</span>)]</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Filtered DataFrame (30 &lt;= Age &lt;= 40):"</span>)</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered_df_age_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Original DataFrame:
       Name  Age         City
@@ -980,14 +960,12 @@ Filtered DataFrame (30 &lt;= Age &lt;= 40):
 </ul>
 <p>This example demonstrates how to filter a pandas DataFrame based on different conditions, helping you to extract specific subsets of data that meet your criteria.</p>
 </section>
-<section id="sorting" class="level3" data-number="2.4.5">
-<h3 data-number="2.4.5" class="anchored" data-anchor-id="sorting"><span class="header-section-number">2.4.5</span> Sorting</h3>
+<section id="sorting" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="sorting"><span class="header-section-number">2.4.3</span> Sorting</h3>
 <p>The <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.sort_values.html">sort_values()</a> method in pandas is used to sort a DataFrame or Series by one or more columns or indices.</p>
 <p>Syntax:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>DataFrame.sort_values(by, axis<span class="op">=</span><span class="dv">0</span>, ascending<span class="op">=</span><span class="va">True</span>,  na_position<span class="op">=</span><span class="st">'last'</span>, ignore_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="parameters" class="level3" data-number="2.4.6">
-<h3 data-number="2.4.6" class="anchored" data-anchor-id="parameters"><span class="header-section-number">2.4.6</span> Parameters:</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DataFrame.sort_values(by, axis<span class="op">=</span><span class="dv">0</span>, ascending<span class="op">=</span><span class="va">True</span>,  na_position<span class="op">=</span><span class="st">'last'</span>, ignore_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Parameters:</p>
 <ul>
 <li><strong>by</strong>: (str or list of str) The name(s) of the column(s) or index level(s) to sort by.</li>
 <li><strong>axis</strong>: (int or str, default 0) The axis to sort along. 0 or ‘index’ to sort rows, 1 or ‘columns’ to sort columns.</li>
@@ -997,75 +975,74 @@ Filtered DataFrame (30 &lt;= Age &lt;= 40):
 </ul>
 <p>Example:</p>
 <p>Let’s create an example DataFrame and sort it using <code>sort_values()</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>],</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salary'</span>: [<span class="dv">50000</span>, <span class="dv">60000</span>, <span class="dv">75000</span>, <span class="dv">80000</span>, <span class="dv">70000</span>]</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Age' in ascending order</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>sorted_df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Age'</span>)</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Age:"</span>)</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df)</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Salary' in descending order</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>sorted_df_desc <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Salary'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Salary in descending order:"</span>)</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df_desc)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Age' and then by 'Salary'</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>sorted_df_multi <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">'Age'</span>, <span class="st">'Salary'</span>])</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Age and then by Salary:"</span>)</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In these examples: - The DataFrame is sorted by the ‘Age’ column in ascending order. - The DataFrame is sorted by the ‘Salary’ column in descending order. - The DataFrame is sorted first by the ‘Age’ column, and within each age group, by the ‘Salary’ column.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>],</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salary'</span>: [<span class="dv">50000</span>, <span class="dv">60000</span>, <span class="dv">75000</span>, <span class="dv">80000</span>, <span class="dv">70000</span>]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Age' in ascending order</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>sorted_df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Age'</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Age:"</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Salary' in descending order</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>sorted_df_desc <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Salary'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Salary in descending order:"</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df_desc)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the DataFrame by 'Age' and then by 'Salary'</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>sorted_df_multi <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">'Age'</span>, <span class="st">'Salary'</span>])</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">DataFrame sorted by Age and then by Salary:"</span>)</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sorted_df_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="groupby" class="level3" data-number="2.4.7">
-<h3 data-number="2.4.7" class="anchored" data-anchor-id="groupby"><span class="header-section-number">2.4.7</span> Groupby</h3>
+<section id="groupby" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="groupby"><span class="header-section-number">2.4.4</span> Groupby</h3>
 <p><code>pandas</code> offers the ability to group related rows of DataFrames according to the values of other rows. This useful feature is accomplished using the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html">groupby()</a> method. The <code>groupby</code> method in pandas is used to group data based on one or more columns. It is often used with aggregation functions like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, etc., to summarize data.</p>
 <p>Syntax:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>DataFrame.groupby(by, axis<span class="op">=</span><span class="dv">0</span>, level<span class="op">=</span><span class="va">None</span>, as_index<span class="op">=</span><span class="va">True</span>, sort<span class="op">=</span><span class="va">True</span>, group_keys<span class="op">=</span><span class="va">True</span>, squeeze<span class="op">=&lt;</span>no_default<span class="op">&gt;</span>, observed<span class="op">=</span><span class="va">False</span>, dropna<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>DataFrame.groupby(by, axis<span class="op">=</span><span class="dv">0</span>, level<span class="op">=</span><span class="va">None</span>, as_index<span class="op">=</span><span class="va">True</span>, sort<span class="op">=</span><span class="va">True</span>, group_keys<span class="op">=</span><span class="va">True</span>, squeeze<span class="op">=&lt;</span>no_default<span class="op">&gt;</span>, observed<span class="op">=</span><span class="va">False</span>, dropna<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Parameters descriptions:</p>
 <ul>
 <li><strong>by</strong>: Specifies the column(s) or keys to group by. This can be a single column name, a list of column names, or a dictionary mapping column names to group keys.</li>
-<li><strong>axis</strong>: Determines whether to group by rows (axis=0, default) or columns (axis=1).</li>
-<li><strong>as_index</strong>: If True (default), the group labels are used as the index. If False, the group labels are retained as columns.</li>
-<li><strong>sort</strong>: If True (default), the groups are sorted. If False, the groups are not sorted.</li>
-<li><strong>group_keys</strong>: If True (default), adds group keys to the index. If False, the group keys are not added.</li>
+<li><strong>axis</strong>: Determines whether to group by rows (<code>axis=0</code>, default) or columns (<code>axis=1</code>).</li>
+<li><strong>as_index</strong>: If <code>True</code> (default), the group labels are used as the index. If False, the group labels are retained as columns.</li>
+<li><strong>sort</strong>: If <code>True</code> (default), the groups are sorted. If False, the groups are not sorted.</li>
+<li><strong>group_keys</strong>: If <code>True</code> (default), adds group keys to the index. If <code>False</code>, the group keys are not added.</li>
 </ul>
 <p>Syntax of common usages:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping by a Single Column</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># **Grouping by Multiple Columns**:</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'column_name1'</span>, <span class="st">'column_name2'</span>])</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># **Applying Aggregation Functions**:</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>grouped_mean <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>)[<span class="st">'target_column'</span>].mean()</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co"># **Using Multiple Aggregation Functions**:</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>grouped_agg <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>).agg({</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'target_column1'</span>: <span class="st">'mean'</span>,</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'target_column2'</span>: <span class="st">'sum'</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping by a Single Column</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># **Grouping by Multiple Columns**:</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby([<span class="st">'column_name1'</span>, <span class="st">'column_name2'</span>])</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># **Applying Aggregation Functions**:</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>grouped_mean <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>)[<span class="st">'target_column'</span>].mean()</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co"># **Using Multiple Aggregation Functions**:</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>grouped_agg <span class="op">=</span> df.groupby(<span class="st">'column_name'</span>).agg({</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'target_column1'</span>: <span class="st">'mean'</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'target_column2'</span>: <span class="st">'sum'</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Example:</p>
-<div id="bc821642" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the groupby() method, notice a DataFrameGroupBy object is returned</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'City'</span>,<span class="st">"Age"</span>]].groupby(<span class="st">'City'</span>).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="60747c44" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the groupby() method, notice a DataFrameGroupBy object is returned</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'City'</span>,<span class="st">"Age"</span>]].groupby(<span class="st">'City'</span>).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -1113,36 +1090,36 @@ Filtered DataFrame (30 &lt;= Age &lt;= 40):
 <li>Specifically, each item of the object is a tuple, containing the group identifier (in this case the city), and the corresponding rows of the DataFrame that have that city.</li>
 </ul>
 <p>Longer example:</p>
-<div id="3b3e33b9" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>, <span class="st">'Frank'</span>],</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">30</span>],</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'New York'</span>, <span class="st">'Los Angeles'</span>, <span class="st">'Chicago'</span>, <span class="st">'Houston'</span>, <span class="st">'Miami'</span>, <span class="st">'Chicago'</span>],</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salary'</span>: [<span class="dv">50000</span>, <span class="dv">60000</span>, <span class="dv">75000</span>, <span class="dv">80000</span>, <span class="dv">70000</span>, <span class="dv">65000</span>]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and calculate the mean salary for each city</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Salary'</span>].mean()</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Mean Salary by City:"</span>)</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped)</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and calculate the sum of salaries for each city</span></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>grouped_sum <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Salary'</span>].<span class="bu">sum</span>()</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Sum of Salaries by City:"</span>)</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped_sum)</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and count the number of people in each city</span></span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>grouped_count <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Name'</span>].count()</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Count of People by City:"</span>)</span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7c2ea215" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>, <span class="st">'Frank'</span>],</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">30</span>],</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'New York'</span>, <span class="st">'Los Angeles'</span>, <span class="st">'Chicago'</span>, <span class="st">'Houston'</span>, <span class="st">'Miami'</span>, <span class="st">'Chicago'</span>],</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salary'</span>: [<span class="dv">50000</span>, <span class="dv">60000</span>, <span class="dv">75000</span>, <span class="dv">80000</span>, <span class="dv">70000</span>, <span class="dv">65000</span>]</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and calculate the mean salary for each city</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Salary'</span>].mean()</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Mean Salary by City:"</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and calculate the sum of salaries for each city</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>grouped_sum <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Salary'</span>].<span class="bu">sum</span>()</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Sum of Salaries by City:"</span>)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped_sum)</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'City' and count the number of people in each city</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>grouped_count <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Name'</span>].count()</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Count of People by City:"</span>)</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grouped_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Original DataFrame:
       Name  Age         City  Salary
@@ -1193,25 +1170,31 @@ Name: Name, dtype: int64</code></pre>
 </ul>
 <p>The <code>groupby</code> method is very powerful for data analysis and manipulation, allowing you to easily aggregate and summarize data based on specific criteria.</p>
 </section>
-<section id="numpys-where" class="level3" data-number="2.4.8">
-<h3 data-number="2.4.8" class="anchored" data-anchor-id="numpys-where"><span class="header-section-number">2.4.8</span> Numpy’s <code>where()</code></h3>
+</section>
+<section id="numpys-where" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="numpys-where"><span class="header-section-number">2.5</span> <code>Numpy</code>’s <code>where()</code></h2>
 <p>The <code>np.where</code> function in is used to return elements chosen from two values based on whether a condition holds.</p>
 <p>Syntax:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>np.where(condition, x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Parameters: - <strong>condition</strong>: An array-like object (e.g., a series or NumPy array, list, or etc) that evaluates to <code>True</code> or <code>False</code>. - <strong>x</strong>: The value to choose when the condition is <code>True</code>. - <strong>y</strong>: The value to choose when the condition is <code>False</code>.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>np.where(condition, x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Parameters:</p>
+<ul>
+<li><strong>condition</strong>: An array-like object (e.g., a series or NumPy array, list, or etc) that evaluates to <code>True</code> or <code>False</code>.</li>
+<li><strong>x</strong>: The value to choose when the condition is <code>True</code>.</li>
+<li><strong>y</strong>: The value to choose when the condition is <code>False</code>.</li>
+</ul>
 <p><code>np.where(condition, x, y)</code> returns an array with elements from <code>x</code> where the condition is <code>True</code> and elements from <code>y</code> where the condition is <code>False</code>.</p>
-<div id="f1d20576" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>]</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use np.where to create a new column 'Age Group'</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age Group'</span>] <span class="op">=</span> np.where(df[<span class="st">'Age'</span>] <span class="op">&gt;=</span> <span class="dv">35</span>, <span class="st">'Senior'</span>, <span class="st">'Junior'</span>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="695c471f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>]</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use np.where to create a new column 'Age Group'</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age Group'</span>] <span class="op">=</span> np.where(df[<span class="st">'Age'</span>] <span class="op">&gt;=</span> <span class="dv">35</span>, <span class="st">'Senior'</span>, <span class="st">'Junior'</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Name  Age Age Group
 0    Alice   25    Junior
@@ -1221,22 +1204,26 @@ Name: Name, dtype: int64</code></pre>
 4      Eve   45    Senior</code></pre>
 </div>
 </div>
-<p>Explanation: - <strong>Condition</strong>: <code>df['Age'] &gt;= 35</code> checks if the ‘Age’ column values are greater than or equal to 35. - <strong>True</strong>: For rows where the condition is <code>True</code>, it assigns ‘Senior’. - <strong>False</strong>: For rows where the condition is <code>False</code>, it assigns ‘Junior’.</p>
+<p>Explanation:</p>
+<ul>
+<li><strong>Condition</strong>: <code>df['Age'] &gt;= 35</code> checks if the ‘Age’ column values are greater than or equal to 35.</li>
+<li><strong>True</strong>: For rows where the condition is <code>True</code>, it assigns ‘Senior’.</li>
+<li><strong>False</strong>: For rows where the condition is <code>False</code>, it assigns ‘Junior’.</li>
+</ul>
 </section>
-</section>
-<section id="plotting-with-matplotlib" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="plotting-with-matplotlib"><span class="header-section-number">2.5</span> Plotting with <code>Matplotlib</code></h2>
+<section id="plotting-with-matplotlib" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="plotting-with-matplotlib"><span class="header-section-number">2.6</span> Plotting with <code>Matplotlib</code></h2>
 <p>The standard Python plotting library is <a href="https://matplotlib.org/">matplotlib</a>. Let’s import the library and instruct Jupyter to display the plots inline (i.e.&nbsp;display the plots to the notebook screen so we can see them as we run the code).</p>
-<div id="cdfbdc2f" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import fundamental plotting library in Python</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instruct jupyter/VS Code to plot in the notebook</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8e3f848e" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import fundamental plotting library in Python</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instruct jupyter/VS Code to plot in the notebook</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To plot a series, use <code>.plot()</code>. We will come back to <code>matplotlib</code> later.</p>
-<div id="0611c526" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c73d95f4" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1245,20 +1232,18 @@ Name: Name, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<section id="datetime-objects" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="datetime-objects"><span class="header-section-number">2.5.1</span> Datetime objects</h3>
+<section id="datetime-objects" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="datetime-objects"><span class="header-section-number">2.6.1</span> Datetime objects</h3>
 <p>Python’s internal data representation of dates is given by DateTime objects. Datetime objects are crucial for handling time-related data in a structured way, enabling various operations like comparison, arithmetic, and formatting. <code>pandas</code> offers the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html">to_datetime()</a> method to convert a string that represents a given date format into a <code>datetime</code>-like object. This is useful for ensuring that date and time data are properly recognized and can be used for time series analysis, indexing, and plotting.</p>
 <p>Syntax:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pd.to_datetime(arg, <span class="bu">format</span><span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="parameters-1" class="level3" data-number="2.5.2">
-<h3 data-number="2.5.2" class="anchored" data-anchor-id="parameters-1"><span class="header-section-number">2.5.2</span> Parameters:</h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pd.to_datetime(arg, <span class="bu">format</span><span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Parameters:</p>
 <ul>
 <li><strong>arg</strong>: The date/time string(s) or list-like object to convert.</li>
 <li><strong>format</strong>: The strftime to parse time. For example, “%Y-%m-%d”.</li>
 </ul>
 <p>The <code>format</code> parameter in <code>pd.to_datetime()</code> is used to specify the exact format of the date/time strings being parsed. This is particularly useful when the input date strings do not conform to standard formats or when you want to improve parsing performance by explicitly defining the format.</p>
-<p>Date Formatting Directives:</p>
+<p>Date formatting directives:</p>
 <ul>
 <li><strong>%Y</strong>: Four-digit year (e.g., 2023).</li>
 <li><strong>%y</strong>: Two-digit year (e.g., 23 for 2023).</li>
@@ -1290,44 +1275,45 @@ Name: Name, dtype: int64</code></pre>
 <li><code>%I:%M %p</code> matches times like <code>02:30 PM</code>.</li>
 <li><code>%H:%M:%S.%f</code> matches times like <code>14:30:00.000000</code>.</li>
 </ul>
-<p>Examples: <strong>Parsing Date in Non-Standard Format</strong>:</p>
-<div id="e7d4fe4d" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example date string in non-standard format</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">'03-07-23'</span>  <span class="co"># This represents July 3, 2023 in YY-MM-DD format</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>date <span class="op">=</span> pd.to_datetime(date_str, <span class="bu">format</span><span class="op">=</span><span class="st">'%y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Examples:</p>
+<p><strong>Parsing Date in Non-Standard Format</strong>:</p>
+<div id="dbd6570b" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example date string in non-standard format</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">'03-07-23'</span>  <span class="co"># This represents July 3, 2023 in YY-MM-DD format</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>date <span class="op">=</span> pd.to_datetime(date_str, <span class="bu">format</span><span class="op">=</span><span class="st">'%y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2003-07-23 00:00:00</code></pre>
 </div>
 </div>
 <p>In this example: - <code>%y-%m-%d</code> specifies the format where <code>%y</code> represents the two-digit year, <code>%m</code> represents the month, and <code>%d</code> represents the day.</p>
 <p><strong>Parsing Date and Time Together</strong>:</p>
-<div id="c9428f9c" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>date_time_str <span class="op">=</span> <span class="st">'07/03/2023 14:30:00'</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>date_time <span class="op">=</span> pd.to_datetime(date_time_str, <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y %H:%M:%S'</span>)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9692c2a0" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>date_time_str <span class="op">=</span> <span class="st">'07/03/2023 14:30:00'</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>date_time <span class="op">=</span> pd.to_datetime(date_time_str, <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y %H:%M:%S'</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2023-07-03 14:30:00</code></pre>
 </div>
 </div>
 <p>In this example: - <code>%m/%d/%Y %H:%M:%S</code> specifies the format where <code>%m/%d/%Y</code> represents the date in MM/DD/YYYY format, and <code>%H:%M:%S</code> represents the time in HH:MM:SS format.</p>
 <p><strong>Handling Dates with Textual Month</strong>:</p>
-<div id="0d857582" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>date_str_textual <span class="op">=</span> <span class="st">'July 3, 2023'</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>date_textual <span class="op">=</span> pd.to_datetime(date_str_textual, <span class="bu">format</span><span class="op">=</span><span class="st">'%B </span><span class="sc">%d</span><span class="st">, %Y'</span>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date_textual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e829074f" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>date_str_textual <span class="op">=</span> <span class="st">'July 3, 2023'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>date_textual <span class="op">=</span> pd.to_datetime(date_str_textual, <span class="bu">format</span><span class="op">=</span><span class="st">'%B </span><span class="sc">%d</span><span class="st">, %Y'</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(date_textual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2023-07-03 00:00:00</code></pre>
 </div>
 </div>
 <p>In this example: - <code>%B %d, %Y</code> specifies the format where <code>%B</code> represents the full month name (e.g., July), <code>%d</code> represents the day, and <code>%Y</code> represents the four-digit year.</p>
-<p>You can also use ChatGPT or Google the format of your date at hand!</p>
+<p>You can also use ChatGPT or Google the format of your date at hand! - But it is faster to just learn the formatting directives.</p>
 
 
 </section>

@@ -276,7 +276,7 @@ window.Quarto = {
   <li><a href="#lineplot" id="toc-lineplot" class="nav-link" data-scroll-target="#lineplot"><span class="header-section-number">4.4.6</span> Lineplot</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.4.7</span> Summary</a></li>
   </ul></li>
-  <li><a href="#misc.-python-functions-used" id="toc-misc.-python-functions-used" class="nav-link" data-scroll-target="#misc.-python-functions-used"><span class="header-section-number">4.5</span> Misc. Python functions used:</a></li>
+  <li><a href="#misc.-python-functions-from-case-4" id="toc-misc.-python-functions-from-case-4" class="nav-link" data-scroll-target="#misc.-python-functions-from-case-4"><span class="header-section-number">4.5</span> Misc. Python functions from Case 4</a></li>
   </ul>
 </nav>
     </div>
@@ -305,7 +305,7 @@ window.Quarto = {
 <p>In this case, we covered more data manipulation with <code>pandas</code>, as well as introducing a variety of new plots, and the libraries <code>matplotlib</code> and <code>seaborn</code>. You should familiarize yourself with these libraries.</p>
 <section id="preliminary-modules" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">4.1</span> Preliminary modules</h2>
-<div id="13afb537" class="cell" data-execution_count="1">
+<div id="1a27b5a3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -339,7 +339,7 @@ window.Quarto = {
 <p>Essentially, you specify the DataFrame, which variables go on the <span class="math inline">\(y\)</span>-axis and the <span class="math inline">\(x\)</span>-axis. Optionally, you can specidy a variable for the <code>hue</code> parameter. When it is specified, Seaborn assigns different colors to different levels of the <code>hue</code> variable, making it easy to see how different categories compare. <code>kind</code> tells seaborn whether to use lines or points etc.</p>
 <p>Example:</p>
 <p>Our example will use <code>relplot</code>. The <code>relplot</code> function in Seaborn is a high-level interface for creating relational plots that combine several plots like <code>scatterplot</code> and <code>lineplot</code>. It allows you to easily visualize relationships between multiple variables in a dataset. We’ll use the built-in <code>tips</code> dataset from Seaborn, which contains information about restaurant tips.</p>
-<div id="30a63b6f" class="cell" data-execution_count="2">
+<div id="019854ac" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -368,7 +368,7 @@ window.Quarto = {
 </ul>
 <p>The resulting plot shows a scatter plot of <code>total_bill</code> vs.&nbsp;<code>tip</code>, with different colors representing different days of the week. This makes it easy to see if there are any trends or differences in tipping behavior on different days.</p>
 <p>You can further customize the <code>relplot</code> with additional parameters, such as changing the kind of plot to a line plot and adding more dimensions with <code>style</code> and <code>size</code>.</p>
-<div id="951f8970" class="cell" data-execution_count="3">
+<div id="c08cfccc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a line plot with relplot</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>tips, x<span class="op">=</span><span class="st">'total_bill'</span>, y<span class="op">=</span><span class="st">'tip'</span>, hue<span class="op">=</span><span class="st">'day'</span>, style<span class="op">=</span><span class="st">'time'</span>, size<span class="op">=</span><span class="st">'size'</span>, kind<span class="op">=</span><span class="st">'line'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -390,7 +390,7 @@ window.Quarto = {
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="scatterplot"><span class="header-section-number">4.4.1</span> Scatterplot</h3>
 <p>A scatter plot is used to display the relationship between two continuous variables. Each point represents an observation in the dataset.</p>
 <p>Example:</p>
-<div id="c8a51e93" class="cell" data-execution_count="4">
+<div id="984d7cf3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -439,7 +439,7 @@ window.Quarto = {
 </ol>
 <p>Example:</p>
 <p>Consider a histogram of the variable <code>total_bill</code> from a restaurant tips dataset:</p>
-<div id="7f91f993" class="cell" data-execution_count="5">
+<div id="88916c21" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -497,7 +497,7 @@ window.Quarto = {
 <p>Multiple boxplots are often plotted together, to compare distributions for different populations. In this case, the boxplot can be used to determine the relationship between a categorical variable and a continuous variable.</p>
 <p>Example:</p>
 <p>Let’s create a boxplot using the <code>tips</code> dataset from Seaborn:</p>
-<div id="8c2e6146" class="cell" data-execution_count="6">
+<div id="49f4d90c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -523,7 +523,7 @@ window.Quarto = {
 <h3 data-number="4.4.4" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">4.4.4</span> Heatmap</h3>
 <p>A heatmap compares two categorical variables to a continuous variable. The two categorical variables are represented on the horizontal and vertical axes, and the intensity of the cells represent the continuous variable.</p>
 <p>Example:</p>
-<div id="eac940e7" class="cell" data-execution_count="7">
+<div id="57563ba6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load example data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>flights <span class="op">=</span> sns.load_dataset(<span class="st">'flights'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -548,7 +548,7 @@ window.Quarto = {
 <h3 data-number="4.4.5" class="anchored" data-anchor-id="stripplot"><span class="header-section-number">4.4.5</span> Stripplot</h3>
 <p>A strip plot is used to display the distribution of a single continuous variable or the relationship between a continuous variable and a categorical variable. Each observation is represented as a point.</p>
 <p>Example:</p>
-<div id="54baec12" class="cell" data-execution_count="8">
+<div id="a915ff8b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a strip plot</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sns.stripplot(data<span class="op">=</span>tips, x<span class="op">=</span><span class="st">'day'</span>, y<span class="op">=</span><span class="st">'total_bill'</span>, jitter<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -566,7 +566,7 @@ window.Quarto = {
 <section id="lineplot" class="level3" data-number="4.4.6">
 <h3 data-number="4.4.6" class="anchored" data-anchor-id="lineplot"><span class="header-section-number">4.4.6</span> Lineplot</h3>
 <p>A line plot is used to display the relationship between two continuous variables, often to visualize trends over time.</p>
-<div id="226b026e" class="cell" data-execution_count="9">
+<div id="7a3787a1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a line plot</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>tips, x<span class="op">=</span><span class="st">'size'</span>, y<span class="op">=</span><span class="st">'tip'</span>, hue<span class="op">=</span><span class="st">'time'</span>, style<span class="op">=</span><span class="st">'time'</span>, markers<span class="op">=</span><span class="va">True</span>, dashes<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -593,8 +593,8 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="misc.-python-functions-used" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="misc.-python-functions-used"><span class="header-section-number">4.5</span> Misc. Python functions used:</h2>
+<section id="misc.-python-functions-from-case-4" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="misc.-python-functions-from-case-4"><span class="header-section-number">4.5</span> Misc. Python functions from Case 4</h2>
 <p>Here are brief explanations for some of the new functions:</p>
 <ol type="1">
 <li><strong><code>.dropna()</code></strong>:
