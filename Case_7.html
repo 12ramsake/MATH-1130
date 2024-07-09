@@ -271,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this case we learnt the steps we must take to clean a dataset. We also learnt several ways to handle missing data.</p>
 <section id="preliminary-modules" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">7.1</span> Preliminary modules</h2>
-<div id="242712ed" class="cell" data-execution_count="1">
+<div id="2d9d30e5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> base64</span>
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>Example:</p>
 <p>Here’s a basic example demonstrating the use of <code>.interpolate()</code>:</p>
-<div id="cccde08d" class="cell" data-execution_count="2">
+<div id="2d1a98b1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -418,7 +418,7 @@ Interpolated DataFrame:
 <li><strong><code>.isocalendar()</code></strong>: Returns a tuple containing the ISO year, ISO week number, and ISO weekday.</li>
 </ol>
 <p>Example:</p>
-<div id="cf6bbda5" class="cell" data-execution_count="3">
+<div id="b39ad326" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a datetime object</span></span>
@@ -456,15 +456,15 @@ ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pr
 <p>Additional operations:</p>
 <ol type="1">
 <li><p><strong>Current Date and Time</strong>:</p>
-<div id="a9f5329a" class="cell" data-execution_count="4">
+<div id="af1fdcb0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.now()</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(now)  <span class="co"># Output: current date and time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2024-07-09 08:31:52.205446</code></pre>
+<pre><code>2024-07-09 09:42:35.864752</code></pre>
 </div>
 </div></li>
 <li><p><strong>Parsing Dates</strong>:</p>
-<div id="cd034b97" class="cell" data-execution_count="5">
+<div id="48d5da7a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">"2023-07-05"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>parsed_date <span class="op">=</span> datetime.strptime(date_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(parsed_date)  <span class="co"># Output: 2023-07-05 00:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -473,7 +473,7 @@ ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pr
 </div>
 </div></li>
 <li><p><strong>Formatting Dates</strong>:</p>
-<div id="0d99c75e" class="cell" data-execution_count="6">
+<div id="288e4f79" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(formatted_date)  <span class="co"># Output: 2023-07-05 14:30:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -482,7 +482,7 @@ ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pr
 </div>
 </div></li>
 <li><p><strong>Date Arithmetic</strong>:</p>
-<div id="812c8f2d" class="cell" data-execution_count="7">
+<div id="edfb1e7d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> dt2 <span class="op">-</span> dt1</span>
@@ -492,7 +492,7 @@ ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pr
 </div>
 </div></li>
 <li><p><strong>Handling Time Zones</strong>:</p>
-<div id="a082dc90" class="cell" data-execution_count="8">
+<div id="0afa9dd1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> timezone, timedelta</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>utc_dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>, tzinfo<span class="op">=</span>timezone.utc)</span>
