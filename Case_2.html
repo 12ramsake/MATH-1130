@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If your machine uses Anaconda</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>conda install pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Before using a package in each notebook or session, it must be imported. Unlike installation, importing must be done every time you use python.</strong> Let’s import both packages using the <code>import</code> keyword. We will rename <code>pandas</code> to <code>pd</code> and <code>numpy</code> to <code>np</code> using the <code>as</code> keyword. This allows us to use the short name abbreviation when we want to reference any function that is inside either package. The abbreviations we chose are standard across the data science industry and should be followed unless there is a very good reason not to.</p>
-<div id="0fc786c7" class="cell" data-execution_count="1">
+<div id="304a695e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the Pandas package</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,7 +335,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>DataFrame: A two-dimensional labeled data structure with columns of potentially different types. Created using pd.<code>DataFrame(data, index=index, columns=columns)</code>, where data can be a dictionary of lists, list of dictionaries, or 2D array-like object.</p></li>
 </ul>
 <p>Example:</p>
-<div id="7a81fc27" class="cell" data-execution_count="2">
+<div id="bec4df79" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple Series object</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>simple_series <span class="op">=</span> pd.Series(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], name<span class="op">=</span><span class="st">"Volume"</span>, data<span class="op">=</span>[<span class="dv">1000</span>, <span class="dv">2600</span>, <span class="dv">1524</span>, <span class="dv">98000</span>]</span>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>DataFrame objects are more general than Series objects, and one DataFrame can hold many Series objects, each as a different column. Let’s create a two-column DataFrame object:</p>
-<div id="8727f787" class="cell" data-execution_count="3">
+<div id="ea256c83" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create another DataFrame object</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>another_df <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
@@ -476,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In your spare time please check the <a href="https://pandas.pydata.org/pandas-docs/stable/">pandas documentation</a> and explore the parameters of these methods as well as other methods. Familiarity with this library will dramatically improve your productivity as a data scientist.</p>
 <p>Using <code>df.head()</code> and <code>df.tail()</code> we can take a look at the data contents. Unless specified otherwise, Series and DataFrame objects have indices starting at 0 and increase monotonically upward along the integers.</p>
 <p>Example:</p>
-<div id="c7ca39d9" class="cell" data-execution_count="4">
+<div id="bb06db32" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -555,7 +555,7 @@ df.index attribute: RangeIndex(start=0, stop=5, step=1)</code></pre>
 <section id="creating-new-columns-and-variables" class="level3" data-number="2.2.4">
 <h3 data-number="2.2.4" class="anchored" data-anchor-id="creating-new-columns-and-variables"><span class="header-section-number">2.2.4</span> Creating new columns and variables</h3>
 <p>We can create new columns by adding new columns to the DataFrame or creating a new column based on existing columns:</p>
-<div id="11cde9f0" class="cell" data-execution_count="5">
+<div id="31810969" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -676,7 +676,7 @@ DataFrame with new 'Salary_over_Age' column:
 </section>
 <section id="summary-statistics-example" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="summary-statistics-example"><span class="header-section-number">2.3.3</span> Summary statistics example:</h3>
-<div id="e682cc90" class="cell" data-execution_count="6">
+<div id="f2241403" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example DataFrame</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -798,7 +798,7 @@ Standard Deviation: 5.70087712549569
 </div>
 </div>
 <p>In addition to describe, there is a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.value_counts.html">value_counts() method</a> for checking the frequency of elements in categorical data. When applied to a DataFrame class, <code>value_counts()</code> will return the frequency of each row in the DataFrame. In other words, for each unique row it returns how many instances of that row are in the DataFrame. When applied to a Series class <code>value_counts()</code> will return the frequency of each unique value in the given Series class:</p>
-<div id="951b210d" class="cell" data-execution_count="7">
+<div id="beb3f9fc" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dict_data <span class="op">=</span> {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numbers"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>,<span class="dv">1</span>],</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"color"</span>: [<span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>,<span class="st">"red"</span>],</span>
@@ -828,7 +828,7 @@ Name: count, dtype: int64</code></pre>
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="aggregating-dataframes"><span class="header-section-number">2.4.1</span> Aggregating DataFrames</h3>
 <p>One way to combined multiple DataFrames is through the use of the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.concat.html">pd.concat()</a> method from <code>pandas</code>. We can input a list of DataFrames into <code>pd.concat()</code> that we’d like to concatenate. The <code>pd.concat()</code> function is used to concatenate (combine) two or more DataFrames or Series along a particular axis (rows or columns).</p>
 <p>Examples:</p>
-<div id="726534dc" class="cell" data-execution_count="8">
+<div id="8d5bfb8d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two example DataFrames</span></span>
@@ -861,7 +861,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Explanation: Two DataFrames (df1 and df2) are created with identical columns. The pd.concat([df1, df2]) function concatenates df1 and df2 along the rows (default behavior). The <code>ignore_index=True</code> argument reindexes the resulting DataFrame to have a continuous index.</p>
-<div id="f388baa9" class="cell" data-execution_count="9">
+<div id="74db5422" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two example DataFrames</span></span>
@@ -913,7 +913,7 @@ Name: count, dtype: int64</code></pre>
 <section id="filtering-the-dataframe" class="level3" data-number="2.4.4">
 <h3 data-number="2.4.4" class="anchored" data-anchor-id="filtering-the-dataframe"><span class="header-section-number">2.4.4</span> Filtering the DataFrame:</h3>
 <p>Filtering a DataFrame means selecting rows that meet certain criteria. This is often done using conditions on one or more columns. Here’s a simple example to illustrate how filtering works:</p>
-<div id="4e6707b4" class="cell" data-execution_count="10">
+<div id="57f3b755" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
@@ -1063,7 +1063,7 @@ Filtered DataFrame (30 &lt;= Age &lt;= 40):
 <span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'target_column2'</span>: <span class="st">'sum'</span></span>
 <span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Example:</p>
-<div id="3ffe6a31" class="cell" data-execution_count="11">
+<div id="bc821642" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the groupby() method, notice a DataFrameGroupBy object is returned</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'City'</span>,<span class="st">"Age"</span>]].groupby(<span class="st">'City'</span>).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
@@ -1113,7 +1113,7 @@ Filtered DataFrame (30 &lt;= Age &lt;= 40):
 <li>Specifically, each item of the object is a tuple, containing the group identifier (in this case the city), and the corresponding rows of the DataFrame that have that city.</li>
 </ul>
 <p>Longer example:</p>
-<div id="89881b1a" class="cell" data-execution_count="12">
+<div id="3b3e33b9" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>, <span class="st">'Frank'</span>],</span>
@@ -1200,7 +1200,7 @@ Name: Name, dtype: int64</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>np.where(condition, x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Parameters: - <strong>condition</strong>: An array-like object (e.g., a series or NumPy array, list, or etc) that evaluates to <code>True</code> or <code>False</code>. - <strong>x</strong>: The value to choose when the condition is <code>True</code>. - <strong>y</strong>: The value to choose when the condition is <code>False</code>.</p>
 <p><code>np.where(condition, x, y)</code> returns an array with elements from <code>x</code> where the condition is <code>True</code> and elements from <code>y</code> where the condition is <code>False</code>.</p>
-<div id="68cda995" class="cell" data-execution_count="13">
+<div id="f1d20576" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an example DataFrame</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'David'</span>, <span class="st">'Eve'</span>],</span>
@@ -1227,7 +1227,7 @@ Name: Name, dtype: int64</code></pre>
 <section id="plotting-with-matplotlib" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="plotting-with-matplotlib"><span class="header-section-number">2.5</span> Plotting with <code>Matplotlib</code></h2>
 <p>The standard Python plotting library is <a href="https://matplotlib.org/">matplotlib</a>. Let’s import the library and instruct Jupyter to display the plots inline (i.e.&nbsp;display the plots to the notebook screen so we can see them as we run the code).</p>
-<div id="101353f8" class="cell" data-execution_count="14">
+<div id="cdfbdc2f" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import fundamental plotting library in Python</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1235,7 +1235,7 @@ Name: Name, dtype: int64</code></pre>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To plot a series, use <code>.plot()</code>. We will come back to <code>matplotlib</code> later.</p>
-<div id="6b474e55" class="cell" data-execution_count="15">
+<div id="0611c526" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1291,7 +1291,7 @@ Name: Name, dtype: int64</code></pre>
 <li><code>%H:%M:%S.%f</code> matches times like <code>14:30:00.000000</code>.</li>
 </ul>
 <p>Examples: <strong>Parsing Date in Non-Standard Format</strong>:</p>
-<div id="cb5e23bf" class="cell" data-execution_count="16">
+<div id="e7d4fe4d" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example date string in non-standard format</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">'03-07-23'</span>  <span class="co"># This represents July 3, 2023 in YY-MM-DD format</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1304,7 +1304,7 @@ Name: Name, dtype: int64</code></pre>
 </div>
 <p>In this example: - <code>%y-%m-%d</code> specifies the format where <code>%y</code> represents the two-digit year, <code>%m</code> represents the month, and <code>%d</code> represents the day.</p>
 <p><strong>Parsing Date and Time Together</strong>:</p>
-<div id="9f87baae" class="cell" data-execution_count="17">
+<div id="c9428f9c" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>date_time_str <span class="op">=</span> <span class="st">'07/03/2023 14:30:00'</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
@@ -1316,7 +1316,7 @@ Name: Name, dtype: int64</code></pre>
 </div>
 <p>In this example: - <code>%m/%d/%Y %H:%M:%S</code> specifies the format where <code>%m/%d/%Y</code> represents the date in MM/DD/YYYY format, and <code>%H:%M:%S</code> represents the time in HH:MM:SS format.</p>
 <p><strong>Handling Dates with Textual Month</strong>:</p>
-<div id="4bc8902c" class="cell" data-execution_count="18">
+<div id="0d857582" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>date_str_textual <span class="op">=</span> <span class="st">'July 3, 2023'</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime using format parameter</span></span>
