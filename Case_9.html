@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -195,8 +258,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preliminary-modules" id="toc-preliminary-modules" class="nav-link active" data-scroll-target="#preliminary-modules"><span class="header-section-number">9.1</span> Preliminary modules</a></li>
+  <li><a href="#contingency-tables" id="toc-contingency-tables" class="nav-link" data-scroll-target="#contingency-tables"><span class="header-section-number">9.2</span> Contingency tables</a>
+  <ul class="collapse">
+  <li><a href="#what-are-contingency-tables" id="toc-what-are-contingency-tables" class="nav-link" data-scroll-target="#what-are-contingency-tables"><span class="header-section-number">9.2.1</span> What are contingency tables</a></li>
+  <li><a href="#creating-contingency-tables-in-python" id="toc-creating-contingency-tables-in-python" class="nav-link" data-scroll-target="#creating-contingency-tables-in-python"><span class="header-section-number">9.2.2</span> Creating contingency tables in Python</a></li>
+  <li><a href="#stacked-barplots" id="toc-stacked-barplots" class="nav-link" data-scroll-target="#stacked-barplots"><span class="header-section-number">9.2.3</span> Stacked barplots</a></li>
+  </ul></li>
+  <li><a href="#chi-squared-tests" id="toc-chi-squared-tests" class="nav-link" data-scroll-target="#chi-squared-tests"><span class="header-section-number">9.3</span> Chi-squared tests</a></li>
+  <li><a href="#misc.-python-functions-from-case-9" id="toc-misc.-python-functions-from-case-9" class="nav-link" data-scroll-target="#misc.-python-functions-from-case-9"><span class="header-section-number">9.4</span> Misc. Python functions from Case 9</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -220,8 +297,171 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The main goal of this case is to learn how to detect relationships between categorical variables. By the end of this case, you should have learned how to use <em>contingency tables</em> to explore and design hypotheses of possible dependencies between the categorical features of your data. In addition, you should have learned how to conduct a <span class="math inline">\(\chi^2\)</span>-test (Chi-square test) to examine the dependences in the categories you previously hypothesized.</p>
+<section id="preliminary-modules" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">9.1</span> Preliminary modules</h2>
+<div id="70270663" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2_contingency</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="contingency-tables" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="contingency-tables"><span class="header-section-number">9.2</span> Contingency tables</h2>
+<section id="what-are-contingency-tables" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="what-are-contingency-tables"><span class="header-section-number">9.2.1</span> What are contingency tables</h3>
+<p><strong>Contingency tables</strong> can be used to investigate relationships between two categorical variables. A contingency table counts the number of times each pair of categories (one from each of the considered variables) occured together in the dataset. Given that the counts are not normalized - that is, the scale depends on the total number of observations - we may wish to normalize the counts by <span class="math inline">\(1/n\)</span> and report proportions. Medium to large variations in column or row counts/proportions indicate that there is a relationship between the two categorical variables in the table.</p>
+</section>
+<section id="creating-contingency-tables-in-python" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="creating-contingency-tables-in-python"><span class="header-section-number">9.2.2</span> Creating contingency tables in Python</h3>
+<p>The function <code>pd.crosstab()</code> can be used to make a contingency table.</p>
+<p>Syntax:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>contingency_table <span class="op">=</span> pd.crosstab(series <span class="dv">1</span>, series <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Example:</p>
+<div id="439a69dd" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Gender'</span>: [<span class="st">'Male'</span>, <span class="st">'Female'</span>, <span class="st">'Female'</span>, <span class="st">'Male'</span>, <span class="st">'Female'</span>, <span class="st">'Male'</span>, <span class="st">'Male'</span>, <span class="st">'Female'</span>, <span class="st">'Female'</span>, <span class="st">'Male'</span>],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Preference'</span>: [<span class="st">'Tea'</span>, <span class="st">'Coffee'</span>, <span class="st">'Coffee'</span>, <span class="st">'Tea'</span>, <span class="st">'Coffee'</span>, <span class="st">'Coffee'</span>, <span class="st">'Tea'</span>, <span class="st">'Tea'</span>, <span class="st">'Coffee'</span>, <span class="st">'Coffee'</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the contingency table of gender and preference</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>contingency_table <span class="op">=</span> pd.crosstab(data[<span class="st">'Gender'</span>], data[<span class="st">'Preference'</span>])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the contingency table</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(contingency_table)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(contingency_table<span class="op">/</span><span class="bu">len</span>(data.index))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Preference  Coffee  Tea
+Gender                 
+Female           4    1
+Male             2    3
+Preference  Coffee  Tea
+Gender                 
+Female         0.4  0.1
+Male           0.2  0.3</code></pre>
+</div>
+</div>
+<p>In this example: - <code>data</code> is a DataFrame containing the sample data. - <code>pd.crosstab(data['Gender'], data['Preference'])</code> creates the contingency table, showing the frequency of each combination of <code>Gender</code> and <code>Preference</code>.</p>
+<p>We see that 40% of the females enjoy coffee over tea, compared to that of 20% of the males. In this case, the distribution is non-uniform.</p>
+</section>
+<section id="stacked-barplots" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="stacked-barplots"><span class="header-section-number">9.2.3</span> Stacked barplots</h3>
+<p>A stacked bar plot is a type of bar chart used to visualize the relationship between two categorical variables. The <span class="math inline">\(x\)</span>-axis displays each category of one of the categorical variables. There is one bar for each category displayed on the <span class="math inline">\(x\)</span>-axis. Each bar in a stacked bar plot represents one category on the <span class="math inline">\(x\)</span>-axis, and segments within the bar represent the proportion of observations attributed to each of the categories in the categorical variable not displayed on the <span class="math inline">\(x\)</span>-axis. If the bars look similar accross the categories, this indicates no relationship between the two categories. On the other hand, bars that differ indicate a relationship between the two displayed categorical variables.</p>
+<p>In Python, we make a stacked barplot using a contingency table. The syntax is given by:</p>
+<pre class="syntax"><code>Cont_table.plot(kind='bar', stacked = True)</code></pre>
+<p>where <code>Cont_table</code> is a contingency table for the two categorical variables.</p>
+<p>Toy example:</p>
+<div id="ccb25698" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the contingency table</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>contingency_table <span class="op">=</span> pd.crosstab(data[<span class="st">'Gender'</span>], data[<span class="st">'Preference'</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the stacked bar plot</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>contingency_table.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Gender'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Count'</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Preference by Gender'</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Preference'</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_9_files/figure-html/cell-4-output-1.png" width="576" height="485" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The larger orange bars for the male category indicate that a higher proportion of males in the data set preferred tea over coffee than females in the data set.</p>
+</section>
+</section>
+<section id="chi-squared-tests" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="chi-squared-tests"><span class="header-section-number">9.3</span> Chi-squared tests</h2>
+<p>If we observe in the stacked barplots and contingency table that there is a relationship between two categorical variables, then we may wish to rule out sampling variability. For instance, how nonuniform does the stacked bar chart have to be for us to conclude there is a relationship between the two variables? There are many different ways to perform the test but we will focus on the most widely used test: the <strong>Chi-square test</strong> (<span class="math inline">\(\chi^2\)</span>-test). The hypotheses for the Chi-square test is:</p>
+<p><span class="math display">\[
+H_0:\text{Variable A is independent of Variable B}
+\]</span> vs. <span class="math display">\[
+H_a:\text{Variable A is not independent of Variable B}.
+\]</span></p>
+<p>Intuitively, “independence between two variables” means that knowledge of one of the variables does not inform us about what the other variable might be. For instance, in the coffee and tea example, if beverage preference and gender are independent, then knowing someone’s gender will not help us with figuring out if they prefer coffee or tea. Another way to state it is that the distribution of values of one variable remains the same even as the value of the other variable changes (and vice versa).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The different categories in a categorical variable are often referred to as levels.</p>
+</div>
+</div>
+<p>To execute the test, we must first compute the proportions of each level of each category within the data. To do that, we can use Python’s <code>value_counts()</code>.</p>
+<div id="66b5c7db" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number in each category </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>num_gen<span class="op">=</span>data[<span class="st">"Gender"</span>].value_counts()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide by total </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>prop_g<span class="op">=</span>(num_gen<span class="op">/</span>data[<span class="st">"Gender"</span>].count()).sort_index()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Number in each category </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>num_p<span class="op">=</span>data[<span class="st">'Preference'</span>].value_counts()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide by total </span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>prop_p<span class="op">=</span>(num_p<span class="op">/</span>data[<span class="st">'Preference'</span>].count()).sort_index()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>n<span class="op">=</span>data[<span class="st">'Preference'</span>].count()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(n)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prop_g)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prop_p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10
+Gender
+Female    0.5
+Male      0.5
+Name: count, dtype: float64
+Preference
+Coffee    0.6
+Tea       0.4
+Name: count, dtype: float64</code></pre>
+</div>
+</div>
+<p>Let’s go back to the contingency table. Each cell in the contingency table corresponds to one level from variable A and one from variable B.</p>
+<div id="e1f68c29" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(contingency_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Preference  Coffee  Tea
+Gender                 
+Female           4    1
+Male             2    3</code></pre>
+</div>
+</div>
+<p>In this case, each cell corresponds to one of either tea or coffee and one of either male or female. For instance, the upper left cell correponds to coffee and female. You will learn in your probability course that, under the null hypothesis, on average, each cell should contain roughly the number of samples, times the proportion of observations in the level from the row variable that correponds to that cell, times the proportion of observations in the level from the column variable that correponds to that cell. For instance, we expect the upper left cell to contain <span class="math display">\[\text{number of total samples} \times \text{proportion of females}\times \text{proportion of those who prefer coffee}= 10\times0.5\times0.6=3.\]</span></p>
+<div id="2622c970" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>g, p, dof, expctd <span class="op">=</span> chi2_contingency(contingency_table)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"p-value"</span>, p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p-value 0.5186050164287255</code></pre>
+</div>
+</div>
+<p>In this case, we fail to reject the null hypothesis since the <span class="math inline">\(p\)</span>-value is so high. This means that, the fact that the contingency table shows some non-uniform patters may be only a feature of this sample, and not of the population. It also may be that we do not have enough observations to rule out sampling variability. We cannot be certain.</p>
+</section>
+<section id="misc.-python-functions-from-case-9" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="misc.-python-functions-from-case-9"><span class="header-section-number">9.4</span> Misc. Python functions from Case 9</h2>
+<ul>
+<li>We can use <code>.sum()</code>, <code>.div()</code> etc. to perform mathematical operations accross columns or rows in pandas.</li>
+<li><code>plt.legend()</code> allows us to modify the legend in Python.</li>
+<li><code>.transpose()</code> swaps the rows and columns of a DataFrame.</li>
+<li><code>.isin(interable)</code> checks for each element in a series if it is in the given iterable.</li>
+<li><code>df.date_py.dt.dayofweek</code> gives the day of the week of a datetime object.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

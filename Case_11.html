@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -195,8 +258,17 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preliminary-modules" id="toc-preliminary-modules" class="nav-link active" data-scroll-target="#preliminary-modules"><span class="header-section-number">11.1</span> Preliminary modules</a></li>
+  <li><a href="#simple-linear-regression" id="toc-simple-linear-regression" class="nav-link" data-scroll-target="#simple-linear-regression"><span class="header-section-number">11.2</span> Simple linear regression</a></li>
+  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link" data-scroll-target="#multiple-linear-regression"><span class="header-section-number">11.3</span> Multiple linear regression</a></li>
+  <li><a href="#python-syntax-for-regression" id="toc-python-syntax-for-regression" class="nav-link" data-scroll-target="#python-syntax-for-regression"><span class="header-section-number">11.4</span> Python syntax for regression</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -220,8 +292,228 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>In Case 11 we introduced linear regression. You should understand the working components of a linear regression model such as interpreting the coefficients and understanding various metrics to properly evaluate the performance of the regression model.</p>
+<section id="preliminary-modules" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">11.1</span> Preliminary modules</h2>
+<div id="36208524" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Load relevant packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas                  <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span>   scipy <span class="im">import</span> stats</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy                   <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot       <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn                 <span class="im">as</span> sns</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># import chart_studio.plotly     as py</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># https://community.plot.ly/t/solved-update-to-plotly-4-0-0-broke-application/26526/2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Linear regression is concerned with the following problem: Suppose that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are some attributes of a population. What is the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>? How can we use <span class="math inline">\(X\)</span> to predict <span class="math inline">\(Y\)</span>, or how can we use <span class="math inline">\(X\)</span> to explain <span class="math inline">\(Y\)</span>?</p>
+<p>For example, questions of this form include:</p>
+<ul>
+<li>How is location, square feet, parking available related to the price of an Airbnb?</li>
+<li>How is hours played and age related to win rate in League of Legends?</li>
+<li>How are creatine and protein consumption related to deadlift 1RM?</li>
+<li>How is treatment (A or B) related to pain levels of patients?</li>
+</ul>
+</section>
+<section id="simple-linear-regression" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="simple-linear-regression"><span class="header-section-number">11.2</span> Simple linear regression</h2>
+<p>Simple linear regression is when we are trying to find the line of best fit between one variable <span class="math inline">\(X\)</span> and another <span class="math inline">\(Y\)</span>. A line has two parameters – intercept (<span class="math inline">\(\beta_0\)</span>) and slope (<span class="math inline">\(\beta_1\)</span>). Thus a linear model for the relationship between one variable <span class="math inline">\(X\)</span> and another <span class="math inline">\(Y\)</span> can be represented as <span class="math display">\[ Y = \beta_0 + \beta_1 X + \text{error} .\]</span></p>
+<p>The model says that any subjects value of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can be represented as <span class="math inline">\(Y = \beta_0 + \beta_1 X + \text{error}.\)</span> The interpretation of the coefficient <span class="math inline">\(\beta_1\)</span> is the following: an increase of one unit in <span class="math inline">\(X\)</span> will on average lead to a change of <span class="math inline">\(\beta_1\)</span> in <span class="math inline">\(Y\)</span>. The intercept <span class="math inline">\(\beta_0\)</span> can be thought of as a sort of “baseline” - it is the average value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(X=0\)</span>. The error is the individual variation around the average. For instance, we can use the tips dataset as an example. We can plot the line of best fit using <code>sns.lmplot()</code>.</p>
+<div id="394f7c74" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tips<span class="op">=</span>sns.load_dataset(<span class="st">"tips"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sns.lmplot(x <span class="op">=</span> <span class="st">'total_bill'</span>, y <span class="op">=</span> <span class="st">'tip'</span>, data <span class="op">=</span> tips, scatter_kws <span class="op">=</span> {<span class="st">'color'</span>: (<span class="dv">160</span><span class="op">/</span><span class="dv">255</span>,<span class="dv">199</span><span class="op">/</span><span class="dv">255</span>,<span class="dv">14</span><span class="op">/</span><span class="dv">255</span>)})</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Bill vs. Tip"</span>, fontsize<span class="op">=</span><span class="dv">20</span>, verticalalignment<span class="op">=</span><span class="st">'bottom'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bill"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Tip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>Text(33.775000000000006, 0.5, 'Tip')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_11_files/figure-html/cell-3-output-2.png" width="471" height="504" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice how the line represents the average value of the tip given the bill? The points do not exactly fall on the line, they vary around it. This variation is the error term in the above model. The intercept and slope of the line are the estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Just like in the hypothesis testing case, we have to distinguish between a population and a sample. In this case, the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are the population values which are unknown. In reality, we have a sample from the population and use the sample to estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, given by <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\hat\beta_1\)</span>.</p>
+</div>
+</div>
+<p>A <a href="https://www.displayr.com/learn-what-are-residuals/">residual</a> is the difference between an actual observed value of <span class="math inline">\(Y\)</span> and the one predicted by the linear regression line <span class="math inline">\(\hat Y\)</span>. That is, <span class="math inline">\(\hat\epsilon_i=Y_i-\hat Y_i\)</span>. It is the signed error between the observed and the value guessed by the line.</p>
+<p>We can estimate the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> as follows</p>
+<div id="1e66555b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tips.head()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model<span class="op">=</span> <span class="st">'tip~total_bill'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lm1   <span class="op">=</span> sm.ols(formula <span class="op">=</span> model, data <span class="op">=</span> tips).fit()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm1.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    tip   R-squared:                       0.457
+Model:                            OLS   Adj. R-squared:                  0.454
+Method:                 Least Squares   F-statistic:                     203.4
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           6.69e-34
+Time:                        14:16:28   Log-Likelihood:                -350.54
+No. Observations:                 244   AIC:                             705.1
+Df Residuals:                     242   BIC:                             712.1
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.9203      0.160      5.761      0.000       0.606       1.235
+total_bill     0.1050      0.007     14.260      0.000       0.091       0.120
+==============================================================================
+Omnibus:                       20.185   Durbin-Watson:                   2.151
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               37.750
+Skew:                           0.443   Prob(JB):                     6.35e-09
+Kurtosis:                       4.711   Cond. No.                         53.0
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>There is a lot of output contained in the linear regression model output. First, the column <code>coef</code> gives <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\hat\beta_1\)</span>. We interpret the coeficient for total bill as: on average, we expect the tip to increase by 0.1050 for each dollar increase in total bill.</p>
+<p>The column <code>P&gt;|t|</code> displays the <span class="math inline">\(p\)</span>-values for the test <span class="math inline">\(H_0\colon \beta_i=0\)</span> vs <span class="math inline">\(H_a\colon \beta_i\neq 0\)</span>. If a coefficient is 0 theoretically, that means that the associated variable is not related to the response variable <span class="math inline">\(Y\)</span>. For instance, if the coefficient for total bill was 0, then that implies that the value of the bill does not impact the tip amount. So, if this <span class="math inline">\(p\)</span>-value is not small, it is an indication that there is no relationship between total bill and tip. In the intercept <span class="math inline">\(p\)</span>-value is small, then this means that the intercept is 0. In this case, both <span class="math inline">\(p\)</span>-values are very small, and so both parameters are important.</p>
+<p>Another quantity you will see is the <a href="https://blog.minitab.com/blog/adventures-in-statistics-2/regression-analysis-how-do-i-interpret-r-squared-and-assess-the-goodness-of-fit"><span class="math inline">\(R\)</span>-squared</a>. Note that the table shows <span class="math inline">\(R\)</span>-squared and adjusted <span class="math inline">\(R\)</span>-squared - if you have many variables, then you should use the adjusted <span class="math inline">\(R\)</span>-squared. Both of these quantities are always going to be between 0 and 1. For the tips data, this quantity is 0.457 = 45.7%. This means that the total bill explains 45.7% of the variation in tips. The remaining 55% is due to other, unknown factors. The higher the (adjusted or non-adjusted) <span class="math inline">\(R\)</span>-squared, the higher the percentage of observed variation that can be explained by the model.</p>
+</section>
+<section id="multiple-linear-regression" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="multiple-linear-regression"><span class="header-section-number">11.3</span> Multiple linear regression</h2>
+<p>Multiple linear regression consists of a linear model with <span class="math inline">\(p&gt;1\)</span> variables. The theoretical model is given by</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X_1+ \beta_2 X_2+\ldots+ \beta_p X_p + \mathrm{error}.\]</span></p>
+<p>In Python, we can add another variable to the model as follows:</p>
+<div id="35d7038b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model2<span class="op">=</span> <span class="st">'tip~total_bill+sex'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lm2   <span class="op">=</span> sm.ols(formula <span class="op">=</span> model2, data <span class="op">=</span> tips).fit()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm2.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    tip   R-squared:                       0.457
+Model:                            OLS   Adj. R-squared:                  0.452
+Method:                 Least Squares   F-statistic:                     101.3
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           1.18e-32
+Time:                        14:16:28   Log-Likelihood:                -350.52
+No. Observations:                 244   AIC:                             707.0
+Df Residuals:                     241   BIC:                             717.5
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+=================================================================================
+                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+---------------------------------------------------------------------------------
+Intercept         0.9067      0.175      5.182      0.000       0.562       1.251
+sex[T.Female]     0.0266      0.138      0.192      0.848      -0.246       0.299
+total_bill        0.1052      0.007     14.110      0.000       0.091       0.120
+==============================================================================
+Omnibus:                       20.499   Durbin-Watson:                   2.149
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               38.652
+Skew:                           0.447   Prob(JB):                     4.05e-09
+Kurtosis:                       4.733   Cond. No.                         63.0
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>The above model takes bill total and sex into account simultaneously. Sex takes only two values – <code>male</code> and <code>female</code>. Such variables are called <b>categorical variables</b>. The way we interpret the coefficients of categorical variables in the linear model is slightly different from those of numeric variables.</p>
+<p>Each categorical variable in a regression model includes a baseline category. To figure out the baseline category, it is the one missing from the table in the regression output. In this case, <code>male</code> is missing, so it can taken to be the baseline. The interpretation of the coefficient <code>sex[T.Female]</code> is that, accounting for total bill, the average tip from a female is 0.0266 higher than from a male. (Note that this coefficient is not significant - does not have a small <code>p</code>-value - and so there is no evidence that the tips from males and females differ, after accounting for total bill.)</p>
+<p>Let’s make a bigger model:</p>
+<div id="a4b7fb4d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'tip~total_bill+sex+smoker+day+time+size'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> sm.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    tip   R-squared:                       0.470
+Model:                            OLS   Adj. R-squared:                  0.452
+Method:                 Least Squares   F-statistic:                     26.06
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           1.20e-28
+Time:                        14:16:28   Log-Likelihood:                -347.48
+No. Observations:                 244   AIC:                             713.0
+Df Residuals:                     235   BIC:                             744.4
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          0.5908      0.256      2.310      0.022       0.087       1.095
+sex[T.Female]      0.0324      0.142      0.229      0.819      -0.247       0.311
+smoker[T.No]       0.0864      0.147      0.589      0.556      -0.202       0.375
+day[T.Fri]         0.1623      0.393      0.412      0.680      -0.613       0.937
+day[T.Sat]         0.0408      0.471      0.087      0.931      -0.886       0.968
+day[T.Sun]         0.1368      0.472      0.290      0.772      -0.793       1.066
+time[T.Dinner]    -0.0681      0.445     -0.153      0.878      -0.944       0.808
+total_bill         0.0945      0.010      9.841      0.000       0.076       0.113
+size               0.1760      0.090      1.966      0.051      -0.000       0.352
+==============================================================================
+Omnibus:                       27.860   Durbin-Watson:                   2.096
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               52.555
+Skew:                           0.607   Prob(JB):                     3.87e-12
+Kurtosis:                       4.923   Cond. No.                         281.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>We observe that <code>size</code> and <code>total_bill</code> are the only important variables in explaining tips, even when accounting for all other variables.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When there are multiple variables in the model, the interpretation of the coefficients changes. It has to include “accounting for the remaining variables in the model, …”. For example, above, we can interpret the coefficient for total bill as: “Accounting for size, sex, smoking, time and day, the average increase in tips per dollar increase in total bill is 0.0945.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice that in the above interpretation, we say <code>average increase</code>. This is very important. The model does not say that a dollar increase in total bill will increase tips by 0.0945. It says that on average, that is what we would expect. But it is not for certain that each dollar increase will increase your tip. In reality, some people tip higher, some people tip lower. The model is saying that these average out to a 0.0945 increase per dollar.</p>
+</div>
+</div>
+</section>
+<section id="python-syntax-for-regression" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="python-syntax-for-regression"><span class="header-section-number">11.4</span> Python syntax for regression</h2>
+<p>The following is an overview of the Python syntax for regression for building a regression model.</p>
+<ol type="1">
+<li>To do linear regression in Python, we need to import the library from <code>statsmodels</code>: <code>import statsmodels.formula.api as smf</code>.</li>
+<li>Next, we use a formula object to define the variables in our model. The intercept is included by default. Define the formula object: <code>formula = 'dependent_variable ~ independent_variable1 + independent_variable2 + ...'</code>. The names should match up with the column names in the DataFrame.</li>
+<li>To fit the model, we use the following syntax: <code>model = smf.ols(formula, data=data).fit()</code>. Here <code>data</code> is the DataFrame name.</li>
+<li>To print the summary of the regression results: <code>print(model.summary())</code></li>
+</ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

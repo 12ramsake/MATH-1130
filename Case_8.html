@@ -269,7 +269,7 @@ window.Quarto = {
   <li><a href="#testing-for-a-difference-in-mean-for-two-populations" id="toc-testing-for-a-difference-in-mean-for-two-populations" class="nav-link" data-scroll-target="#testing-for-a-difference-in-mean-for-two-populations"><span class="header-section-number">8.4</span> Testing for a difference in mean for two populations</a></li>
   <li><a href="#testing-for-a-difference-in-mean-for-several-populations" id="toc-testing-for-a-difference-in-mean-for-several-populations" class="nav-link" data-scroll-target="#testing-for-a-difference-in-mean-for-several-populations"><span class="header-section-number">8.5</span> Testing for a difference in mean for several populations</a></li>
   <li><a href="#errors-in-hypothesis-testing" id="toc-errors-in-hypothesis-testing" class="nav-link" data-scroll-target="#errors-in-hypothesis-testing"><span class="header-section-number">8.6</span> Errors in hypothesis testing</a></li>
-  <li><a href="#misc.-python-functions-from-case-8" id="toc-misc.-python-functions-from-case-8" class="nav-link" data-scroll-target="#misc.-python-functions-from-case-8"><span class="header-section-number">8.7</span> Misc. Python functions from Case 8</a></li>
+  <li><a href="#misc.-python-functions-introduced-in-case-8" id="toc-misc.-python-functions-introduced-in-case-8" class="nav-link" data-scroll-target="#misc.-python-functions-introduced-in-case-8"><span class="header-section-number">8.7</span> Misc. Python functions introduced in Case 8</a></li>
   </ul>
 </nav>
     </div>
@@ -297,7 +297,7 @@ window.Quarto = {
 
 <p>One of the key problems in data science is assessing whether a pattern you notice is :</p>
 <ol type="1">
-<li>a pattern inherent in the overall population from which the observations are drawn</li>
+<li>a pattern inherent in the overall population from which the observations are drawn,</li>
 </ol>
 <p>OR</p>
 <ol start="2" type="1">
@@ -306,7 +306,7 @@ window.Quarto = {
 <p>In this case, you learnt a fundamental tool to approach this problem called <strong>statistical hypothesis testing</strong>. You should know how to conduct a hypothesis test, analyze its outcome, and identify its shortcomings.</p>
 <section id="preliminary-modules" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">8.1</span> Preliminary modules</h2>
-<div id="3137077f" class="cell" data-execution_count="1">
+<div id="b2f0d7d6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -321,14 +321,14 @@ window.Quarto = {
 </section>
 <section id="hypothesis-testing-overview" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="hypothesis-testing-overview"><span class="header-section-number">8.2</span> Hypothesis testing overview</h2>
-<p>Hypothesis help you rule out <em>sampling variation</em> as an explanation for an observed pattern in a data set. It helps us lift a pattern from a sample to a population. The idea is this - every data set we have seen in this course is comprised of a small subset of a population we are interested in learning about. That small subset is called a sample. For instance, in the previous case, we were interested in the population of trips taken on the rentable bikes. We had access to a small subset of the trips taken - this is the sample. Now, there is a small problem with the results of any data analysis. The subset of observations or sample that we have access to is random. We could have easily drawn a different subset and a different subset will give different output in data analysis - that is - different plots and summary statistics. For instance, the average length of a bike trip could be 45 minutes in one subset and 30 minutes in another. The true average bike trip length for the population could be anything - say 39. The purpose of hypothesis testing is to rule out the situation where the sample may not resemble the population. In other words, it is useful to say that the conclusions made in our data analysis are likely to reflect that of the population, and are not due to drawing a bad sample.</p>
+<p>Hypothesis help you rule out <em>sampling variation</em> as an explanation for an observed pattern in a data set. It helps us lift a pattern from a sample to a population. The idea is this - every data set we have seen in this course is comprised of a small subset of a population we are interested in learning about. That small subset is called a sample. For instance, in the previous case, we were interested in the population of trips taken on the rentable bikes. We had access to a small subset of the trips taken - this is the sample. Now, there is a small problem with the results of any data analysis. The subset of observations, or sample of observations, that we have access to is <strong>random</strong>. We could have easily drawn a different subset and a different subset will give different output in data analysis - that is - different plots and summary statistics. For instance, the average length of a bike trip could be 45 minutes in one subset and 30 minutes in another. The true average bike trip length for the population could be anything - say 39. The purpose of hypothesis testing is to rule out the situation where the sample may not resemble the population. In other words, it is useful to say that the conclusions made in our data analysis are likely to reflect that of the population, and are not due to drawing a bad sample.</p>
 <p>In this course, we will mainly focus on saying something about the mean of potentially several populations. In general, the hypothesis testing procedure concerns two hypotheses - the null and alternative hypothesis. These contain mutually exclusive statements about a population.</p>
 <p>For example: <span class="math display">\[H_0: \text{The population trip length is } 40\ vs.\ H_a: \text{The population trip length is not } 40.\]</span></p>
 <p><span class="math inline">\(H_0\)</span> is called the null hypothesis. The null hypothesis often corresponds to the situation of “no effect” - but not always.</p>
 <p>In opposition to the null hypothesis, we define an alternative hypothesis (often indicated with <span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_a\)</span>) to challenge the null hypothesis. In general, this is the hypothesis of there existing some pattern or effect in the data.</p>
 <p>For instance, we may suspect that the average trip length is 40, and we may be concerned about whether our data shows that the trip length is longer than this. This may be of concern for computing bike maintenance costs. In that case, we would define <span class="math inline">\(H_a: \text{The population trip length is greater than } 40.\)</span></p>
-<p>The next step in a hypothesis test is to compute a <strong>p-value</strong> using our sample. The p-value measures the evidence against the null hypothesis. It is a number between 0 and 1. The closer to 0 the p-value is, the more evidence there is against the null hypothesis. The p-value can be interpreted as follows: The p-value is the probability that, assuming the null hypothesis is true, we drew a sample that differs from the null hypothesis at least as much as the one at hand.</p>
-<p>Let’s unpack this statement using our example. First, before computing our p-value we assume that the null hypothesis is true. In our example, we would assume that the mean population trip length is 40 minutes. Then, if the mean population trip length is 40 minutes we can measure how far the sample mean is from 40. Say that our sample mean is 45, and so then we would have observed a sample whose mean is 5 minutes higher than that of the assumed population mean. The p-value is then the probability that we saw a sample whose sample mean is at least 5 minutes away from 40. You will learn in a later course how to compute such a probability. Intuitively, the higher the distance of the sample mean from 40, the lower the p-value. Therefore, if we observe a sample mean far from 40, the p-value will be very close to 0. We can interpret the p-value as the probability, assuming the mean population trip length is 40, that we drew a sample whose mean differs from 40 at least as much as the one at hand.</p>
+<p>The next step in a hypothesis test is to compute a <strong><span class="math inline">\(p\)</span>-value</strong> using our sample. The <span class="math inline">\(p\)</span>-value measures the evidence against the null hypothesis. It is a number between 0 and 1. The closer to 0 the <span class="math inline">\(p\)</span>-value is, the more evidence there is against the null hypothesis. The <span class="math inline">\(p\)</span>-value can be interpreted as follows: The <span class="math inline">\(p\)</span>-value is the probability that, assuming the null hypothesis is true, we drew a sample that differs from the null hypothesis at least as much as the one at hand.</p>
+<p>Let’s unpack this statement using our example. First, before computing our <span class="math inline">\(p\)</span>-value we assume that the null hypothesis is true. In our example, we would assume that the mean population trip length is 40 minutes. Then, if the mean population trip length is 40 minutes we can measure how far the sample mean is from 40. Say that our sample mean is 45, and so then we would have observed a sample whose mean is 5 minutes higher than that of the assumed population mean. The <span class="math inline">\(p\)</span>-value is then the probability that, assuming the true mean is 40, we saw a sample whose sample mean is at least 5 minutes away from 40. You will learn in a later course how to compute such a probability. Intuitively, the higher the distance of the sample mean from 40, the lower the <span class="math inline">\(p\)</span>-value. Therefore, if we observe a sample mean far from 40, the <span class="math inline">\(p\)</span>-value will be very close to 0. We can interpret the <span class="math inline">\(p\)</span>-value as the probability, assuming the mean population trip length is 40, that we drew a sample whose sample mean differs from 40 at least as much as the sample mean of the data set at hand.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -342,8 +342,12 @@ Caution
 <p>The <span class="math inline">\(p\)</span>-value DOESN’T mean that the probability of <span class="math inline">\(H_a\)</span> is 1-(<span class="math inline">\(p\)</span> - value).</p>
 </div>
 </div>
-<p>In general, p-values close to 0, as in &lt;0.1 or &lt;0.05 present evidence against the null hypothesis. This threshold can depend on the application.</p>
-<p>When doing a formal hypothesis tests, there are two possible outcomes for a test: - (1) We conclude <span class="math inline">\(H_0\)</span> is false, and say we <strong>reject <span class="math inline">\(H_0\)</span></strong>. In this case we will conclude that there is statistical evidence for the alternative <span class="math inline">\(H_a\)</span>. - Or (2) we <strong>fail to reject <span class="math inline">\(H_0\)</span></strong>. In this case, we conclude that there is not enough statistical evidence to say that <span class="math inline">\(H_0\)</span> is false.</p>
+<p>In general, <span class="math inline">\(p\)</span>-values close to 0, as in &lt;0.1 or &lt;0.05 present evidence against the null hypothesis. This threshold can depend on the application.</p>
+<p>When doing a formal hypothesis tests, there are two possible outcomes for a test:</p>
+<ol type="1">
+<li>We conclude <span class="math inline">\(H_0\)</span> is false, and say we <strong>reject <span class="math inline">\(H_0\)</span></strong>. In this case we will conclude that there is statistical evidence for the alternative <span class="math inline">\(H_a\)</span>.</li>
+<li>We <strong>fail to reject <span class="math inline">\(H_0\)</span></strong>. In this case, we conclude that there is not enough statistical evidence to say that <span class="math inline">\(H_0\)</span> is false.</li>
+</ol>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -354,10 +358,10 @@ Caution
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Notice that in the second case we cannot say that the original hypothesis is true - it might be that we just don’t have enough data to rule it out.</p>
+<p>Notice that in the second case we cannot say that the null hypothesis is true - it might be that we just don’t have enough data to rule it out.</p>
 </div>
 </div>
-<p>In a formal hypothesis test, we define a threshold <span class="math inline">\(\alpha\)</span>, where if the <span class="math inline">\(p\)</span>-value falls below this threshold, then we reject the null hypothesis. In general, less formal cases, one may just compute the p-value and use it to inform decision making, along with other factors.</p>
+<p>In a formal hypothesis test, we define a threshold <span class="math inline">\(\alpha\)</span>, where if the <span class="math inline">\(p\)</span>-value falls below this threshold, then we reject the null hypothesis. In general, less formal cases, one may just compute the <span class="math inline">\(p\)</span>-value and use it to inform decision making, along with other factors.</p>
 <p>To summarize:</p>
 <ol type="1">
 <li>A hypothesis test is used to confirm that a pattern is a feature of the population, and is not due to sampling variation.</li>
@@ -377,7 +381,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A hypothesis test cannot tell you which scenario is certainly true - we would have to have access to the whole population to know that. It can tell us that things hold with very high certainty, which is generally enough for most situations.</p>
+<p>A hypothesis test cannot tell you which scenario is certainly true - we would have to have access to the whole population to know that. It can, however, tell us that certain patterns are features of the population with very high certainty, which is sufficient for most situations.</p>
 </div>
 </div>
 <p>The hypothesis tests introduced in Case 8 concern only testing for the mean of one or more populations. We cover each of those in turn.</p>
@@ -391,28 +395,81 @@ Warning
 <li><p><span class="math inline">\(H_a: \mu &gt; \mu_0\)</span> (one-sided test)</p></li>
 <li><p><span class="math inline">\(H_a: \mu &lt; \mu_0\)</span> (one-sided test)</p></li>
 </ol>
+<p>A common way to perform this test is to use the one-sample <span class="math inline">\(t\)</span>-test.</p>
 <p>The syntax for perfomring the test is given as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stats.ttest_1samp(Series you want to test, popmean<span class="op">=</span> mu_0, alternative<span class="op">=</span> specify which of (<span class="dv">1</span><span class="op">-</span><span class="dv">3</span>) here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <span class="math inline">\(p\)</span>-value is listed in the output, and can be interpreted as instructed above.</p>
+<p>Example:</p>
+<div id="301fb2ba" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Pandas Series with sample data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.Series([<span class="fl">2.3</span>, <span class="fl">1.9</span>, <span class="fl">2.7</span>, <span class="fl">2.5</span>, <span class="fl">2.1</span>])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform a one-sample t-test</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> stats.ttest_1samp(data, popmean<span class="op">=</span><span class="fl">2.0</span>, alternative<span class="op">=</span><span class="st">'greater'</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'T-statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">, P-value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-statistic: 2.121320343559641, P-value: 0.0505957536091478</code></pre>
+</div>
+</div>
 </section>
 <section id="testing-for-a-difference-in-mean-for-two-populations" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="testing-for-a-difference-in-mean-for-two-populations"><span class="header-section-number">8.4</span> Testing for a difference in mean for two populations</h2>
 <p>We now cover how to perform a hypothesis test concerning the difference in the mean values between two populations. We would like to test whether two populations have different population means. That is, whether the difference between the population mean of group 1 (<span class="math inline">\(\mu_1\)</span>) is different from the population mean of group 2 (<span class="math inline">\(\mu_2\)</span>). The hypotheses look like: <span class="math display">\[ H_0: \mu_1=\mu_2\]</span> <span class="math display">\[H_a: \mu_1 \neq \mu_2\]</span></p>
-<p>The syntax for performing this test is given as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(data <span class="cf">for</span> group <span class="dv">1</span> , data <span class="cf">for</span> group <span class="dv">2</span>, equal_var<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A common way to perform this test is to use the two-sample <span class="math inline">\(t\)</span>-test with unequal variance. (If you think the two populations have approximately the same variance, you can set <code>equal_var=True</code> in the following code.)</p>
+<p>The syntax for perfomring the test is given as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(data <span class="cf">for</span> group <span class="dv">1</span> , data <span class="cf">for</span> group <span class="dv">2</span>, equal_var<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <span class="math inline">\(p\)</span>-value is listed in the output, and can be interpreted as instructed above.</p>
+<p>Example:</p>
+<div id="b3fcc314" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two Pandas Series with sample data for two groups</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> pd.Series([<span class="fl">2.3</span>, <span class="fl">1.9</span>, <span class="fl">2.7</span>, <span class="fl">2.5</span>, <span class="fl">2.1</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> pd.Series([<span class="fl">3.1</span>, <span class="fl">3.6</span>, <span class="fl">3.2</span>, <span class="fl">3.8</span>, <span class="fl">3.0</span>])</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform an independent two-sample t-test</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> stats.ttest_ind(group1, group2, equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'T-statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">, P-value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-statistic: -4.980696683149987, P-value: 0.0011005506250116467</code></pre>
+</div>
+</div>
 </section>
 <section id="testing-for-a-difference-in-mean-for-several-populations" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="testing-for-a-difference-in-mean-for-several-populations"><span class="header-section-number">8.5</span> Testing for a difference in mean for several populations</h2>
 <p>Lastly, if we would like to perform a hypothesis test for whether or not all the population means are the same when considering <span class="math inline">\(k&gt;2\)</span> populations, we can do the following.</p>
 <p>First, the hypotheses are given by</p>
 <p><span class="math display">\[H_0: \mu_1=\mu_2\ldots\mu_3=\mu_k,\]</span> vs. <span class="math display">\[H_a : \mathrm{At \,least\, one\, of\, the\, means\,} \mu_j \mathrm{\,is \,different\, from\, the \,others}.\]</span></p>
-<p>To test this hypothesis we need an extension of the capabilities of the <span class="math inline">\(t\)</span> - test (which can test only two groups at the same time). This test is called <strong>Analysis of Variance (ANOVA)</strong>.</p>
+<p>To test this hypothesis we need an extension of the capabilities of the <span class="math inline">\(t\)</span> - tests (which can test at most only two groups at the same time). This test is called <strong>Analysis of Variance (ANOVA)</strong>.</p>
 <p>The syntax is given as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is code you can fill in to perform this test</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mod <span class="op">=</span> ols(<span class="st">'quantity of interest ~ grouping variable'</span>, data<span class="op">=</span> YOUR_DATAFRAME).fit()  </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sm.stats.anova_lm(mod, typ<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is code you can fill in to perform this test</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mod <span class="op">=</span> ols(<span class="st">'quantity of interest ~ grouping variable'</span>, data<span class="op">=</span> YOUR_DATAFRAME).fit()  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sm.stats.anova_lm(mod, typ<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <span class="math inline">\(p\)</span>-value is listed in the output, and can be interpreted as instructed above.</p>
+<p>Example:</p>
+<div id="6a095622" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample DataFrame</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'quantity'</span>: [<span class="fl">2.3</span>, <span class="fl">1.9</span>, <span class="fl">2.7</span>, <span class="fl">2.5</span>, <span class="fl">2.1</span>, <span class="fl">3.1</span>, <span class="fl">3.6</span>, <span class="fl">3.2</span>, <span class="fl">3.8</span>, <span class="fl">3.0</span>],</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'group'</span>: [<span class="st">'A'</span>, <span class="st">'A'</span>, <span class="st">'A'</span>, <span class="st">'A'</span>, <span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'B'</span>, <span class="st">'B'</span>, <span class="st">'B'</span>, <span class="st">'B'</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the linear model using OLS</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mod <span class="op">=</span> ols(<span class="st">'quantity ~ group'</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform ANOVA</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>anova_results <span class="op">=</span> sm.stats.anova_lm(mod, typ<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(anova_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          sum_sq   df          F    PR(&gt;F)
+group      2.704  1.0  24.807339  0.001079
+Residual   0.872  8.0        NaN       NaN</code></pre>
+</div>
+</div>
 </section>
 <section id="errors-in-hypothesis-testing" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="errors-in-hypothesis-testing"><span class="header-section-number">8.6</span> Errors in hypothesis testing</h2>
@@ -421,6 +478,7 @@ Warning
 <li>When <span class="math inline">\(H_0\)</span> is true and we reject it. This is called <strong>Type 1 Error</strong>. It corresponds to obtaining a <strong>false positive</strong>.</li>
 <li>When <span class="math inline">\(H_0\)</span> is false and we do not reject it. This is called <strong>Type 2 Error</strong>. It corresponds to having a <strong>false negative</strong>.</li>
 </ol>
+<p>This can be summarized as follows:</p>
 <table>
 <tbody><tr>
 <td>
@@ -458,17 +516,17 @@ Type II error
 <p>In general, a Type I error is thought to be more serious and so it is standard practice to control the probability of making a Type I error. In a formal hypothesis test, when the null hypothesis is true, the probability of making a Type I error is the threshold <span class="math inline">\(\alpha\)</span>, also known as the significance level, that we introduced above. Often, we choose our significance level <span class="math inline">\(\alpha\)</span> to be small, e.g., <span class="math inline">\(1\%,5\%,10\%\)</span>. Lowering the <span class="math inline">\(\alpha\)</span> value (say to <span class="math inline">\(1\%\)</span>) will decrease the probability of making a false positive conclusion, when the null hypothesis is true. Of course, because we control <span class="math inline">\(\alpha\)</span>, we cannot control the Type II error we make. Note that lowering <span class="math inline">\(\alpha\)</span> is not without consequence, as, if the alternative hypothesis is true, then a lower threshold increases the probability of a Type II error.</p>
 <p>In summary, it is important to be aware of the two types of error and evaluate the gravity of what making each error would mean for your context. In particular, you should evaluate the consequences of making a Type I error and choose your the threshold <span class="math inline">\(\alpha\)</span> accordingly. Lastly, you should know that there is a trade-of between Type I error and Type II error in a given hypothesis test.</p>
 </section>
-<section id="misc.-python-functions-from-case-8" class="level2" data-number="8.7">
-<h2 data-number="8.7" class="anchored" data-anchor-id="misc.-python-functions-from-case-8"><span class="header-section-number">8.7</span> Misc. Python functions from Case 8</h2>
+<section id="misc.-python-functions-introduced-in-case-8" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="misc.-python-functions-introduced-in-case-8"><span class="header-section-number">8.7</span> Misc. Python functions introduced in Case 8</h2>
 <ol type="1">
 <li><p><code>plt.subplot(rows, cols, curr_plot)</code> - use this function to position multiple plots in a single figure. For example, <code>plt.subplot(2, 3, 4)</code> creates a grid with 2 rows and 3 columns and activates the 4th subplot.</p></li>
 <li><p><code>sns.countplot</code> - creates a barplot.</p></li>
 <li><p><code>enumerate</code> Use this function to get both the index and the value from an iterable in a loop. Example:</p></li>
 </ol>
-<div id="896697cd" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'banana'</span>, <span class="st">'cherry'</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, fruit <span class="kw">in</span> <span class="bu">enumerate</span>(fruits, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>fruit<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="193c2aea" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'banana'</span>, <span class="st">'cherry'</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, fruit <span class="kw">in</span> <span class="bu">enumerate</span>(fruits, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>fruit<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1: apple
 2: banana

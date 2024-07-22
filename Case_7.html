@@ -271,16 +271,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this case we learnt the steps we must take to clean a dataset. We also learnt several ways to handle missing data.</p>
 <section id="preliminary-modules" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">7.1</span> Preliminary modules</h2>
-<div id="2d9d30e5" class="cell" data-execution_count="1">
+<div id="c1f9125e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> base64</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># from datetime import datetime, timezone, timedelta</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="handling-missing-data" class="level2" data-number="7.2">
@@ -290,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>NaN or nan</strong>: This is the most common representation of missing values, especially in Python.</li>
 <li><strong>None</strong>: In some programming languages, <code>None</code> is used to indicate the absence of a value.</li>
 <li><strong>Null or NULL</strong>: Common in SQL databases.</li>
-<li><strong>Empty strings (““)</strong>: Often used in text data.</li>
+<li><strong>Empty strings (“’’)</strong>: Often used in text data.</li>
 <li><strong>Special values</strong>: Sometimes a special value, like <code>-9999</code> or <code>9999</code>, is used to represent missing data.</li>
 <li><strong>NA or N/A</strong>: These are often used in spreadsheets and text files to denote missing values.</li>
 <li><strong>0 or -1</strong>: Occasionally used in cases where 0 or -1 are not valid values in the context of the data.</li>
@@ -298,14 +299,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Placeholders like “missing” or “unknown”</strong>: Textual placeholders indicating the data is not available.</li>
 <li><strong>INF or -INF</strong>: Infinity values, sometimes used to denote missing values.</li>
 </ol>
-<p><strong>Before moving forward, it is important to convert the missing values to either ‘NaN’ or ‘nan’, as this is what python functions built for missing values will expect to see.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before moving forward, it is important to convert the missing values to either ‘NaN’ or ‘nan’, as this is what python functions built for missing values will expect to see.</p>
+</div>
+</div>
 <p>Previous cases only gave a passing treatment of missing data and resulted in dropping the rows containing null values entirely. Here, we will be more nuanced and look at ways that missing values can be replaced appropriately. As always, domain knowledge is crucial in selecting what method to go forward with.</p>
-<p><strong>The goal of filling in missing data is to not neccessarily to recover the exact values of the missing values, but rather to ensure that the conclusions of the analysis are not overtly impacted by the missing values.</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal of filling in missing data is to not neccessarily to recover the exact values of the missing values, but rather to ensure that the conclusions of the analysis are not overtly impacted by the missing values.</p>
+</div>
+</div>
 <p>When dealing with missing data, it is important not to just use generic pandas/Python functions without thinking to fill them in. This can drastically corrupt your analysis.</p>
 <p>Instead, a first step is to find the source of the missing data. Why is it missing? and/or how did it go missing? If we can answer these questions, then this will help us in determining how to fill in the missing values.</p>
 <p>One way to handle missing values is to simply remove any row which contains a missing value from the dataset. This is known as <strong>complete case analysis</strong>. Complete case analysis is desirable when there are not that many rows with missing values, and we do not lose any critical sub-populations as a results of dropping those rows. For instance, a rule of thumb is that if &lt;1% of the rows are missing, then it might be desirable to do a complete case analysis. It is fast and easy, and does not require extensive statistical knowledge. This also depends on the size of the dataset. If you have 10 million observations, and 1 million within each subpopulation, then removing even 5% of the rows should not impact the analysis too much. On the other hand, if we have only 20 observations, we should try not to remove any rows.</p>
 <p>Another approach is to fill in the missing values - this is known as <strong>imputation</strong>. Usually, we use the other observations or rows to fill in the missing values.</p>
-<p>Note that a once population method of imputation which you <strong>should not</strong> use is replacing missing values with the mean/median of the available values in the column. The reason for this is that it lowers the sample standard deviation of the resulting column and can bias the resulting analysis.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One popular method of imputation which you <strong>should not</strong> use is replacing missing values with the mean/median of the available values in the column, or replacing categorical missing values with the most common value.<br>
+The reason for this is that it lowers the sample standard deviation of the resulting column/changes the proportion distribution and can bias the resulting analysis.</p>
+</div>
+</div>
 <p>Some other methods of imputation are given below:</p>
 <ul>
 <li><p><strong>Forward/Backward Fill:</strong> Use the next or previous value to fill in the missing value. Forward/backward filling may make sense when there is a relationship between the rows. Example: In a time series dataset where stock prices are recorded daily, you might use forward fill to propagate the last known price to the days when the market data is missing.</p></li>
@@ -316,7 +354,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="interpolate" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="interpolate"><span class="header-section-number">7.2.1</span> Interpolate</h3>
-<p>The <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.interpolate.html"><code>.interpolate()</code></a> function allows us to interpolate numerical values, based on the surrounding values. Interpolation is a method of estimating unknown values based on values that are close to in (in terms of rows). In this case, we know that the rate of change in riders is probably similar to the rate of change on the surrounding days. If we think that it falls between the values of the preceding and following days, and the rows are evenly spaced in time, then we can use the default parameters, which uses linear interpolation. There are a number of other methods of intperolation that can be specified via the <code>method</code> parameter. Be sure to read and understand each method carefully before using it. Otherwise, you could just be filling in the values with nonsense.</p>
+<p>The <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.interpolate.html"><code>.interpolate()</code></a> function allows us to interpolate numerical values, based on the surrounding values. Interpolation is a method of estimating unknown values based on values that are close to it (in terms of rows). Interpolation can be used to fill in missing points continuously over some domain, such as time. For instance, this could include interest rates, daily temperatures, run speed etc. In general, we should be able to assume that the the variable we are interpolating could be written as a <a href="https://en.wikipedia.org/wiki/Continuous_function">continuous function</a> over the interval on which we are interpolating.</p>
+<p>There are a number of methods of intperolation that can be specified via the <code>method</code> parameter. Be sure to read and understand each method carefully before using it. Otherwise, you could just be filling in the values with nonsense.</p>
 <p>Parameters of <code>.interpolate()</code></p>
 <ol type="1">
 <li><strong><code>method</code></strong>: Specifies the interpolation method to use.
@@ -333,25 +372,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ol>
 <p>Example:</p>
-<p>Here’s a basic example demonstrating the use of <code>.interpolate()</code>:</p>
-<div id="2d1a98b1" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a sample DataFrame with NaN values</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: [<span class="dv">1</span>, np.nan, <span class="dv">3</span>, np.nan, <span class="dv">5</span>],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'B'</span>: [np.nan, <span class="dv">2</span>, np.nan, <span class="dv">4</span>, np.nan]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<div id="35c51e49" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a sample DataFrame with NaN values</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: [<span class="dv">1</span>, np.nan, <span class="dv">3</span>, np.nan, <span class="dv">5</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'B'</span>: [np.nan, <span class="dv">2</span>, np.nan, <span class="dv">4</span>, np.nan]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original DataFrame:"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolating missing values</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>df_interpolated <span class="op">=</span> df.interpolate()</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolating missing values</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>df_interpolated <span class="op">=</span> df.interpolate()</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Interpolated DataFrame:"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_interpolated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Interpolated DataFrame:"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_interpolated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Original DataFrame:
      A    B
@@ -370,37 +405,20 @@ Interpolated DataFrame:
 4  5.0  4.0</code></pre>
 </div>
 </div>
-<p>Output:</p>
-<pre><code>Original DataFrame:
-     A    B
-0  1.0  NaN
-1  NaN  2.0
-2  3.0  NaN
-3  NaN  4.0
-4  5.0  NaN
-
-Interpolated DataFrame:
-     A    B
-0  1.0  NaN
-1  2.0  2.0
-2  3.0  3.0
-3  4.0  4.0
-4  5.0  NaN</code></pre>
-<p>Interpolation is particularly useful for time-series data and datasets where you want to estimate missing values based on the surrounding data.</p>
 </section>
 </section>
 <section id="handling-string-formats" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="handling-string-formats"><span class="header-section-number">7.3</span> Handling string formats</h2>
-<p>It is important to print the unique values of a string variable, in order to check for spaces, mixed case and spelling mistakes. If the variable has many entries, we may not be able to check all unique values. In that case, it is a good idea to use <code>.strip()</code> and <code>str.lower()</code>/<code>str.upper()</code> to remove extra spaces and convert all characters to lower case. In the natural language processing lesson, we will learn more about manipulating strings.</p>
+<p>It is important to print the unique values of a string variable, in order to check for spaces, mixed case and spelling mistakes. If the variable has many entries, we may not be able to check all unique values. In that case, it is a good idea to use <code>.strip()</code> and <code>str.lower()</code>/<code>str.upper()</code> to remove extra spaces and convert all characters to lower case. In the <a href="Natural-language-processing">natural language processing case</a>, we will learn more about manipulating strings.</p>
 </section>
 <section id="unique-ids" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="unique-ids"><span class="header-section-number">7.4</span> Unique IDs</h2>
-<p>When generating IDs, it is important to make sure the generation process is idempotent (i.e.&nbsp;the same ID should be generated for each trip no matter how many times you run the script). The idempotency is required because there may be chances that the same trip is input into this tool multiple times. For example, the customer first uploads the data set for the first week of the month (may be for testing purposes, or based on data availability, etc.) and then uploads the data for the entire month. Now if the same trip is assigned different IDs on each run, then it might result in the analytics platform interpreting this as two different trips and this will corrupt the analysis.</p>
+<p>When generating IDs, it is important to make sure the generation process is idempotent (i.e.&nbsp;the same ID should be generated for each trip no matter how many times you run the script). The idempotency is required because there may be chances that the same datum is input into your data storage system or analysis software multiple times. For example, your coworker may first upload the data set for the first week of the month (may be for testing purposes, or based on data availability, etc.) and then later may upload the data for the entire month. Now if the same datum is assigned different IDs on each upload, then it might result in the analytics platform interpreting this as two different points and this will corrupt the analysis.</p>
 </section>
 <section id="more-on-datetime-objects" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="more-on-datetime-objects"><span class="header-section-number">7.5</span> More on <code>datetime</code> objects</h2>
 <p>We have learnt about <code>datetime</code> objects in the past. In this case, we covered some new functionalities of these objects. We should almost always convert dates and times to <code>datetime</code> objects.</p>
-<p>Here’s an overview of some new attributes:</p>
+<p>Here’s an overview of some new attributes of <code>datetime</code> objects that were introduced in Case 7:</p>
 <ol type="1">
 <li><strong><code>.year</code></strong>: Returns the year.</li>
 <li><strong><code>.month</code></strong>: Returns the month (1-12).</li>
@@ -418,29 +436,27 @@ Interpolated DataFrame:
 <li><strong><code>.isocalendar()</code></strong>: Returns a tuple containing the ISO year, ISO week number, and ISO weekday.</li>
 </ol>
 <p>Example:</p>
-<div id="b39ad326" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a datetime object</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Year, month, day, etc.</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Year:"</span>, dt.year)          <span class="co"># Output: 2023</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Month:"</span>, dt.month)        <span class="co"># Output: 7</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Day:"</span>, dt.day)            <span class="co"># Output: 5</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hour:"</span>, dt.hour)          <span class="co"># Output: 14</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minute:"</span>, dt.minute)      <span class="co"># Output: 30</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Second:"</span>, dt.second)      <span class="co"># Output: 0</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday (Monday = 0, Sunday = 6)</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weekday:"</span>, dt.weekday())  <span class="co"># Output: 2 (Wednesday)</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Weekday (Monday = 1, Sunday = 7)</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Weekday:"</span>, dt.isoweekday())  <span class="co"># Output: 3 (Wednesday)</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Calendar (Year, Week number, Weekday)</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>iso_calendar <span class="op">=</span> dt.isocalendar()</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Calendar:"</span>, iso_calendar)    <span class="co"># Output: (2023, 27, 3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e565c06b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a datetime object</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime.datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Year, month, day, etc.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Year:"</span>, dt.year)          <span class="co"># Output: 2023</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Month:"</span>, dt.month)        <span class="co"># Output: 7</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Day:"</span>, dt.day)            <span class="co"># Output: 5</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hour:"</span>, dt.hour)          <span class="co"># Output: 14</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minute:"</span>, dt.minute)      <span class="co"># Output: 30</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Second:"</span>, dt.second)      <span class="co"># Output: 0</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday (Monday = 0, Sunday = 6)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weekday:"</span>, dt.weekday())  <span class="co"># Output: 2 (Wednesday)</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Weekday (Monday = 1, Sunday = 7)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Weekday:"</span>, dt.isoweekday())  <span class="co"># Output: 3 (Wednesday)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ISO Calendar (Year, Week number, Weekday)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>iso_calendar <span class="op">=</span> dt.isocalendar()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ISO Calendar:"</span>, iso_calendar)    <span class="co"># Output: (2023, 27, 3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Year: 2023
 Month: 7
@@ -456,49 +472,47 @@ ISO Calendar: datetime.IsoCalendarDate(year=2023, week=27, weekday=3)</code></pr
 <p>Additional operations:</p>
 <ol type="1">
 <li><p><strong>Current Date and Time</strong>:</p>
-<div id="af1fdcb0" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.now()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(now)  <span class="co"># Output: current date and time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9ee7d91d" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.datetime.now()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(now)  <span class="co"># Output: current date and time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2024-07-09 09:42:35.864752</code></pre>
+<pre><code>2024-07-22 14:16:03.925533</code></pre>
 </div>
 </div></li>
 <li><p><strong>Parsing Dates</strong>:</p>
-<div id="48d5da7a" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">"2023-07-05"</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>parsed_date <span class="op">=</span> datetime.strptime(date_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(parsed_date)  <span class="co"># Output: 2023-07-05 00:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7cf0b6f9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>date_str <span class="op">=</span> <span class="st">"2023-07-05"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>parsed_date <span class="op">=</span> datetime.datetime.strptime(date_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(parsed_date)  <span class="co"># Output: 2023-07-05 00:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2023-07-05 00:00:00</code></pre>
 </div>
 </div></li>
 <li><p><strong>Formatting Dates</strong>:</p>
-<div id="288e4f79" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(formatted_date)  <span class="co"># Output: 2023-07-05 14:30:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3ccf04e2" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> datetime.datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(formatted_date)  <span class="co"># Output: 2023-07-05 14:30:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2023-07-05 14:30:00</code></pre>
 </div>
 </div></li>
 <li><p><strong>Date Arithmetic</strong>:</p>
-<div id="edfb1e7d" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> dt2 <span class="op">-</span> dt1</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(delta)  <span class="co"># Output: 5 days, 0:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c053c89f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="op">=</span> datetime.datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="op">=</span> datetime.datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> dt2 <span class="op">-</span> dt1</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(delta)  <span class="co"># Output: 5 days, 0:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>5 days, 0:00:00</code></pre>
 </div>
 </div></li>
 <li><p><strong>Handling Time Zones</strong>:</p>
-<div id="0afa9dd1" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> timezone, timedelta</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>utc_dt <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>, tzinfo<span class="op">=</span>timezone.utc)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>local_tz <span class="op">=</span> timezone(timedelta(hours<span class="op">=-</span><span class="dv">5</span>))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>local_dt <span class="op">=</span> utc_dt.astimezone(local_tz)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(local_dt)  <span class="co"># Output: 2023-07-05 09:30:00-05:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8b84983d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>utc_dt <span class="op">=</span> datetime.datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">30</span>, <span class="dv">0</span>, tzinfo<span class="op">=</span>datetime.timezone.utc)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>local_tz <span class="op">=</span> datetime.timezone(datetime.timedelta(hours<span class="op">=-</span><span class="dv">5</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>local_dt <span class="op">=</span> utc_dt.astimezone(local_tz)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(local_dt)  <span class="co"># Output: 2023-07-05 09:30:00-05:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2023-07-05 09:30:00-05:00</code></pre>
 </div>
