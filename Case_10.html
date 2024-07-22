@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Natural language processing – MATH 1130 Companion Manual</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Case_11.html" rel="next">
+<link href="./Case_9.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Case_10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Natural language processing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 1130 Companion Manual</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Python basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data extraction and transformation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Transformation I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Transformation II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpretation of charts and graphs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Hypothesis testing I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis testing II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Natural language processing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Linear Regression I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Linear Regression II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SQL</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preliminary-modules" id="toc-preliminary-modules" class="nav-link active" data-scroll-target="#preliminary-modules"><span class="header-section-number">10.1</span> Preliminary modules</a></li>
+  <li><a href="#about-nlp" id="toc-about-nlp" class="nav-link" data-scroll-target="#about-nlp"><span class="header-section-number">10.2</span> About NLP</a>
+  <ul class="collapse">
+  <li><a href="#challenge-1-extraordinarily-high-dimensionality" id="toc-challenge-1-extraordinarily-high-dimensionality" class="nav-link" data-scroll-target="#challenge-1-extraordinarily-high-dimensionality"><span class="header-section-number">10.2.1</span> Challenge 1: Extraordinarily high dimensionality</a></li>
+  <li><a href="#challenge-2-text-is-context-specific" id="toc-challenge-2-text-is-context-specific" class="nav-link" data-scroll-target="#challenge-2-text-is-context-specific"><span class="header-section-number">10.2.2</span> Challenge 2: Text is context specific</a></li>
+  </ul></li>
+  <li><a href="#pre-processing-and-standardization" id="toc-pre-processing-and-standardization" class="nav-link" data-scroll-target="#pre-processing-and-standardization"><span class="header-section-number">10.3</span> Pre-processing and standardization</a>
+  <ul class="collapse">
+  <li><a href="#libraries-for-nlp" id="toc-libraries-for-nlp" class="nav-link" data-scroll-target="#libraries-for-nlp"><span class="header-section-number">10.3.1</span> Libraries for NLP</a></li>
+  <li><a href="#tokenizing-sentences" id="toc-tokenizing-sentences" class="nav-link" data-scroll-target="#tokenizing-sentences"><span class="header-section-number">10.3.2</span> Tokenizing sentences</a></li>
+  <li><a href="#tokenizing-words" id="toc-tokenizing-words" class="nav-link" data-scroll-target="#tokenizing-words"><span class="header-section-number">10.3.3</span> Tokenizing words</a></li>
+  </ul></li>
+  <li><a href="#wordclouds" id="toc-wordclouds" class="nav-link" data-scroll-target="#wordclouds"><span class="header-section-number">10.4</span> Wordclouds</a></li>
+  <li><a href="#n-grams" id="toc-n-grams" class="nav-link" data-scroll-target="#n-grams"><span class="header-section-number">10.5</span> <span class="math inline">\(n\)</span>-grams</a>
+  <ul class="collapse">
+  <li><a href="#word-document-co-occurrence-matrices" id="toc-word-document-co-occurrence-matrices" class="nav-link" data-scroll-target="#word-document-co-occurrence-matrices"><span class="header-section-number">10.5.1</span> Word-document co-occurrence matrices</a></li>
+  <li><a href="#counter-objects" id="toc-counter-objects" class="nav-link" data-scroll-target="#counter-objects"><span class="header-section-number">10.5.2</span> Counter objects</a></li>
+  </ul></li>
+  <li><a href="#stop-words" id="toc-stop-words" class="nav-link" data-scroll-target="#stop-words"><span class="header-section-number">10.6</span> Stop words</a></li>
+  <li><a href="#regular-expressions" id="toc-regular-expressions" class="nav-link" data-scroll-target="#regular-expressions"><span class="header-section-number">10.7</span> Regular Expressions</a></li>
+  <li><a href="#part-of-speech-pos-tagging" id="toc-part-of-speech-pos-tagging" class="nav-link" data-scroll-target="#part-of-speech-pos-tagging"><span class="header-section-number">10.8</span> Part-of-speech (POS) tagging</a>
+  <ul class="collapse">
+  <li><a href="#misc.-python-functions-from-case-10" id="toc-misc.-python-functions-from-case-10" class="nav-link" data-scroll-target="#misc.-python-functions-from-case-10"><span class="header-section-number">10.8.1</span> Misc. Python functions from Case 10</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Natural language processing</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In Case 10, we learnt what Natural Language Processing (NLP) is and how it can be useful. You gained experience with <code>nltk</code>, a Python library that implements many common NLP algorithms. We also covered the challenges specific to NLP and tools such as vectorization, stop words, tokenizing and parts of speech tagging.</p>
+<section id="preliminary-modules" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="preliminary-modules"><span class="header-section-number">10.1</span> Preliminary modules</h2>
+<div id="dae05bca" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk <span class="co"># imports the natural language toolkit</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy  <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> PorterStemmer </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pylab <span class="im">import</span> rcParams</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to
+[nltk_data]     C:\Users\12RAM\AppData\Roaming\nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\12RAM\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!</code></pre>
+</div>
+</div>
+</section>
+<section id="about-nlp" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="about-nlp"><span class="header-section-number">10.2</span> About NLP</h2>
+<section id="challenge-1-extraordinarily-high-dimensionality" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="challenge-1-extraordinarily-high-dimensionality"><span class="header-section-number">10.2.1</span> Challenge 1: Extraordinarily high dimensionality</h3>
+<p>Consider the book <em>War and Peace</em>. It has 3 million characters. Can we view this as a long vector of strings taking values in a 3-million-dimensional space, and then apply machine learning methods here? This is a bad idea for two reasons:</p>
+<ol type="1">
+<li>Basic approaches have terrible performance in such high-dimensional spaces</li>
+<li>These approaches “miss out” on some important rules about language that we all know; e.g.&nbsp;that “don’t” and “do not” mean the same thing</li>
+</ol>
+<p>As a result, a huge amount of NLP involves finding ways to summarize incredibly long vectors in concise ways, so that we can tractably explore, analyze, and model build with them later.</p>
+</section>
+<section id="challenge-2-text-is-context-specific" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="challenge-2-text-is-context-specific"><span class="header-section-number">10.2.2</span> Challenge 2: Text is context specific</h3>
+<p>For example, the word <em>queen</em> has many uses in English that are both <em>very different</em> and <em>common</em>:</p>
+<ol type="1">
+<li>The ruler of a country</li>
+<li>A size of mattress</li>
+<li>The most powerful piece in chess</li>
+<li>The mother insect in certain types of insect colonies</li>
+</ol>
+<p>General purpose libraries will need to deal with all of these, but reviews for mattresses will almost always be about the second. This type of mismatch can result in misleading results that can easily be fixed by a team that is familiar with the underlying NLP computations.</p>
+</section>
+</section>
+<section id="pre-processing-and-standardization" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="pre-processing-and-standardization"><span class="header-section-number">10.3</span> Pre-processing and standardization</h2>
+<p>Standardizing text involves many steps. Some of these include:</p>
+<ol type="1">
+<li>Correcting simple errors. For example, different text might use different encodings and you might find that special characters are corrupted and need to be fixed.</li>
+<li>Creating features (e.g.&nbsp;labeling nouns and verbs in a sentence).</li>
+<li>Replacing words and sentences altogether (e.g.&nbsp;standardizing spelling by changing “yuuuuuuck!” to “yuck”, or more extreme steps such as replacing words with near synonyms)</li>
+</ol>
+<p>In a broad sense, standardization is similar to data cleaning with more conventional data; we are fixing errors, removing outliers, and transforming features. However, the details in NLP tend to be more complicated. One tip is that it is helpful to look at the lengths of each document to catch outliers.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The NLP literature uses common words in technical ways. For example a “document” means any standalone string that might be part of a larger collection. Sometimes these might be documents as we usually think of them (articles, papers, etc) as part of a collection of such documents. However, we’d also use “document” to refer to each tweet in a collection of tweets, or each review in a collection of reviews (as in the dataset we’ll work with now). Remember, a “document” is just an item containing natural language text that is part of a larger collection of similar such items.</p>
+</div>
+</div>
+<section id="libraries-for-nlp" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="libraries-for-nlp"><span class="header-section-number">10.3.1</span> Libraries for NLP</h3>
+<p>We will be using Python’s <a href="https://www.nltk.org/">Natural Language Toolkit (<code>nltk</code>) library</a>. This library has functions that do most of the basics of NLP.</p>
+<p>NLTK is a great language for learning about NLP in Python. It implements nearly all standard algorithms used in NLP in pure Python, and it is very readable. It has great documentation and a companion book, and it often implements several alternatives to the same algorithm so that they can be compared.</p>
+<p>Another NLP library in Python is <a href="https://spacy.io/">spaCy</a>. SpaCy is more modern than NLTK, and more focused on industry use than on education. It is opinionated and often implements only a single algorithm instead of all alternatives. It is focused on speed and efficiency over readability, and its source code is less readable as a result.</p>
+<p>Both are great NLP libraries to become familiar with. In this case, we’ll use NLTK, but nearly all features that we cover can be used in spaCy too.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many text wrangling pipelines start a little before we do, with initial “cleaning” steps that involve things like: converting all characters to lower case, expanding contractions, etc.</p>
+</div>
+</div>
+</section>
+<section id="tokenizing-sentences" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="tokenizing-sentences"><span class="header-section-number">10.3.2</span> Tokenizing sentences</h3>
+<p>Just like CSV data is composed of features, text data is composed of sentences. Thus, a natural first step is what is known as <a href="https://www.nltk.org/api/nltk.tokenize.html"><strong>sentence tokenization</strong></a>: splitting a long document into its component sentences.</p>
+<ul>
+<li>At first this might seem trivial: just split whenever you see a period. Unfortunately, the same symbol is used in other ways in English (e.g.&nbsp;to mark an abbreviation, as part of ellipses, etc.), and so slightly more care is required.</li>
+<li>Fortunately, there are packages that will do this for us. Within <code>nltk</code>, we can use the <code>nltk.sent_tokenize()</code> function.</li>
+</ul>
+<p>Example:</p>
+<div id="23238964" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sentence tokenization</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> nltk.sent_tokenize(<span class="st">'Tom wrote a letter to Mr. Plod, his uncle. "I am arriving on Mon. 5 Jan. Please meet me at approx. 5 p.m.'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sentence <span class="kw">in</span> sentences:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sentence)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tom wrote a letter to Mr. Plod, his uncle.
+
+"I am arriving on Mon.
+
+5 Jan.
+
+Please meet me at approx.
+
+5 p.m.
+</code></pre>
+</div>
+</div>
+<p>It may seem like sentence tokenization is easy, but remember that the period <code>.</code> can be used in many different ways. In the document:</p>
+<pre><code>Tom wrote a letter to Mr. Plod, his uncle. "I am arriving on Mon. 5 Jan. Please meet me at approx. 5 p.m."</code></pre>
+<p>A sentence tokenizer has to be intelligent enough to tokenize this as follows:</p>
+<pre><code>[
+"Tom wrote a letter to Mr. Plod, his uncle.",
+"I am arriving on Mon. 5 Jan."
+"Please meet me at approx. 5 p.m."
+]</code></pre>
+<p>Additionally, the different ways that people use abbreviations and punctuation can make this a definitively non-trivial task.</p>
+</section>
+<section id="tokenizing-words" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="tokenizing-words"><span class="header-section-number">10.3.3</span> Tokenizing words</h3>
+<p>We may wish to split sentences into individual words. As with sentence tokenization, there is (i) a pretty good heuristic (split on spaces), (ii) a number of weird exceptions (e.g.&nbsp;compound words), and (iii) an existing package that does the job fairly well.</p>
+<p>To do this task, one can use the <code>nltk.word_tokenize()</code> function from <code>nltk</code>:</p>
+<p>Example:</p>
+<div id="0c33c293" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nltk.word_tokenize(<span class="st">"I don't like bananas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['I', 'do', "n't", 'like', 'bananas']</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="wordclouds" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="wordclouds"><span class="header-section-number">10.4</span> Wordclouds</h2>
+<p>In such cases, <strong>word clouds</strong> are a common and <font color="orange">sometimes</font> useful tool.</p>
+<p>To elaborate, while wordclouds can be a useful way of quickly gaining high level insights into raw textual data, they are also limited. In some ways, they can be seen as the pie charts of NLP: often used, but also often hated. <a href="https://www.niemanlab.org/2011/10/word-clouds-considered-harmful/">Some</a> <a href="https://towardsdatascience.com/can-we-please-stop-using-word-clouds-eca2bbda7b9d">people</a> would prefer if they didn’t exist at all. If used in the correct way, however, they definitely deserve their place in a data scientist’s toolbelt.</p>
+<p>The main problem with word clouds is that they are difficult to interpret in a standard way. The layout algorithm has some randomness involved and although more common words are shown more prominently, it’s not possible to look at a word cloud and know which words are the most important, or how much more important these are than other words. Colours and rotation are also used randomly, making some words (e.g the ones in bright colours, positioned closer to the centre, with horizontal rotation) seem more important when in fact they are no more important than other words which were randomly assigned a less noticeable combination of color, rotation, and position.</p>
+<p>Example:</p>
+<div id="68c3b751" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample text</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">Python is a high-level, interpreted, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation. </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">Python is dynamically typed and garbage-collected. It supports multiple programming paradigms, including structured (particularly procedural), object-oriented and functional programming. </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">It is often described as a "batteries included" language due to its comprehensive standard library.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the word cloud</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(text)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the word cloud</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Word Cloud Example'</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_10_files/figure-html/cell-5-output-1.png" width="758" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Explanation::</p>
+<ol type="1">
+<li><strong>Sample Text</strong>: We define a sample text string <code>text</code>.</li>
+<li><strong>Generate Word Cloud</strong>: We create a <code>WordCloud</code> object with specified dimensions and background color, and then generate the word cloud from the sample text.</li>
+<li><strong>Plot the Word Cloud</strong>: We use <code>matplotlib</code> to plot the word cloud. We set the figure size, use <code>imshow</code> to display the word cloud image, remove the axes with <code>axis('off')</code>, and add a title.</li>
+</ol>
+</section>
+<section id="n-grams" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="n-grams"><span class="header-section-number">10.5</span> <span class="math inline">\(n\)</span>-grams</h2>
+<p>Since single words, known as 1-grams, are insufficient to understand the significance of certain words in our text, it is natural to consider blocks of words, or <strong><span class="math inline">\(n\)</span>-grams</strong>. <span class="math inline">\(n\)</span>-grams fall under a broader category of techniques otherwise known as <a href="https://scikit-learn.org/stable/modules/feature_extraction.html#common-vectorizer-usage"><strong>count-based representations</strong></a>. These are techniques to analyze documents by indicating how frequently certain types of structures occur throughout.</p>
+<p>The simplest version of the <span class="math inline">\(n\)</span>-grams model, for <span class="math inline">\(n &gt; 1\)</span>, is the <strong>bigram</strong> model, which looks at pairs of consecutive words. For example, the sentence “The quick brown fox jumps over the lazy dog” would have tokens “the quick”, “quick brown”,…, “lazy dog”. The following image explains this concept:</p>
+<p><img src="ngrams.png" alt="ngrams" width="500"></p>
+<p>This has obvious advantages and disadvantages over looking at words individually:</p>
+<p>This retains the structure of the overall document, and it paves the way for analyzing words in context; however, the dimension is vastly larger. For this reason, it is often prudent to start by extracting as much value out of 1-grams as possible, before working our way up to more complex structures.</p>
+<p>Bigrams and trigrams are useful for analyzing a corpus because they capture the context and relationships between words, which can significantly enhance understanding and analysis of text data. Here are some key reasons why they are beneficial:</p>
+<ol type="1">
+<li><p>Contextual Understanding: They help to capture the context in which a word appears, providing more meaningful insights than individual words (unigrams).</p></li>
+<li><p>Improved Language Models: In natural language processing (NLP), bigrams and trigrams are used to build more accurate language models by considering word sequences rather than isolated words. This helps in predicting the next word in a sequence more effectively, which is crucial for tasks like text generation and auto-completion.</p></li>
+<li><p>Disambiguation: Certain words have multiple meanings depending on the context. Bigrams and trigrams help disambiguate such words by analyzing the surrounding words. For example, the word “bank” could refer to a financial institution or the side of a river. The bigrams “river bank” and “bank account” clarify the intended meaning.</p></li>
+<li><p>Sentiment Analysis: In sentiment analysis, bigrams and trigrams can capture expressions and phrases that convey sentiment more accurately than single words. For example, “not good” (bigram) indicates a negative sentiment, which might be missed if “not” and “good” were analyzed separately.</p></li>
+<li><p>Information Retrieval and Search: Using bigrams and trigrams improves the relevance of search results by considering common word pairs and phrases. This is especially useful in search engines and information retrieval systems, where user queries often consist of multi-word phrases.</p></li>
+<li><p>Text Mining and Topic Modeling: Bigrams and trigrams help identify frequent phrases and common word combinations, which can be important for topic modeling and discovering patterns in the text. This aids in uncovering themes and topics that are not evident from analyzing single words.</p></li>
+</ol>
+<section id="word-document-co-occurrence-matrices" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="word-document-co-occurrence-matrices"><span class="header-section-number">10.5.1</span> Word-document co-occurrence matrices</h3>
+<p>The simplest type of information would be whether a particular word occurs in particular documents. This leads to <strong>word-document co-occurrence matrices</strong>, where the <span class="math inline">\((W, X)\)</span> entry of the word-document matrix <span class="math inline">\(A\)</span> is set to 1 if word <span class="math inline">\(W\)</span> occurs in document <span class="math inline">\(X\)</span>, and 0 otherwise.</p>
+<p>There are many variants of this. In lieu of the fact that we are looking for count-based representations of our documents, one natural variable is the following: <span class="math display">\[A_{W,X}=\#\text{ times $W$ occurs in $X$},\]</span></p>
+<p>i.e., the <span class="math inline">\((W, X)\)</span> entry of the word-document matrix equals the number of times that word <span class="math inline">\(W\)</span> occurs in document <span class="math inline">\(X\)</span>, rather than merely being a binary variable.</p>
+<p>Creating a word-document matrix in python:</p>
+<div id="c9284e5a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample documents</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python is a high-level programming language"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python is dynamically typed and garbage-collected"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python supports multiple programming paradigms"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python is often described as a 'batteries included' language due to its comprehensive standard library"</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the CountVectorizer</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit and transform the documents</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> vectorizer.fit_transform(documents)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the words (features)</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> vectorizer.get_feature_names_out()</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the co-occurrence matrix</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(X.toarray(), columns<span class="op">=</span>words)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">and</th>
+<th data-quarto-table-cell-role="th">as</th>
+<th data-quarto-table-cell-role="th">batteries</th>
+<th data-quarto-table-cell-role="th">collected</th>
+<th data-quarto-table-cell-role="th">comprehensive</th>
+<th data-quarto-table-cell-role="th">described</th>
+<th data-quarto-table-cell-role="th">due</th>
+<th data-quarto-table-cell-role="th">dynamically</th>
+<th data-quarto-table-cell-role="th">garbage</th>
+<th data-quarto-table-cell-role="th">high</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">library</th>
+<th data-quarto-table-cell-role="th">multiple</th>
+<th data-quarto-table-cell-role="th">often</th>
+<th data-quarto-table-cell-role="th">paradigms</th>
+<th data-quarto-table-cell-role="th">programming</th>
+<th data-quarto-table-cell-role="th">python</th>
+<th data-quarto-table-cell-role="th">standard</th>
+<th data-quarto-table-cell-role="th">supports</th>
+<th data-quarto-table-cell-role="th">to</th>
+<th data-quarto-table-cell-role="th">typed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+<p>4 rows × 25 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="counter-objects" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="counter-objects"><span class="header-section-number">10.5.2</span> Counter objects</h3>
+<p>The <code>Counter</code> object is a part of Python’s <code>collections</code> module and is used to count the occurrences of elements in a collection. It is essentially a specialized dictionary designed for counting element occurances in an interable, where the keys are the unique elements and the values are the counts of those elements. In NLP, we can use <code>Counter</code> objects to get the most common <span class="math inline">\(n\)</span>-grams.</p>
+<ul>
+<li><strong>Initialization</strong>: Use <code>Counter(interable)</code> to initialize a <code>Counter</code> to count the occurrences of elements in the interable.</li>
+<li><strong>Methods</strong>: <code>Counter</code> provides several useful methods, such as <code>most_common()</code> to get the most common elements and their counts, and <code>elements()</code> to get an iterator over elements repeating according to their counts.</li>
+<li><strong>Arithmetic Operations</strong>: You can perform arithmetic operations like addition, subtraction, intersection, and union on <code>Counter</code> objects.</li>
+</ul>
+<p>Example:</p>
+<div id="70917217" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Counter from a list</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'banana'</span>, <span class="st">'apple'</span>, <span class="st">'orange'</span>, <span class="st">'banana'</span>, <span class="st">'apple'</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>counter <span class="op">=</span> Counter(data)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the counter</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counter)  <span class="co"># Output: Counter({'apple': 3, 'banana': 2, 'orange': 1})</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the most common elements</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counter.most_common(<span class="dv">2</span>))  <span class="co"># Output: [('apple', 3), ('banana', 2)]</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Elements method (returns an iterator)</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(counter.elements()))  <span class="co"># Output: ['apple', 'apple', 'apple', 'banana', 'banana', 'orange']</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Arithmetic operations</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>counter2 <span class="op">=</span> Counter([<span class="st">'banana'</span>, <span class="st">'banana'</span>, <span class="st">'kiwi'</span>])</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>counter.subtract(counter2)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counter)  <span class="co"># Output: Counter({'apple': 3, 'orange': 1, 'banana': 0, 'kiwi': -1})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Counter({'apple': 3, 'banana': 2, 'orange': 1})
+[('apple', 3), ('banana', 2)]
+['apple', 'apple', 'apple', 'banana', 'banana', 'orange']
+Counter({'apple': 3, 'orange': 1, 'banana': 0, 'kiwi': -1})</code></pre>
+</div>
+</div>
+<p>Explanation:</p>
+<ol type="1">
+<li><strong>Initialization</strong>: We create a <code>Counter</code> from a list of fruits.</li>
+<li><strong>Display Counter</strong>: The <code>Counter</code> object shows the count of each element.</li>
+<li><strong>Most Common Elements</strong>: The <code>most_common(2)</code> method returns the two most common elements and their counts.</li>
+<li><strong>Elements Method</strong>: The <code>elements()</code> method returns an iterator over the elements, repeating each as many times as its count.</li>
+<li><strong>Arithmetic Operations</strong>: We demonstrate subtraction between two <code>Counter</code> objects.</li>
+</ol>
+<p>In Case 10, we used it to count the most common words.</p>
+<p>Example:</p>
+<div id="16899d29" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>long_string<span class="op">=</span><span class="st">' '</span>.join(documents)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>words<span class="op">=</span>nltk.word_tokenize(long_string)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>counted_words<span class="op">=</span>Counter(words)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>counted_words.most_common(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>[('Python', 4), ('is', 3)]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="stop-words" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="stop-words"><span class="header-section-number">10.6</span> Stop words</h2>
+<p>Stop words are very common words that are usually uninformative, and their very large occurrence values can distort the results of many NLP algorithms. They often include those that appear in every sentence of the English language: pronoums like “I”, prepositions like “but”, “of”, “and”, articles like “the”, etc.</p>
+<p>It is common to pre-process text by removing words that you have a reason to believe are uninformative; these words are called <a href="https://en.wikipedia.org/wiki/Stop_words"><strong>stop words</strong></a>. Usually, it suffices to simply treat extremely common words as stop words. However, for specific types of applications it might make sense to use other stop words; e.g.&nbsp;the word “burger” when analyzing reviews of burger chains.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Stop words are often removed by default as a cleaning step in all NLP tasks. However, sometimes they can be useful. For example in authorship attribution (automatically detecting who wrote a specific piece of text by their ‘writing style’), stop words can be one of the most useful features, as they appear in nearly all texts, and yet each author uses them in slightly different ways.</p>
+</div>
+</div>
+<p>The <code>nltk</code> library has a standard list of stopwords, which you can download by running <code>nltk.download("stopwords")</code>. We can then load the stopwords package from the <code>nltk.corpus</code> and use it to load the stop words:</p>
+<div id="f94bc4b6" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stopwords.words(<span class="st">"english"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\12RAM\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!</code></pre>
+</div>
+</div>
+<p>Below is example code for removing stop words:</p>
+<div id="abc21ee0" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sw<span class="op">=</span>stopwords.words(<span class="st">"english"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>list_sw<span class="op">=</span>[]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> sw:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#check if the sw is in the text</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    word<span class="op">=</span><span class="st">" "</span><span class="op">+</span>word<span class="op">+</span><span class="st">" "</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> word <span class="kw">in</span> text:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if sw is in the text, them we need to remove it from the text</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span>re.sub(word,<span class="st">" "</span>,text)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add the sw to a list of words we found in this text</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        list_sw.append(word)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># print out text</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(text)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out found stop words</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(list_sw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Python high-level, interpreted, general-purpose programming language. Its design philosophy emphasizes code readability use significant indentation. 
+Python dynamically typed garbage-collected. It supports multiple programming paradigms, including structured (particularly procedural), object-oriented functional programming. 
+It often described "batteries included" language due comprehensive standard library.
+
+[' its ', ' is ', ' a ', ' the ', ' and ', ' as ', ' of ', ' with ', ' to ']</code></pre>
+</div>
+</div>
+</section>
+<section id="regular-expressions" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="regular-expressions"><span class="header-section-number">10.7</span> Regular Expressions</h2>
+<p>Having spent a lot of time on <span class="math inline">\(n\)</span>-grams and how to featurize a document using them, we now take a break from <code>nltk</code> tools to introduce the most important text wrangling tool in Python (and many other languages): <a href="https://en.wikipedia.org/wiki/Regular_expression"><strong>regular expressions</strong></a>.</p>
+<p>The basic idea here is that you often want to perform some specific transformation (e.g.&nbsp;delete or substitute) every time that some possibly-complicated pattern occurs, e.g., the letter ‘A’, the word ‘hello’, any word containing the letters ‘a’,‘r’ in that order. Regular expressions are a compact and powerful language for expressing these sorts of patterns. This is super important whenever you are trying to clean a text dataset that contains thematically similar, but not exactly, the same errors.</p>
+<p>The terse syntax of regular expressions has led to them having a reputation for being <a href="https://xkcd.com/208/">almost magical</a> in some situations (with only a few characters, you can build complete computer programs) but also for being difficult to create and read, which can <a href="https://xkcd.com/1171/">create more problems</a> than they solve.</p>
+<p>In Python, <a href="https://docs.python.org/3/library/re.html">the <code>re</code> module</a> provides regular expression matching operations and common operations. Regular expressions are a deep subject, with some documentation here: https://docs.python.org/3/library/re.html?highlight=regex.</p>
+<p>As some simple examples, we have:</p>
+<ol type="1">
+<li><code>.</code> matches any character except <code>\n</code> (newline)</li>
+<li><code>\d</code> matches any digit (this can also be written as [0-9])</li>
+<li><code>\D</code> matches any non-digit (this can also be written as [^0-9])</li>
+<li><code>\w</code> matches any alphanumeric character ([a-zA-Z0-9_])</li>
+<li><code>\W</code> matches any non-alphanumeric character ([^a-zA-Z0-9_])</li>
+</ol>
+<p>As some more complex examples, regular expressions also allow you to quantify the number of times matches can occur. For example,</p>
+<ol type="1">
+<li><code>[a-d]+</code> matches any time you get <span class="math inline">\(\{a,b,c,d\}\)</span> one or more times in a row</li>
+<li><code>[a-d]{3}</code> matches any time you get them exactly 3 times in a row</li>
+<li><code>[a-d]*</code> matches any time you get them 0 or more times in a row</li>
+</ol>
+<p>For now, we give a simple application based on the <code>re.sub()</code> function, which substitutes words that match a pattern:</p>
+<div id="7ad9c67d" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">'That was an "interesting" way to cook bread.'</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"[^\w]"</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the ^ character denotes 'not', </span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># the \w character denotes a word, and [] means</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># anything that matches anything in the brackets. </span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Together, this refers to any character that is not a word.</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.sub(pattern, <span class="st">" "</span>, sentence))</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.sub(pattern, <span class="st">""</span>, sentence))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>txt <span class="op">=</span> <span class="st">"Natesh loves all the foold and loveds sdaslo"</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># x is a regex pattern object now, which can be used in other re functions, such as finditer</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>x   <span class="op">=</span> re.<span class="bu">compile</span>(<span class="st">'lo'</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>iterator <span class="op">=</span> x.finditer(txt)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> iterator:</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(item)</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(item.span())</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(item.group())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>That was an  interesting  way to cook bread 
+Thatwasaninterestingwaytocookbread
+(7, 9)
+lo
+(31, 33)
+lo
+(42, 44)
+lo</code></pre>
+</div>
+</div>
+<p>Some other useful functions in <code>re</code> are</p>
+<ul>
+<li><code>re.split()</code>: Divides a string into a list based on a pattern.</li>
+<li><code>re.findall()</code>: Returns a list of all substrings in a string that match the pattern.</li>
+<li><code>re.sub()</code>: Replaces occurrences of a specified pattern in a string with a replacement string.</li>
+<li><code>re.compile()</code>: Compiles a regular expression pattern into a regex object for repeated use.</li>
+</ul>
+</section>
+<section id="part-of-speech-pos-tagging" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="part-of-speech-pos-tagging"><span class="header-section-number">10.8</span> Part-of-speech (POS) tagging</h2>
+<p>In English, there are eight main parts of speech - <code>nouns</code>, <code>pronouns</code>, <code>adjectives</code>, <code>verbs</code>, <code>adverbs</code>, <code>prepositions</code>, <code>conjunctions</code> and <code>interjections</code>. The purpose of POS tagging is to label each word in a document with its part of speech. Unsurprisingly, <a href="http://www.nltk.org/book/ch05.html">POS tagging</a> can be very difficult to do by hand. <code>nltk</code> has a default function for this, called <code>nltk.pos_tag()</code>, which we will use. As a word of warning, this function is far from infallible, especially on informal text (e.g.&nbsp;website reviews, forum posts, text messages, etc), and words in English often exhibit POS drift (e.g.&nbsp;the drift of “Google” from noun to verb):</p>
+<p>Here are some key use cases for POS tagging in NLP:</p>
+<ol type="1">
+<li><strong>Text Parsing and Syntactic Analysis</strong>
+<ul>
+<li>POS tagging is essential for syntactic parsing, which involves analyzing the grammatical structure of a sentence.</li>
+<li>Helps in identifying the relationships between words and understanding the sentence structure.</li>
+</ul></li>
+<li><strong>Named Entity Recognition (NER)</strong>
+<ul>
+<li>Helps in distinguishing between names, locations, organizations, and other proper nouns.</li>
+<li>POS tags help NER systems to understand the context and improve accuracy in identifying entities.</li>
+</ul></li>
+<li><strong>Machine Translation</strong>
+<ul>
+<li>Provides grammatical information that aids in translating text from one language to another.</li>
+<li>Helps in maintaining the syntactic structure and grammatical correctness in the translated text.</li>
+</ul></li>
+<li><strong>Information Retrieval and Search Engines</strong>
+<ul>
+<li>Improves the relevance of search results by understanding the query’s context and filtering out irrelevant results.</li>
+<li>Enhances search algorithms by recognizing and prioritizing different parts of speech.</li>
+</ul></li>
+<li><strong>Sentiment Analysis</strong>
+<ul>
+<li>Identifies adjectives and adverbs that are crucial for determining the sentiment of a sentence.</li>
+<li>Helps in understanding the context and polarity of opinions expressed in the text.</li>
+</ul></li>
+<li><strong>Speech Recognition and Text-to-Speech</strong>
+<ul>
+<li>Enhances the accuracy of speech recognition systems by providing context for homophones and ambiguous words.</li>
+<li>Helps in generating natural and grammatically correct speech in text-to-speech systems.</li>
+</ul></li>
+<li><strong>Keyword Extraction and Text Summarization</strong>
+<ul>
+<li>Aids in identifying key phrases and important information in the text.</li>
+<li>Improves the quality of summaries by focusing on nouns, verbs, and other significant parts of speech.</li>
+</ul></li>
+<li><strong>Coreference Resolution</strong>
+<ul>
+<li>Helps in linking pronouns to the nouns they refer to within a text.</li>
+<li>Facilitates better understanding and continuity in document-level NLP tasks.</li>
+</ul></li>
+<li><strong>Dependency Parsing</strong>
+<ul>
+<li>Provides a basis for dependency parsing, which focuses on the dependencies between words in a sentence.</li>
+<li>Helps in understanding the grammatical relations and hierarchical structure of the sentence.</li>
+</ul></li>
+</ol>
+<p>Below is how we can do POS tagging in Python:</p>
+<div id="6aa90ffb" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'averaged_perceptron_tagger'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.nltk.org/book/ch05.html</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>text_word_token <span class="op">=</span> nltk.word_tokenize(<span class="st">"Kelly is not having a good day because she has pancreatitis"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#text_word_token = nltk.word_tokenize(data.text[0])</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>nltk.pos_tag(text_word_token)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     C:\Users\12RAM\AppData\Roaming\nltk_data...
+[nltk_data]   Package averaged_perceptron_tagger is already up-to-
+[nltk_data]       date!</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>[('Kelly', 'NNP'),
+ ('is', 'VBZ'),
+ ('not', 'RB'),
+ ('having', 'VBG'),
+ ('a', 'DT'),
+ ('good', 'JJ'),
+ ('day', 'NN'),
+ ('because', 'IN'),
+ ('she', 'PRP'),
+ ('has', 'VBZ'),
+ ('pancreatitis', 'NN')]</code></pre>
+</div>
+</div>
+<p>The following is a list of tags and their meaning:</p>
+<ul>
+<li><p>‘NNP’: Proper noun, singular - This tag is used for singular proper nouns, which are names of specific people, places, or things. In this case, ‘Jairo’ is a proper noun, and so it is tagged with ‘NNP’.</p></li>
+<li><p>‘VBZ’: Verb, 3rd person singular present - This tag is used for third person singular verbs in the present tense (e.g.&nbsp;he runs, she eats). In this case, ‘is’ is a third person singular present verb, and so it is tagged with ‘VBZ’.</p></li>
+<li><p>‘VBG’: Verb, gerund or present participle - This tag is used for present participles and gerunds, which are verb forms that end in -ing (e.g.&nbsp;running, eating). In this case, ‘having’ is a present participle, and so it is tagged with ‘VBG’.</p></li>
+<li><p>‘DT’: Determiner - This tag is used for determiners, which are words that specify or indicate the noun that follows. In this case, ‘a’ is a determiner that indicates the noun ‘day’, and so it is tagged with ‘DT’.</p></li>
+<li><p>‘JJ’: Adjective - This tag is used for adjectives, which are words that describe or modify nouns or pronouns. In this case, ‘good’ is an adjective that describes the noun ‘day’, and so it is tagged with ‘JJ’.</p></li>
+<li><p>‘NN’: Noun, singular or mass - This tag is used for singular or mass nouns, which are common nouns that represent people, places, things, or concepts. In this case, ‘day’ is a singular noun, and so it is tagged with ‘NN’.</p></li>
+</ul>
+<p>NLTK provides documentation for each tag, which can be queried using the tag itself; e.g.&nbsp;<code>nltk.help.upenn_tagset('RB')</code>. Since POS is context-sensitive, POS-taggers must usually be trained on an existing corpus that has been tagged by professional linguists (possibly alongside unlabeled data to take advantage of semi-supervised methods). The most popular tag set is called the Penn Treebank set:</p>
+<div id="add447da" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can get more details about any POS tag using the help function of nltk</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'tagsets'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>nltk.<span class="bu">help</span>.upenn_tagset(<span class="st">'IN'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>IN: preposition or conjunction, subordinating
+    astride among uppon whether out inside pro despite on by throughout
+    below within for towards near behind atop around if like until below
+    next into if beside ...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package tagsets to
+[nltk_data]     C:\Users\12RAM\AppData\Roaming\nltk_data...
+[nltk_data]   Package tagsets is already up-to-date!</code></pre>
+</div>
+</div>
+<section id="misc.-python-functions-from-case-10" class="level3" data-number="10.8.1">
+<h3 data-number="10.8.1" class="anchored" data-anchor-id="misc.-python-functions-from-case-10"><span class="header-section-number">10.8.1</span> Misc. Python functions from Case 10</h3>
+<ul>
+<li><code>rcParams['figure.figsize'] = wid, hei</code> sets the width and height of a figure displayed in a notebook.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Case_9.html" class="pagination-link" aria-label="Hypothesis testing II">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis testing II</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Case_11.html" class="pagination-link" aria-label="Linear Regression I">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Linear Regression I</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

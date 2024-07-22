@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Linear Regression II – MATH 1130 Companion Manual</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Case_13.html" rel="next">
+<link href="./Case_11.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Case_12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Linear Regression II</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 1130 Companion Manual</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Python basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data extraction and transformation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Transformation I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Transformation II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpretation of charts and graphs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data cleaning/wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Hypothesis testing I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis testing II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Natural language processing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Linear Regression I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_12.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Linear Regression II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Case_13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SQL</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preliminary-packages" id="toc-preliminary-packages" class="nav-link active" data-scroll-target="#preliminary-packages"><span class="header-section-number">12.1</span> Preliminary packages</a></li>
+  <li><a href="#normality-of-the-error" id="toc-normality-of-the-error" class="nav-link" data-scroll-target="#normality-of-the-error"><span class="header-section-number">12.2</span> Normality of the error</a>
+  <ul class="collapse">
+  <li><a href="#histogram-of-residuals" id="toc-histogram-of-residuals" class="nav-link" data-scroll-target="#histogram-of-residuals"><span class="header-section-number">12.2.1</span> Histogram of residuals</a></li>
+  <li><a href="#qqplot" id="toc-qqplot" class="nav-link" data-scroll-target="#qqplot"><span class="header-section-number">12.2.2</span> QQPlot</a></li>
+  </ul></li>
+  <li><a href="#heteroscedasticity" id="toc-heteroscedasticity" class="nav-link" data-scroll-target="#heteroscedasticity"><span class="header-section-number">12.3</span> Heteroscedasticity</a>
+  <ul class="collapse">
+  <li><a href="#plotting-the-residuals-against-the-fitted-values" id="toc-plotting-the-residuals-against-the-fitted-values" class="nav-link" data-scroll-target="#plotting-the-residuals-against-the-fitted-values"><span class="header-section-number">12.3.1</span> Plotting the residuals against the fitted values</a></li>
+  <li><a href="#plotting-the-residuals-against-the-covariates" id="toc-plotting-the-residuals-against-the-covariates" class="nav-link" data-scroll-target="#plotting-the-residuals-against-the-covariates"><span class="header-section-number">12.3.2</span> Plotting the residuals against the covariates</a></li>
+  <li><a href="#plotting-the-fitted-values-against-the-response" id="toc-plotting-the-fitted-values-against-the-response" class="nav-link" data-scroll-target="#plotting-the-fitted-values-against-the-response"><span class="header-section-number">12.3.3</span> Plotting the fitted values against the response</a></li>
+  </ul></li>
+  <li><a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">12.4</span> Transformations</a></li>
+  <li><a href="#handling-outliers" id="toc-handling-outliers" class="nav-link" data-scroll-target="#handling-outliers"><span class="header-section-number">12.5</span> Handling outliers</a></li>
+  <li><a href="#more-on-the-linear-regression-output" id="toc-more-on-the-linear-regression-output" class="nav-link" data-scroll-target="#more-on-the-linear-regression-output"><span class="header-section-number">12.6</span> More on the linear regression output</a>
+  <ul class="collapse">
+  <li><a href="#skewness-and-kurtosis" id="toc-skewness-and-kurtosis" class="nav-link" data-scroll-target="#skewness-and-kurtosis"><span class="header-section-number">12.6.1</span> Skewness and kurtosis</a></li>
+  <li><a href="#multicollinearity" id="toc-multicollinearity" class="nav-link" data-scroll-target="#multicollinearity"><span class="header-section-number">12.6.2</span> Multicollinearity</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Linear Regression II</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Sometimes, the linear regression model is not a good model for the data. For instance, the linear regression model has various assumptions that may not be appropriate for our data. The <strong>residuals</strong> are often able to tell us whether or not this is the case.</p>
+<section id="preliminary-packages" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="preliminary-packages"><span class="header-section-number">12.1</span> Preliminary packages</h2>
+<div id="a70646c3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Load relevant packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas                  <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy                   <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot       <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn                 <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api         <span class="im">as</span> sm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.plotting <span class="im">import</span> register_matplotlib_converters</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>register_matplotlib_converters()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="normality-of-the-error" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="normality-of-the-error"><span class="header-section-number">12.2</span> Normality of the error</h2>
+<p>First, linear regression works best when the residuals are all roughly <a href="https://en.wikipedia.org/wiki/Normal_distribution">normally distributed</a> with zero mean and the same variance. You may have come across statements before claiming that ``linear regression assumes the data are normally distributed’’, which is not entirely correct. Linear regression can still be a useful and powerful (and theoretically justified!) tool even if the data deviates from this assumption. That said, a distribution with fat tails - that is, a high propensity to observe outliers - is a particular problem for linear regression, because points “in the tails”, i.e., that are far away from their fitted values can disproportionately affect the fitted coefficients and the predictions.</p>
+<p>For example, in this model:</p>
+<div id="85afa198" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tips<span class="op">=</span>sns.load_dataset(<span class="st">"tips"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'tip~total_bill+sex+smoker+day+time+size'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    tip   R-squared:                       0.470
+Model:                            OLS   Adj. R-squared:                  0.452
+Method:                 Least Squares   F-statistic:                     26.06
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           1.20e-28
+Time:                        13:26:08   Log-Likelihood:                -347.48
+No. Observations:                 244   AIC:                             713.0
+Df Residuals:                     235   BIC:                             744.4
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          0.5908      0.256      2.310      0.022       0.087       1.095
+sex[T.Female]      0.0324      0.142      0.229      0.819      -0.247       0.311
+smoker[T.No]       0.0864      0.147      0.589      0.556      -0.202       0.375
+day[T.Fri]         0.1623      0.393      0.412      0.680      -0.613       0.937
+day[T.Sat]         0.0408      0.471      0.087      0.931      -0.886       0.968
+day[T.Sun]         0.1368      0.472      0.290      0.772      -0.793       1.066
+time[T.Dinner]    -0.0681      0.445     -0.153      0.878      -0.944       0.808
+total_bill         0.0945      0.010      9.841      0.000       0.076       0.113
+size               0.1760      0.090      1.966      0.051      -0.000       0.352
+==============================================================================
+Omnibus:                       27.860   Durbin-Watson:                   2.096
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               52.555
+Skew:                           0.607   Prob(JB):                     3.87e-12
+Kurtosis:                       4.923   Cond. No.                         281.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>We can find the residuals and fitted values using <code>model_object.resid</code> and <code>model_object.fitted</code>, respectively.</p>
+<p>For example:</p>
+<div id="e9981d56" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> lm3.resid</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fv<span class="op">=</span> lm3.fittedvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The next step is to check normality with plots.</p>
+<section id="histogram-of-residuals" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="histogram-of-residuals"><span class="header-section-number">12.2.1</span> Histogram of residuals</h3>
+<p>First, we can use a histogram to check normality of the residuals. The histogram should appear bell shaped - it should match up roughly with a normal density overlaid. To see this, we show now ho to make a histogram of residuals, and highlight points that are more than 3 median absolute deviations (MADs) away from the center. These are points we should investigate. The <a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median aboslute deviation</a> is a measure of scale which is not corrupted by outliers. You can use <code>.mad()</code> in <code>pandas</code> to compute this.<br>
+If there are more points in the sample, we can up the number of MADs away we can look at to be more than 3. Note that using the MAD is safer if you suspect there are outliers, as the standard deviation is easily corrupted by outliers. Under the normal distribution, it holds that roughly 1.5 MAD=standard deviation.</p>
+<div id="1add423f" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.hist(lm3.resid, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    density<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">20</span>,<span class="co">#  draw a histogram with 20 bins of equal width</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">"residuals"</span> <span class="co"># label for legend</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># now plot the normal distribution for comparison</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(lm3.resid.<span class="bu">min</span>(), lm3.resid.<span class="bu">max</span>(), num<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute MAD</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>mad_val<span class="op">=</span>np.median(np.absolute(lm3.resid))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Add normal density curve with mean 0 and sd 1.5*mad_val</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.plot(xx, scipy.stats.norm.pdf(xx, loc<span class="op">=</span><span class="fl">0.0</span>, scale<span class="op">=</span><span class="fl">1.5</span><span class="op">*</span>mad_val),    label<span class="op">=</span><span class="st">"normal distribution"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Label suspicious points - these are not necessarily erroneous points - but they are far from the middle</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>outliers <span class="op">=</span> np.<span class="bu">abs</span>(lm3.resid)<span class="op">&gt;</span><span class="dv">3</span><span class="op">*</span>mad_val</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>sns.rugplot(lm3.resid[outliers],</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">"C5"</span>, <span class="co"># otherwise the rugplot has the same color as the histogram</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            label<span class="op">=</span><span class="st">"outliers"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">"upper right"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-5-output-1.png" width="571" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this case, the tails seem to be a little heavier than what we would expect to see under the normal distribution. You can tell from the amount of green points in the rug plot, as well as the bars rising above the tails.</p>
+</section>
+<section id="qqplot" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="qqplot"><span class="header-section-number">12.2.2</span> QQPlot</h3>
+<p>Another way to check normality is with a qq-plot. A qq-plot compares the quantiles of the sample to the quantiles of the theoretical normal distribution. The x-axis represents the theoretical quantiles. The y-axis represents the sample quantiles. If the sample follows a normal distribution, the points in the qq-plot will approximately lie on a line.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We expect to see the points deviate from the line <span class="math inline">\(y=x\)</span> at the ends of the line, even if the data are normal.</p>
+</div>
+</div>
+<p>Interpretation:</p>
+<ul>
+<li>Straight Line: If the points lie on or near the straight line, the sample appears normal.</li>
+<li>Heavy Tails: Points deviating upwards or downwards at the ends suggest the sample has heavier or lighter tails than the normal distribution.</li>
+<li>S-Shape: Points forming an S-shape indicate the sample has lighter tails and a heavier center than the normal distribution.</li>
+</ul>
+<p>Example:</p>
+<div id="fc9a46a9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sm.qqplot(lm3.resid, line<span class="op">=</span><span class="st">"s"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-6-output-1.png" width="590" height="432" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For instance, the points have a slight S, indicating a slight skew. The direction of the S indicates a right skew. This means that there is more of a propensity for the tips to be unexpectedly higher than lower. This makes sense intuitively, as tips have a lower bound but no upper bound.</p>
+<p>Nevertheless, the S is not super pronounced, and so we can conclude it is not too problematic.</p>
+</section>
+</section>
+<section id="heteroscedasticity" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="heteroscedasticity"><span class="header-section-number">12.3</span> Heteroscedasticity</h2>
+<p>Another troublesome situation that can be detected using residual analysis is <strong>heteroscedasticity</strong>, which means that the residuals have small variance for in some subsets of the data, and high variance in others. The opposite of heteroscedasticity is <strong>homoscedasticity</strong>, which is what we want to see in the data, and means that the residuals have similar variance across all subsets of the data.</p>
+<section id="plotting-the-residuals-against-the-fitted-values" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="plotting-the-residuals-against-the-fitted-values"><span class="header-section-number">12.3.1</span> Plotting the residuals against the fitted values</h3>
+<p>To check this assumption, we can use some other diagnostic plots. One plot is that of the fitted values <span class="math inline">\(\hat Y\)</span> (<span class="math inline">\(x\)</span>-axis) against the residuals <span class="math inline">\(\hat\epsilon\)</span> (<span class="math inline">\(y\)</span>-axis). If the error depends on <span class="math inline">\(\hat y\)</span>, then the identically distributed assumption on the errors is probably not valid. If the assumptions are valid, we should observe on the plots that at all levels of the response, the mean of the residuals is 0 and the variance remains the same. Thus, we should see a horizontal band centered at 0 containing the observations.</p>
+<p>Example:</p>
+<div id="2175ab4e" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(fv,res)<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-7-output-1.png" width="569" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observe that as the tip amount increases, so does the variance. That is, the points form a fan. This is a strong indication of heteroscedasticity. We should apply a transformation to resolve the issue.</p>
+<div class="callout-danger">
+<p>Be VERY careful about the scale of your plot, as it can affect your interpretation. Zooming out or in too much can make everything look fine. In addition, the <span class="math inline">\(y\)</span>-axis not being centered at 0 can cause you to misinterpret the plot.</p>
+</div>
+</section>
+<section id="plotting-the-residuals-against-the-covariates" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="plotting-the-residuals-against-the-covariates"><span class="header-section-number">12.3.2</span> Plotting the residuals against the covariates</h3>
+<p>Plotting the residuals against the covariates can reveal dependence between the errors. For instance, if time is a covariate, you can plot the residuals over time to see if they have any relationship with time. If there appears to be dependence among the residuals, then the assumptions of the model are violated. That is, in these plots we should also see a horizontal band centered at 0 containing the observations. If not, then the residuals have a relationship with the given covariate.</p>
+<p>Example:</p>
+<div id="609d7283" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(tips[<span class="st">'total_bill'</span>] ,res)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-8-output-1.png" width="569" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, the we observe that the variance of the residuals is related to the total bill.</p>
+</section>
+<section id="plotting-the-fitted-values-against-the-response" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="plotting-the-fitted-values-against-the-response"><span class="header-section-number">12.3.3</span> Plotting the fitted values against the response</h3>
+<p>Another plot is that of the fitted values against the observed response <span class="math inline">\(Y\)</span>. This gives an idea of the overall fit of the model. We should observe the points scatters around the line <span class="math inline">\(y=x\)</span>.</p>
+<div id="65debc39" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(tips[<span class="st">'tip'</span>] ,fv)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.axline((<span class="dv">0</span>, <span class="dv">0</span>), slope<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'y = x'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-9-output-1.png" width="558" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We observe that the regression line underestimates the tips at small values and overestimates them at high values. The model fits only moderately well. In this case, handling the large observations and heteroscedasticity should help.</p>
+</section>
+</section>
+<section id="transformations" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="transformations"><span class="header-section-number">12.4</span> Transformations</h2>
+<p>When there is heteroskedasticity or issues with the plot of the fitted values against the response, we should apply a transformation to the model to correct this. The transformation should be guided by domain knowledge where possible. More advanced methods to choose transformations are outside of the scope of how to correctly apply transfomations is too wide for this course. However, it is common to try the square root and log transformations of the response. So for now, you can try each of those. You can also transform the regressors if you suspect that the response has a linear relationship with a transformation of the regressors. For instance, you might try:</p>
+<div id="2f571764" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's see what these look like</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(tips[<span class="st">'tip'</span>]) ,tips[<span class="st">'total_bill'</span>])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.sqrt(tips[<span class="st">'tip'</span>]) ,tips[<span class="st">'total_bill'</span>])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.scatter(tips[<span class="st">'tip'</span>] ,tips[<span class="st">'total_bill'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-10-output-1.png" width="566" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-10-output-2.png" width="566" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-10-output-3.png" width="566" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="e51facff" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'np.sqrt(tip)~total_bill+sex+smoker+day+time+size'</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.sqrt(tips[<span class="st">'tip'</span>]) ,lm3.fittedvalues)<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.axline((<span class="dv">1</span>, <span class="dv">1</span>), slope<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'y = x'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">## </span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(lm3.fittedvalues ,lm3.resid)<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:           np.sqrt(tip)   R-squared:                       0.467
+Model:                            OLS   Adj. R-squared:                  0.448
+Method:                 Least Squares   F-statistic:                     25.70
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           2.50e-28
+Time:                        13:26:09   Log-Likelihood:                -29.902
+No. Observations:                 244   AIC:                             77.80
+Df Residuals:                     235   BIC:                             109.3
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          1.0386      0.070     14.920      0.000       0.901       1.176
+sex[T.Female]      0.0139      0.039      0.362      0.718      -0.062       0.090
+smoker[T.No]       0.0188      0.040      0.470      0.639      -0.060       0.097
+day[T.Fri]         0.0437      0.107      0.408      0.684      -0.167       0.255
+day[T.Sat]        -0.0059      0.128     -0.046      0.963      -0.258       0.246
+day[T.Sun]         0.0432      0.128      0.337      0.737      -0.210       0.296
+time[T.Dinner]    -0.0102      0.121     -0.084      0.933      -0.249       0.228
+total_bill         0.0252      0.003      9.638      0.000       0.020       0.030
+size               0.0505      0.024      2.072      0.039       0.002       0.098
+==============================================================================
+Omnibus:                        3.509   Durbin-Watson:                   2.060
+Prob(Omnibus):                  0.173   Jarque-Bera (JB):                3.735
+Skew:                           0.122   Prob(JB):                        0.154
+Kurtosis:                       3.555   Cond. No.                         281.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-11-output-2.png" width="571" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-11-output-3.png" width="590" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The heteroscedasticity is improved, however, the fitted values don’t line up well with the response.</p>
+<p>We can also try the log transform:</p>
+<div id="6812f64e" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'np.log(tip)~total_bill+sex+smoker+day+time+size'</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(tips[<span class="st">'tip'</span>]) ,lm3.fittedvalues)<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.axline((<span class="dv">1</span>, <span class="dv">1</span>), slope<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'y = x'</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(lm3.fittedvalues ,lm3.resid)<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            np.log(tip)   R-squared:                       0.444
+Model:                            OLS   Adj. R-squared:                  0.425
+Method:                 Least Squares   F-statistic:                     23.47
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           2.80e-26
+Time:                        13:26:09   Log-Likelihood:                -71.628
+No. Observations:                 244   AIC:                             161.3
+Df Residuals:                     235   BIC:                             192.7
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          0.2668      0.083      3.230      0.001       0.104       0.430
+sex[T.Female]      0.0181      0.046      0.396      0.693      -0.072       0.108
+smoker[T.No]       0.0180      0.047      0.380      0.704      -0.075       0.111
+day[T.Fri]         0.0532      0.127      0.419      0.676      -0.197       0.303
+day[T.Sat]        -0.0155      0.152     -0.102      0.919      -0.315       0.284
+day[T.Sun]         0.0629      0.152      0.413      0.680      -0.237       0.363
+time[T.Dinner]    -0.0139      0.144     -0.097      0.923      -0.297       0.269
+total_bill         0.0283      0.003      9.140      0.000       0.022       0.034
+size               0.0581      0.029      2.011      0.045       0.001       0.115
+==============================================================================
+Omnibus:                        4.024   Durbin-Watson:                   2.012
+Prob(Omnibus):                  0.134   Jarque-Bera (JB):                3.685
+Skew:                          -0.251   Prob(JB):                        0.158
+Kurtosis:                       3.332   Cond. No.                         281.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-12-output-2.png" width="579" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-12-output-3.png" width="590" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The heteroscedasticity is improved, however, the fitted values don’t line up well with the response and the residuals are biased downwards.</p>
+<p>Now, we can also try transformating both variables:</p>
+<div id="dfbb6d5f" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's see what these look like</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(tips[<span class="st">'tip'</span>]) ,np.log(tips[<span class="st">'total_bill'</span>]))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.sqrt(tips[<span class="st">'tip'</span>]) ,np.sqrt(tips[<span class="st">'total_bill'</span>]))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-13-output-1.png" width="571" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-13-output-2.png" width="558" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="98c51d26" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'np.sqrt(tip)~np.sqrt(total_bill)+sex+smoker+day+time+size'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.sqrt(tips[<span class="st">'tip'</span>]) ,lm3.fittedvalues)<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.axline((<span class="dv">1</span>, <span class="dv">1</span>), slope<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'y = x'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(lm3.fittedvalues , lm3.resid)<span class="op">;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:           np.sqrt(tip)   R-squared:                       0.477
+Model:                            OLS   Adj. R-squared:                  0.459
+Method:                 Least Squares   F-statistic:                     26.75
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           2.90e-29
+Time:                        13:26:09   Log-Likelihood:                -27.601
+No. Observations:                 244   AIC:                             73.20
+Df Residuals:                     235   BIC:                             104.7
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+=======================================================================================
+                          coef    std err          t      P&gt;|t|      [0.025      0.975]
+---------------------------------------------------------------------------------------
+Intercept               0.5037      0.097      5.179      0.000       0.312       0.695
+sex[T.Female]           0.0165      0.038      0.431      0.667      -0.059       0.092
+smoker[T.No]            0.0158      0.039      0.400      0.690      -0.062       0.093
+day[T.Fri]              0.0529      0.106      0.499      0.618      -0.156       0.262
+day[T.Sat]              0.0032      0.127      0.025      0.980      -0.247       0.253
+day[T.Sun]              0.0494      0.127      0.388      0.698      -0.201       0.300
+time[T.Dinner]         -0.0212      0.120     -0.177      0.860      -0.258       0.215
+np.sqrt(total_bill)     0.2406      0.024      9.957      0.000       0.193       0.288
+size                    0.0468      0.024      1.939      0.054      -0.001       0.094
+==============================================================================
+Omnibus:                        7.867   Durbin-Watson:                   2.023
+Prob(Omnibus):                  0.020   Jarque-Bera (JB):               11.345
+Skew:                           0.194   Prob(JB):                      0.00344
+Kurtosis:                       3.982   Cond. No.                         69.5
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-14-output-2.png" width="571" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-14-output-3.png" width="590" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="f753408f" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'np.log(tip)~np.log(total_bill)+sex+smoker+day+time+size'</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(tips[<span class="st">'tip'</span>]) ,lm3.fittedvalues)<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.axline((<span class="dv">1</span>, <span class="dv">1</span>), slope<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'y = x'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(lm3.fittedvalues ,lm3.resid)<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            np.log(tip)   R-squared:                       0.478
+Model:                            OLS   Adj. R-squared:                  0.460
+Method:                 Least Squares   F-statistic:                     26.90
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           2.14e-29
+Time:                        13:26:10   Log-Likelihood:                -63.952
+No. Observations:                 244   AIC:                             145.9
+Df Residuals:                     235   BIC:                             177.4
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+======================================================================================
+                         coef    std err          t      P&gt;|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+Intercept             -0.9227      0.156     -5.922      0.000      -1.230      -0.616
+sex[T.Female]          0.0253      0.044      0.570      0.569      -0.062       0.113
+smoker[T.No]           0.0075      0.046      0.165      0.869      -0.082       0.097
+day[T.Fri]             0.0704      0.123      0.571      0.568      -0.172       0.313
+day[T.Sat]           1.36e-05      0.147   9.23e-05      1.000      -0.290       0.290
+day[T.Sun]             0.0719      0.148      0.487      0.626      -0.219       0.363
+time[T.Dinner]        -0.0317      0.139     -0.228      0.820      -0.306       0.242
+np.log(total_bill)     0.6135      0.060     10.209      0.000       0.495       0.732
+size                   0.0520      0.028      1.882      0.061      -0.002       0.106
+==============================================================================
+Omnibus:                        8.916   Durbin-Watson:                   1.943
+Prob(Omnibus):                  0.012   Jarque-Bera (JB):               14.268
+Skew:                          -0.184   Prob(JB):                     0.000797
+Kurtosis:                       4.126   Cond. No.                         54.8
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-15-output-2.png" width="590" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Case_12_files/figure-html/cell-15-output-3.png" width="590" height="416" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This fit is not bad!</p>
+</section>
+<section id="handling-outliers" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="handling-outliers"><span class="header-section-number">12.5</span> Handling outliers</h2>
+<p>Outliers can destabilize a model and significantly reduce their predictive ability despite only representing a fringe subset of the overall data. The starting point should always be to inspect the initial raw data for any data points with unusually small or large values for certain features, and understand why they are different. If there is something clearly wrong with those data (like a misplaced decimal point), or if the reason for these small or large values can be effectively explained via an external factor that is not captured by the data itself, then this justifies removing them. Otherwise, it is best to keep these data points in mind throughout the modeling process, and deal with them during the modeling process itself. If the tail of the residuals is unusually large, one can try a <a href="https://en.wikipedia.org/wiki/Robust_regression">robust regression</a> procedure.</p>
+</section>
+<section id="more-on-the-linear-regression-output" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="more-on-the-linear-regression-output"><span class="header-section-number">12.6</span> More on the linear regression output</h2>
+<p>We have not discussed some of the additional metrics in the output of the linear regression model. Let’s print the summary:</p>
+<div id="47782ab1" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model3<span class="op">=</span> <span class="st">'np.log(tip)~np.log(total_bill)+sex+smoker+day+time+size'</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>lm3   <span class="op">=</span> smf.ols(formula <span class="op">=</span> model3, data <span class="op">=</span> tips).fit()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lm3.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            np.log(tip)   R-squared:                       0.478
+Model:                            OLS   Adj. R-squared:                  0.460
+Method:                 Least Squares   F-statistic:                     26.90
+Date:                Mon, 22 Jul 2024   Prob (F-statistic):           2.14e-29
+Time:                        13:26:10   Log-Likelihood:                -63.952
+No. Observations:                 244   AIC:                             145.9
+Df Residuals:                     235   BIC:                             177.4
+Df Model:                           8                                         
+Covariance Type:            nonrobust                                         
+======================================================================================
+                         coef    std err          t      P&gt;|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+Intercept             -0.9227      0.156     -5.922      0.000      -1.230      -0.616
+sex[T.Female]          0.0253      0.044      0.570      0.569      -0.062       0.113
+smoker[T.No]           0.0075      0.046      0.165      0.869      -0.082       0.097
+day[T.Fri]             0.0704      0.123      0.571      0.568      -0.172       0.313
+day[T.Sat]           1.36e-05      0.147   9.23e-05      1.000      -0.290       0.290
+day[T.Sun]             0.0719      0.148      0.487      0.626      -0.219       0.363
+time[T.Dinner]        -0.0317      0.139     -0.228      0.820      -0.306       0.242
+np.log(total_bill)     0.6135      0.060     10.209      0.000       0.495       0.732
+size                   0.0520      0.028      1.882      0.061      -0.002       0.106
+==============================================================================
+Omnibus:                        8.916   Durbin-Watson:                   1.943
+Prob(Omnibus):                  0.012   Jarque-Bera (JB):               14.268
+Skew:                          -0.184   Prob(JB):                     0.000797
+Kurtosis:                       4.126   Cond. No.                         54.8
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<section id="skewness-and-kurtosis" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="skewness-and-kurtosis"><span class="header-section-number">12.6.1</span> Skewness and kurtosis</h3>
+<p>First, we have that the <code>std error</code> lists the standard errors for the estimated coefficients. We expect the true population values of the coefficients to fall within 2 <code>std errors</code> of the estimated coefficients with high confidence. Next, <code>Skew</code> indicates how skewed the residuals are. Values departing from 0 indicate high skewness.<code>Kurtosis</code> is a measure of the tails of the residuals. Values higher than 3 indicate tails that are heavier than the normal distribution. Alternate models should be considered in thsi case.</p>
+</section>
+<section id="multicollinearity" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="multicollinearity"><span class="header-section-number">12.6.2</span> Multicollinearity</h3>
+<p>A serious problem that may dramatically impact the usefulness of a regression model is multicollinearity, or near - linear dependence among the regression variables. Multicollinearity implies near - linear dependence among the regressors. We can check for this dependence with the condition number, written as <code>Cond. No.</code>. Condition numbers between 100 and 1000 imply moderate to strong multicollinearity, and if the condition number exceeds 1000, severe multicollinearity is indicated.</p>
+<p>Multicollinearity can be cured with:</p>
+<ol type="1">
+<li>more data (lol often not possible), 2, model re-specification: Can you include a function of the variables that preserves the information, but aren’t linearly dependent? Can you remove a variable?</li>
+<li>Or, a modified version of regression, one of Lasso, ridge or elastic net regression.</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Case_11.html" class="pagination-link" aria-label="Linear Regression I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Linear Regression I</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Case_13.html" class="pagination-link" aria-label="SQL">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SQL</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
